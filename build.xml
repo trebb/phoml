@@ -1,0 +1,67 @@
+<project default="main" basedir=".">  
+  <property name="dir.java"	value="${basedir}/java" />
+  <property name="dir.bin"	value="${basedir}/bin" />
+
+	<path id="cp">
+		<pathelement path="${classpath}"/>
+		<pathelement location ="${dir.java}"/>
+	</path>
+	
+  <target name="main"
+						depends="java"/>
+	
+  <target name="java" depends="dll">
+		<javac 	encoding		= "UTF-8"
+				classpathref 	= "cp"
+				destdir			= "${dir.java}"
+				srcdir			= "${dir.java}"
+				includes		= "**/*.java"
+		/>	
+		<mkdir dir="${dir.bin}"/>
+		
+  	<jar destfile = "${dir.bin}/photogrammetrie.jar">
+
+			<fileset dir 		= "${dir.java}"
+					 includes	= "**/*.*"
+			/>
+      <manifest>
+      </manifest>
+		</jar>
+  </target>
+	
+  <!-- <target name="dll" depends="swig"> 
+    <exec executable="g++" > 
+      <arg value="-fpic" />
+      <arg value="-I" /> 
+      <arg value="${java.home}/include" /> 
+      <arg value="-I" /> 
+      <arg value="${java.home}/include/linux" /> 
+      <arg value="-shared" /> 
+      <arg value="-o" /> 
+      <arg value="${basedir}/photogrammetrie.so" /> 
+      <arg value="${basedir}/*.cxx" /> 
+      <arg value="${basedir}/Basics/*.cpp" /> 
+      <arg value="${basedir}/GPS/*.cpp" /> 
+      <arg value="${basedir}/Matrix/*.cpp" /> 
+      <arg value="${basedir}/Photo/*.cpp" /> 
+    </exec> 
+  </target> -->
+	
+  <target name="dll" description="klo" depends="swig"> 
+	    <exec executable="make" > 
+	    </exec> 
+  </target> 
+	
+  <target name="swig"> 
+  	<mkdir dir="${dir.java}"/>
+    <exec executable="swig"> 
+      <arg value="-c++" /> 
+      <arg value="-java" /> 
+	  <arg value="-package" /> 
+	  <arg value="photogrammetrie" /> 
+	  <arg value="-outdir" /> 
+	  <arg value="${dir.java}" /> 
+  	  <arg value="${basedir}/photogrammetrie.i" /> 
+    </exec> 
+  </target> 
+</project>
