@@ -254,7 +254,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
                         //knnen auch zu einem Befehl zusammengefasst werden:
                         //ifstream SET_TXT(datname); hier steckt indirekt der open Befehl drin
                         //ist wie ein Konstruktor
- if(!SET_TXT) { return(1); }
+ if(!SET_TXT) { return false; }
   
  string hilf;
  int j=0;
