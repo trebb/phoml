@@ -16,6 +16,7 @@
  	<delete dir="${dir.bin}" />
  </target>
 
+ <!-- Verzeichnisse erzeugen -->
  <target name="init">
 	<mkdir dir="${dir.java}"/>
 	<mkdir dir="${dir.bin}" />
