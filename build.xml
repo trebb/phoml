@@ -8,7 +8,17 @@
 	</path>
 	
   <target name="main"
-						depends="java"/>
+						depends="clean, init, java"/>
+	
+ <target name="clean">
+ 	<delete dir="${dir.java}"/>
+ 	<delete dir="${dir.bin}" />
+ </target>
+
+ <target name="init">
+	<mkdir dir="${dir.java}"/>
+	<mkdir dir="${dir.bin}" />
+ </target>
 	
   <target name="java" depends="dll">
 		<javac 	encoding		= "UTF-8"
