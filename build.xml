@@ -9,7 +9,8 @@
 	
   <target name="main"
 						depends="clean, init, java"/>
-	
+
+ <!-- erzeugte Verzeichnisse löschen -->
  <target name="clean">
  	<delete dir="${dir.java}"/>
  	<delete dir="${dir.bin}" />
