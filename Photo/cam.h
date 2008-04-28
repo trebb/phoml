@@ -66,7 +66,7 @@ public:
 	bool read_from_ini(const char *datname);
 	bool write_in_ini(const char *datname);
 	
-private:
+protected:
 	    //Hilfsfunktion
 	    double clamp(double& wert, double min, double max);
 
