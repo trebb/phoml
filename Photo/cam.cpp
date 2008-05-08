@@ -525,7 +525,7 @@ bool Cam::write_in_ini(const char *datname)
  ofstream SET_TXT;  
  
  SET_TXT.open(datname); 
- if(!SET_TXT) { return(1); }
+ if(!SET_TXT) { return false; }
  else
  {
   string hilf;
