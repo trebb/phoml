@@ -300,6 +300,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 
 			   char s_7_3[]="rotz=";
 
+ int cout=0;
 	
  while(getline(SET_TXT,hilf))
  {					
@@ -314,6 +315,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					   stringstream stream; stream<<hilf.c_str(); //c_str() ein Befehl in der Klasse string, schiebe den Rest von hilfe in 
 					                                              //stream, welches als stringstream deklariert wurden, nur hier kann man reinkopieren ....
 					   hilf.erase(); 	   stream>>m_pix_row;
+					   ++cout;
 					  }
               
 
@@ -324,6 +326,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_0_2-2)+sizeof(s_0_2));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_pix_col;
+					   ++cout;
 					  }
 					  
 
@@ -334,6 +337,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_0_3-2)+sizeof(s_0_3));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_pix_size;
+					   ++cout;
 					  }
 			
 				
@@ -345,6 +349,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_c;
 					   m_c=-fabs(m_c);
+					   ++cout;
 					  }
 
 
@@ -354,7 +359,8 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  if(find_1_0)
 					  {hilf.erase(0,(find_1_0-2)+sizeof(s_1_0));
 					   stringstream stream; stream<<hilf.c_str();
-					   hilf.erase(); 	   stream>>m_xh;					   					   
+					   hilf.erase(); 	   stream>>m_xh;
+					   ++cout;
 					  }
               
 
@@ -365,6 +371,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_1_1-2)+sizeof(s_1_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_yh;
+					   ++cout;
 					  }          
 					  
 				  size_t find_2_1=0;
@@ -374,6 +381,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_2_1-2)+sizeof(s_2_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_A1;
+					   ++cout;
 					  }              
 
 
@@ -384,6 +392,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_2_2-2)+sizeof(s_2_2));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_A2;
+					   ++cout;
 					  } 
 
 					  
@@ -394,6 +403,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_2_3-2)+sizeof(s_2_3));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_A3;
+					   ++cout;
 					  } 
 
 
@@ -404,6 +414,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_3_1-2)+sizeof(s_3_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_B1;
+					   ++cout;
 					  }              
 
 
@@ -414,6 +425,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_3_2-2)+sizeof(s_3_2));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_B2;
+					   ++cout;
 					  } 
 
 
@@ -424,6 +436,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_4_1-2)+sizeof(s_4_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_C1;
+					   ++cout;
 					  }              
 
 
@@ -434,6 +447,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_4_2-2)+sizeof(s_4_2));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_C2;
+					   ++cout;
 					  }
 					  
 
@@ -444,6 +458,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_5_1-2)+sizeof(s_5_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_r0;
+					   ++cout;
 					  }
 
 
@@ -455,6 +470,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); double m_OX=0.0;   stream>>m_OX;
 					   m_O.set_X(m_OX);
+					   ++cout;
 					  }              
 
 
@@ -466,6 +482,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); double m_OY=0.0;   stream>>m_OY;
 					   m_O.set_Y(m_OY);
+					   ++cout;
 					  } 
 
 					  
@@ -477,6 +494,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); double m_OZ=0.0;  stream>>m_OZ;
 					   m_O.set_Z(m_OZ);
+					   ++cout;
 					  } 
 
 
@@ -487,6 +505,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_7_1-2)+sizeof(s_7_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_rotX;
+					   ++cout;
 					  }              
 
 
@@ -497,6 +516,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_7_2-2)+sizeof(s_7_2));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_rotY;
+					   ++cout;
 					  } 
 
 					  
@@ -507,6 +527,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_7_3-2)+sizeof(s_7_3));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_rotZ;
+					   ++cout;
 					  } 
 
 				  
@@ -517,6 +538,8 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
  SET_TXT.close();
  SET_TXT.clear();
 
+ if(cout != 20)
+  return false;
  return true;
 }
 

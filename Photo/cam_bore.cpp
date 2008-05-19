@@ -805,7 +805,7 @@ bool  CCam_bore::write_in_ini(const char *datname)
 	SET_TXT<<std::endl<<"CALIB_INNER_PERSON="		<<(*this).m_calib_inner_person;
 	SET_TXT<<std::endl<<"CALIB_INNER_COMMENTS="		<<(*this).m_calib_inner_comments;
 	SET_TXT<<std::endl<<"//focal length calibrated [mm]";
-	SET_TXT<<std::endl<<"c=-"						<<(*this).m_c;
+	SET_TXT<<std::endl<<"c=-"						<<fabs((*this).m_c);
 	SET_TXT<<std::endl<<"//principal point [mm]";
 	SET_TXT<<std::endl<<"xh="						<<(*this).m_xh;
 	SET_TXT<<std::endl<<"yh="						<<(*this).m_yh;

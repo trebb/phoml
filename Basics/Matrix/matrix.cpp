@@ -500,6 +500,7 @@ Matrix Matrix::MatInvert()
 	//Test singulre Matrix
 	if(MatLu(A,D)==-1)
 	{	assert( "singulre Matrix" );
+	    cout<<endl<<"singulre Matrix! Programmabbruch";
 	    exit(1);
 	}
 	int i=0;

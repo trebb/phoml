@@ -7,7 +7,19 @@
 #include "..//Basics//Matrix//matrix.h"
 #include "..//Basics//point.h"
 
-CBoreside_alignement::CBoreside_alignement(string &KooDat1,string &KooDat2)
+//CBoreside_alignement::CBoreside_alignement(string &KooDat1,string &KooDat2)
+CBoreside_alignement::CBoreside_alignement()
+{
+	
+}
+
+
+CBoreside_alignement::~CBoreside_alignement()
+{
+}
+
+
+bool CBoreside_alignement::calc_3D_Helmert_transformation(string &KooDat1,string &KooDat2)
 {
 	 //ini	
 	 m_is_ok=true;	
@@ -86,24 +98,37 @@ CBoreside_alignement::CBoreside_alignement(string &KooDat1,string &KooDat2)
      //Bei fehlenden Punktnummern Zuordnung herstellen
      //in Arbeit -> erstmal nicht wichtig
      
-     
-     //Position des Fahrzeuges inkl. Drehwinkel
-     
-     
      //Position der Camera im lokalen Koordinatensystem
      
      
      //Position der Camera im globalen Koordinatensystem berechnen (Transformation)
+          
+     
+     //Position des Fahrzeuges inkl. Drehwinkel
+     
+     
+     //Rücktransformation
+     
+     
+     
+     
      
      
 	 
-	
+ return true;	
 }
 
-CBoreside_alignement::~CBoreside_alignement()
+bool CBoreside_alignement::calc_boreside_transformation(string &KooDat1,string &KooDat2)
 {
-}
+	
 
+
+
+
+}
+	
+
+//[private]
 bool CBoreside_alignement::read_KooDat(string &KooDat,list<CPoint_Nr> &KooList)
 {
  //read

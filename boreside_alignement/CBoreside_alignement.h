@@ -8,13 +8,20 @@
 #include "..//Basics//point.h"
 #include "..//Basics//point_nr.h"
 
+
 using namespace std;
 
 class CBoreside_alignement
 {
 public:
-	CBoreside_alignement(string &KooDat1,string &KooDat2);
+	//CBoreside_alignement(string &KooDat1,string &KooDat2);
+	CBoreside_alignement();
 	virtual ~CBoreside_alignement();
+	
+	bool calc_3D_Helmert_transformation(string &KooDat1,string &KooDat2);
+	
+	bool calc_boreside_transformation(string &KooDat1,string &KooDat2);
+		
 	
 private:
 //internal funktions
