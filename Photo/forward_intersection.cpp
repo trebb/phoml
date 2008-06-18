@@ -1,7 +1,12 @@
 #include "forward_intersection.h"
 
 #include <cmath>
+#include "..//Basics//Matrix//matrix.h"
 #include "..//Basics//rot_matrix.h"
+#include "..//Basics//straight_line.h"
+
+
+
 
 //###################################################################################
 double Vorwaertsschnitt::Zaehler_x(Cam K, Point OP_0, Matrix& R)
@@ -182,7 +187,7 @@ while(!( fabs(dOP.get_X())<0.00000001 && fabs(dOP.get_Y())<0.00000001 && fabs(dO
 		BPoint BB  = BP[j];
 		Cam KK     = BB.get_Cam();
 	    Rot R_hilf(KK.get_rotX(),KK.get_rotY(),KK.get_rotZ());
-		Matrix RR  = R_hilf.get_Matrix();
+		Matrix RR  = R_hilf;//.get_Matrix();
 		A(k  ,0) = dxdX(KK, Zaehler_x(KK,OP_0,RR), Nenner(KK,OP_0,RR), RR);
 		A(k  ,1) = dxdY(KK, Zaehler_x(KK,OP_0,RR), Nenner(KK,OP_0,RR), RR);
 		A(k  ,2) = dxdZ(KK, Zaehler_x(KK,OP_0,RR), Nenner(KK,OP_0,RR), RR);

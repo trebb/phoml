@@ -49,14 +49,25 @@ Rot& Rot::operator=(const Rot& R)
  return (*this);
 }
 
+Rot& Rot::operator=(const Matrix& R)
+{
+ m_R=R.MatCopy();
+ return (*this);
+}
+/*
 Rot::operator Matrix () const
 {
  return m_R.MatCopy();
 }
+*/
+Rot::operator Matrix& ()
+{
+ return m_R;
+}
 
 Matrix Rot::get_Matrix()
 {
-	return (m_R.MatCopy()); 
+	return m_R.MatCopy(); 
 }
 
 //ein Vielfaches von einem Winkel reduzieren

@@ -17,8 +17,11 @@ public:
     ~Rot();
     
     Rot& operator=(const Rot& R);
+    Rot& operator=(const Matrix& R);
+    
     //Konvertierungs operator für class Matrix
-    operator Matrix () const;
+    //operator Matrix () const;
+    operator Matrix& ();
 	
 	//Matrix R;
 	Matrix get_Matrix();

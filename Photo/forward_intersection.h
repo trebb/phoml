@@ -3,11 +3,7 @@
 
 #include <vector> 
 #include "..//Basics//point.h"
-#include "..//Basics//straight_line.h"
 #include "cam.h"
-#include "bpoint.h"
-
-
 #include "bpoint.h"
 
 class Vorwaertsschnitt

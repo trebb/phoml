@@ -95,7 +95,13 @@ CCam_bore::CCam_bore(
 					  m_B2=B2;
 					  m_C1=C1;
 					  m_C2=C2;
-					  m_r0=r0;						
+					  m_r0=r0;
+					  m_B_dx=B_dx;
+					  m_B_dy=B_dy;
+					  m_B_dz=B_dz;
+					  m_B_rotx=B_rotx;
+					  m_B_roty=B_roty;
+					  m_B_rotz=B_rotz;
 }
 
 CCam_bore::~CCam_bore()
@@ -122,6 +128,13 @@ CCam_bore& CCam_bore::operator=(const CCam_bore &C)
 	 (*this).m_C1   = C.m_C1;
 	 (*this).m_C2   = C.m_C2;
 	 (*this).m_r0   = C.m_r0;
+	 
+	 (*this).m_B_dx = C.m_B_dx;
+	 (*this).m_B_dy = C.m_B_dy;
+	 (*this).m_B_dz = C.m_B_dz;
+	 (*this).m_B_rotx = C.m_B_rotx;
+	 (*this).m_B_roty = C.m_B_roty;
+	 (*this).m_B_rotz = C.m_B_rotz;
 	 
 	 (*this).m_camera_name=C.m_camera_name;
 	 (*this).m_channels=C.m_channels;

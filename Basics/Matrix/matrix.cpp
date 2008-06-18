@@ -229,6 +229,7 @@ void Matrix::fill(eMatDef MatDef)
 void Matrix::del()
 {
  if(isPEmpty==false)
+ if(mat)
  {
 	  int i=0;
 	  while(i!=mat->m_zeilen)
@@ -237,13 +238,14 @@ void Matrix::del()
 	   ++i;
 	  }
 	  delete [] mat->m_matrix;
-      
-	  isPEmpty=true;
+      	  
 	  delete mat;
-	  mat=NULL;
+	  
 	  //cout<<endl<<"Matrix gelscht";
  }
-
+ isPEmpty=true;
+ mat=NULL;
+ 
 }
 //#############################################################################
 // Matrix Kopieren (tiefe Kopie)

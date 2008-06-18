@@ -47,6 +47,7 @@ public:
 	operator Cam () const;
 	
 	//get funktions
+	Point  get_B()   {return Point(m_B_dx,m_B_dy,m_B_dz);}
 	double get_B_dx(){return m_B_dx;}
 	double get_B_dy(){return m_B_dy;}
 	double get_B_dz(){return m_B_dz;}

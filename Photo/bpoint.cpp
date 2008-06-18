@@ -54,7 +54,7 @@ bool BPoint::TransInObjKoo()
  //Transformation in den Objektraum
  Rot M(m_Cam->get_rotX(),m_Cam->get_rotY(),m_Cam->get_rotZ());
  Matrix R;
- R=M.get_Matrix();
+ R=M;//.get_Matrix();
  
  Matrix x(3,1,Null);
  x(0,0)=m_x;
