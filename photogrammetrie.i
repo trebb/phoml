@@ -198,11 +198,11 @@ public:
 	);
 	
 	CCam_bore(const CCam_bore &C);
-	CCam_bore& operator=(const CCam_bore &C);
-	CCam_bore& operator=(Cam &C);
+	//CCam_bore& operator=(const CCam_bore &C);
+	//CCam_bore& operator=(Cam &C);
 	
 	// convertion of "CCam_bore  >>-->  Cam"
-	operator Cam () const;
+	//operator Cam () const;
 	
 	//get funktions
 	Point  get_B()   {Point P(m_B_dx,m_B_dy,m_B_dz); P.set_dX(m_B_ddx); P.set_dY(m_B_ddy);P.set_dZ(m_B_ddz);return P;}
