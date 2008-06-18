@@ -4,7 +4,7 @@ Swig   = photogrammetrie_wrap.cxx
 Basics = ebene.cpp point.cpp rot_matrix.cpp straight_line.cpp
 //GPS	   = GPS_orient.cpp picture_log.cpp
 Matrix = Basics//Matrix//matrix.cpp
-Photo  = bpoint.cpp cam.cpp forward_intersection.cpp
+Photo  = bpoint.cpp cam.cpp cam_bore.cpp forward_intersection.cpp
 Wrapper = wrapper_for_java//CBPointList.cpp wrapper_for_java//Vorwaertsschnitt_java.cpp
 
 photogrammetrie:	$(Swig) $(Basics) $(GPS) $(Matrix) $(Photo) $(Wrapper)

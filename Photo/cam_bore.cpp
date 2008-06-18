@@ -25,9 +25,15 @@ CCam_bore::CCam_bore():Cam()
 	m_B_dx=0;
 	m_B_dy=0;
 	m_B_dz=0;
+	m_B_ddx=0;
+	m_B_ddy=0;
+	m_B_ddz=0;
 	m_B_rotx=0;
 	m_B_roty=0;
 	m_B_rotz=0;
+	m_B_drotx=0;
+	m_B_droty=0;
+	m_B_drotz=0;
 }
 
 CCam_bore::CCam_bore(
@@ -39,7 +45,9 @@ CCam_bore::CCam_bore(
 		double B1, double B2, double C1,
 		double C2, double r0,
 		double B_dx, double B_dy, double B_dz,
+		double B_ddx, double B_ddy, double B_ddz,
 		double B_rotx, double B_roty, double B_rotz,
+		double B_drotx, double B_droty, double B_drotz,
 		std::string camera_name,
 		int         channels,
 		std::string camera_serial_number,
@@ -99,9 +107,15 @@ CCam_bore::CCam_bore(
 					  m_B_dx=B_dx;
 					  m_B_dy=B_dy;
 					  m_B_dz=B_dz;
+					  m_B_ddx=B_ddx;
+					  m_B_ddy=B_ddy;
+					  m_B_ddz=B_ddz;
 					  m_B_rotx=B_rotx;
 					  m_B_roty=B_roty;
 					  m_B_rotz=B_rotz;
+					  m_B_drotx=B_drotx;
+					  m_B_droty=B_droty;
+					  m_B_drotz=B_drotz;
 }
 
 CCam_bore::~CCam_bore()
@@ -132,10 +146,16 @@ CCam_bore& CCam_bore::operator=(const CCam_bore &C)
 	 (*this).m_B_dx = C.m_B_dx;
 	 (*this).m_B_dy = C.m_B_dy;
 	 (*this).m_B_dz = C.m_B_dz;
+	 (*this).m_B_ddx = C.m_B_ddx;
+	 (*this).m_B_ddy = C.m_B_ddy;
+	 (*this).m_B_ddz = C.m_B_ddz;
 	 (*this).m_B_rotx = C.m_B_rotx;
 	 (*this).m_B_roty = C.m_B_roty;
 	 (*this).m_B_rotz = C.m_B_rotz;
-	 
+	 (*this).m_B_drotx = C.m_B_drotx;
+	 (*this).m_B_droty = C.m_B_droty;
+	 (*this).m_B_drotz = C.m_B_drotz;
+	 	 
 	 (*this).m_camera_name=C.m_camera_name;
 	 (*this).m_channels=C.m_channels;
 	 (*this).m_camera_serial_number=C.m_camera_serial_number;
