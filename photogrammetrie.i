@@ -4,8 +4,8 @@
 #include "Photo/bpoint.h"
 #include "Photo/cam.h"
 #include "Photo/forward_intersection.h"
-#include "Photo/Vorwaertsschnitt_java.h"
-#include "Photo/CBPointList.h"
+#include "wrapper_for_java/Vorwaertsschnitt_java.h"
+#include "wrapper_for_java/CBPointList.h"
 #include <vector>
 %}
 

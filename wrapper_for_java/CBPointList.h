@@ -1,6 +1,6 @@
 #ifndef CBPOINTLIST_H_
 #define CBPOINTLIST_H_
-#include "bpoint.h"
+#include "../Photo/bpoint.h"
 #include <vector>
 
 class CBPointList
