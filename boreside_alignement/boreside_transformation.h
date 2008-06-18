@@ -4,7 +4,7 @@
 #include "../Basics/point.h"
 #include "../Basics/Matrix/matrix.h"
 #include "../Basics/rot_matrix.h"
-#include "../Photo/cam_bore.h"
+#include "cam_bore.h"
 
 
 class CBoreside_transformation

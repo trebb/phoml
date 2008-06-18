@@ -3,10 +3,11 @@
 #include "Basics/point.h"
 #include "Photo/bpoint.h"
 #include "Photo/cam.h"
-#include "Photo/cam_bore.h"
 #include "Photo/forward_intersection.h"
+#include "boreside_alignement/cam_bore.h"
 #include "wrapper_for_java/Vorwaertsschnitt_java.h"
 #include "wrapper_for_java/CBPointList.h"
+#include "wrapper_for_java/mainwrapperjava.h"
 #include <vector>
 %}
 
@@ -329,4 +330,36 @@ public:
 	
 };
 
+class CMainWrapperJava
+{
+public:
+	CMainWrapperJava();
+	virtual ~CMainWrapperJava();
 
+	//divide into two steps local and global (utm) functions
+	
+	//local funktions (camera coordinate system) (in [m])
+	
+	//forwart intersection
+	//put 2 or more BPoints into the list with differend Cameras
+	//and get a 3D Point back
+	Point get_3D_Point_local(CBPointList BPlist);
+	
+	//put a 3D Point into the funktion and get a BPoint from the camera back
+	//then you can visualisation the 3D Point in the picture
+	BPoint get_BPoint_from_local_3D_Point(Point P_local,CCam_bore cam);
+	
+	
+	//global funktions (boreside in [m]) in UTM coordinates if the Car position also in UTM
+	
+	//put the local 3D Point from get_3D_Point_local(), the camera_calibration
+	// cam_bore and the car position (Esting,Northing,ellHieght,roll,pitch,heading) inside
+	// and get the UTM coordinate of the local Point
+	Point get_3D_Point_global(Point P_local_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading);
+	
+	//put a global 3D Point Point(Easting,Northing,eHeight), the camera_calibration
+	// cam_bore and the car position (Esting,Northing,ellHieght,roll,pitch,heading) inside
+	// and get the local 3D coordinates of the global Point
+	Point get_3D_Point_local(Point P_global_E_N_eH_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading);
+	
+};
