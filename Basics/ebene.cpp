@@ -1,6 +1,12 @@
 #include "ebene.h"
 #include "Matrix//matrix.h"
 
+Ebene::Ebene()
+{
+ (*this).m_n = Point(0.0,0.0,1.0);
+ (*this).m_d = 0.0;
+}
+
 Ebene::Ebene(Point N,double D)
 {
  m_n=N.Norm();
@@ -67,6 +73,18 @@ Ebene::Ebene(const Ebene& E )
 
 Ebene::~Ebene()
 {
+}
+
+Ebene& Ebene::operator= (const Ebene &E)
+{
+	 (*this).m_n=E.get_N();
+	 (*this).m_d=E.get_D();
+  return (*this);
+}
+
+bool Ebene::operator== (const Ebene &E)
+{
+	return ((*this).m_n==E.get_N() && (*this).m_d==E.get_D());
 }
 
 Point Ebene::get_N() const 

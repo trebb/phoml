@@ -5,29 +5,34 @@
 
 
 
-class CPoint_Nr : public Point
+class PointNr : public Point
 {
 private:
    int m_PktNr;
    
 public:
-	CPoint_Nr();
-	CPoint_Nr(int pkt,double x,double y,double z);
-	CPoint_Nr(int pkt,Point P);
-	virtual ~CPoint_Nr();
+	PointNr();
+	PointNr(int pkt,double x,double y,double z);
+	PointNr(int pkt,Point P);
+	virtual ~PointNr();
 	
-	bool operator< (CPoint_Nr &P1);
+	PointNr& operator= (const PointNr &P);
+	PointNr& operator= (const Point &P);
+	
+	bool operator< (PointNr &P);
+	bool operator== (PointNr &P);
+	bool operator== (int pkt_nr);
 
 	// Umwandlung "CPoint_nR  >>-->  Point"
     operator Point () const;
       
-   int  get_PktNr();
+   int  get_PktNr() const;
    void set_PktNr(int pkt_nr);
 
 
 };
 
-inline ostream& operator<<(ostream& s,CPoint_Nr &A)
+inline ostream& operator<<(ostream& s,PointNr &A)
 {
    int precision=5;       //Nachkommastellen   
    int vorkommastellen=8; //Minus zhlt als Vorkommastelle

@@ -11,18 +11,16 @@
 class Ebene
 {
 public:
+ Ebene();
  Ebene(Point N,double D);
  Ebene(list<Point> &KooL);
  Ebene(const Ebene& E );
  ~Ebene();
 
- Ebene& operator= (const Ebene &E)
- {
-	 (*this).m_n=E.get_N();
-	 (*this).m_d=E.get_D();
-  return (*this);
- }
- 
+ Ebene& operator= (const Ebene &E);
+
+ bool operator== (const Ebene &E);
+
 
  Point  get_N() const;
  double get_D() const;
