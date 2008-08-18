@@ -61,8 +61,15 @@ Ebene::Ebene(list<Point> &KooL)
 	  KooEv.set_Y(Ev(1,0));
 	  KooEv.set_Z(Ev(2,0));
 	  
+	  //test
+	  //double d;
+	  
 	  m_n=KooEv;
-	  m_d=KooEv.Mult(Koo_Schw)*(-1);
+	  //m_d=KooEv.Mult(Koo_Schw)*(-1.0);//change problems
+	  m_d=KooEv.Mult(Koo_Schw)*(-1.0);//change problems
+	   
+	  //m_d = (Point(sum_x/KooL.size(),sum_y/KooL.size(),sum_z/KooL.size()).Mult(KooEv))/KooL.size();
+	  //cout<<endl<<"d_alt:"<<m_d<<"d_neu: "<<d<<flush;
 	}
 }
 
@@ -95,6 +102,11 @@ Point Ebene::get_N() const
 double Ebene::get_D() const
 { 
  return m_d; 
+}
+
+double Ebene::Abstand(const Point &P)
+{
+ return m_n.Mult(P)-m_d;
 }
 
 Gerade Ebene::Schnitt(Ebene &E)

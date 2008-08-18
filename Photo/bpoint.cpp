@@ -149,9 +149,12 @@ bool BPoint::PixelkorrekturVonBildInPixKoo()
  int i=0;
  double xt=m_x,yt=m_y,dx=100000,dy=1000000;
  
+ double vx,vy;
+ 
  while( fabs(dx) > 0.00000000001 && fabs(dy) > 0.00000000001 )
+ //while( fabs(dx) > 0.000001 && fabs(dy) > 0.000001 )
  {
-   double vx,vy;
+   
    Verzeichnungskorrektur(vx,vy); 
    m_x=(m_Cam->get_c())/x(2,0)*x(0,0)+vx;
    m_y=(m_Cam->get_c())/x(2,0)*x(1,0)+vy;

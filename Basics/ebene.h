@@ -25,6 +25,7 @@ public:
  Point  get_N() const;
  double get_D() const;
  
+ double Abstand        (const Point &P);
  Gerade Schnitt        (Ebene  &E);
  Point  Durchstoss     (Gerade &G);
 	

@@ -231,17 +231,16 @@ void Matrix::del()
  if(isPEmpty==false)
  if(mat)
  {
-	  int i=0;
+      int i=0;
 	  while(i!=mat->m_zeilen)
 	  {
 	   delete [] mat->m_matrix[i];
 	   ++i;
 	  }
-	  delete [] mat->m_matrix;
+	delete [] mat->m_matrix;
       	  
-	  delete mat;
-	  
-	  //cout<<endl<<"Matrix gelscht";
+	delete mat;  
+	//cout<<endl<<"Matrix gelscht";
  }
  isPEmpty=true;
  mat=NULL;

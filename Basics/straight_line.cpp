@@ -4,6 +4,11 @@
 #include "..//Basics//Matrix//matrix.h"
 #include "fix_values.h"
 
+Gerade::Gerade()
+{
+ m_p2.set_Z(1.0);	
+}
+
 Gerade::Gerade(Point P1,Point P2)
 {
  m_p1=P1;

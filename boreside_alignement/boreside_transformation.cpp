@@ -49,11 +49,15 @@ Point CBoreside_transformation::get_utm_koordinate()
  Point pos_local = m_pos_local.RotationRueck(m_translation_cam,m_rotation_cam);
  
  //calc utm coordinate from the local cam coordinate system 
- Point transl = m_translation_car.Add(m_translation_utm);
- Matrix rotat = m_rotation_car.MatMult(m_rotation_utm);
- Point P_utm = pos_local.Rotation(transl,rotat);
+ //Point transl = m_translation_car.Add(m_translation_utm);
+ //Matrix rotat = m_rotation_car.MatMult(m_rotation_utm);
+ //Point P_utm = pos_local.Rotation(transl,rotat);
  
- m_pos_utm = P_utm;
+ //new
+ Point P_car =  pos_local.Rotation(m_translation_car,m_rotation_car);
+ Point P_utm_new = P_car.Rotation(m_translation_utm,m_rotation_utm);
+ 
+ m_pos_utm = P_utm_new;
 	
  return m_pos_utm;
 }
@@ -61,9 +65,13 @@ Point CBoreside_transformation::get_utm_koordinate()
 Point CBoreside_transformation::get_local_koordinate()
 {
  //calc local cam coordinate from the utm coordinate system
- Point transl = m_translation_car.Add(m_translation_utm);
- Matrix rotat = m_rotation_car.MatMult(m_rotation_utm);
- Point P_local = m_pos_utm.RotationRueck(transl,rotat);
+ //Point transl = m_translation_car.Add(m_translation_utm);
+ //Matrix rotat = m_rotation_car.MatMult(m_rotation_utm);
+ //Point P_local = m_pos_utm.RotationRueck(transl,rotat);
+ 
+ //new
+ Point P_car =  m_pos_utm.RotationRueck(m_translation_utm,m_rotation_utm);
+ Point P_local = P_car.RotationRueck(m_translation_car,m_rotation_car);
  
  Point P_local_cam = P_local.Rotation(m_translation_cam,m_rotation_cam);
  
@@ -95,4 +103,5 @@ void CBoreside_transformation::fill_params_utm()
 	m_translation_utm = Point(m_Easting,m_Northing,m_ell_Height);
 	//Rotation
 	m_rotation_utm = Rot(m_pitch,m_roll,m_heading);
+	//std::cout<<std::endl<<"Rnach: "<<m_rotation_utm<<std::flush;
 }
