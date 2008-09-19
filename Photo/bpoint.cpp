@@ -151,8 +151,8 @@ bool BPoint::PixelkorrekturVonBildInPixKoo()
  
  double vx,vy;
  
- while( fabs(dx) > 0.00000000001 && fabs(dy) > 0.00000000001 )
- //while( fabs(dx) > 0.000001 && fabs(dy) > 0.000001 )
+ //while( fabs(dx) > 0.00000000001 && fabs(dy) > 0.00000000001 )
+ while( fabs(dx) > 0.000001 && fabs(dy) > 0.000001 )
  {
    
    Verzeichnungskorrektur(vx,vy); 

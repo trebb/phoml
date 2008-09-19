@@ -175,6 +175,7 @@ Point Point::RotationRueck( Point& X0, Matrix& R)
  
 	 Matrix X =x.MatSub(X0_);
 	 Matrix Ri=R.MatInvert().MatMult(X);
+	 //Matrix Ri=R.MatTrans().MatMult(X);
 	 Point PRt(Ri(0,0),Ri(1,0),Ri(2,0));
 
 	 //Fehlertransformation
@@ -184,6 +185,7 @@ Point Point::RotationRueck( Point& X0, Matrix& R)
 	 dx(2,0)=(*this).get_dZ();
  
 	 Matrix dX=R.MatInvert().MatMult(dx);
+	 //Matrix dX=R.MatTrans().MatMult(dx);
 	  
      PRt.set_dX(dX(0,0));
 	 PRt.set_dY(dX(1,0));
