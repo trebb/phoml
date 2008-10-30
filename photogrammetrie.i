@@ -9,6 +9,7 @@
 #include "wrapper_for_java/CBPointList.h"
 #include "wrapper_for_java/mainwrapperjava.h"
 #include <vector>
+#include "wrapper_for_java/CPhotogrammetrieTest.h"
 %}
 
 class Point
@@ -361,5 +362,15 @@ public:
 	// cam_bore and the car position (Esting,Northing,ellHieght,roll,pitch,heading) inside
 	// and get the local 3D coordinates of the global Point
 	Point get_3D_Point_local(Point P_global_E_N_eH_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading);
+	
+};
+
+class CPhotogrammetrieTest
+{
+public:
+	CPhotogrammetrieTest();
+	virtual ~CPhotogrammetrieTest();
+	
+	bool check();
 	
 };
