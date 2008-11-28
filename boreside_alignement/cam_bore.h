@@ -24,21 +24,7 @@ public:
 					double B_ddx, double B_ddy, double B_ddz,
 					double B_rotx, double B_roty, double B_rotz,
 					double B_drotx, double B_droty, double B_drotz,
-					std::string camera_name,
-					int         channels,
-					std::string camera_serial_number,
-					std::string objectiv_name,
-					std::string focal_length,
-					std::string objectiv_serial_number,
-					std::string calib_inner_date,
-					std::string calib_inner_person,
-					std::string calib_inner_comments,
-					std::string calib_outer_date,
-					std::string calib_outer_person,
-					std::string calib_outer_comments,
-					std::string calib_boreside_date,
-					std::string calib_boreside_person,
-					std::string calib_boreside_comments
+					int         channels
 	);
 	
 	CCam_bore(const CCam_bore &C);
@@ -83,21 +69,7 @@ public:
 	void set_B_droty(double B_droty){m_B_droty=B_droty;}
 	void set_B_drotz(double B_drotz){m_B_drotz=B_drotz;}
 		
-	std::string get_camera_name				(){return m_camera_name;}
 	int 		get_channels				(){return m_channels;}
-	std::string get_camera_serial_number	(){return m_camera_serial_number;}
-	std::string get_objektiv_name			(){return m_objectiv_name;}
-	std::string get_string_focal_length		(){return m_focal_length;}
-	std::string get_objektiv_serial_number	(){return m_objectiv_serial_number;}
-	std::string get_calib_inner_date		(){return m_calib_inner_date;}
-	std::string get_calib_inner_person		(){return m_calib_inner_person;}
-	std::string get_calib_inner_comments	(){return m_calib_inner_comments;}
-	std::string get_calib_outer_date		(){return m_calib_outer_date;}
-	std::string get_calib_outer_person		(){return m_calib_outer_person;}
-	std::string get_calib_outer_comments	(){return m_calib_outer_comments;}
-	std::string get_calib_boreside_date		(){return m_calib_boreside_date;}
-	std::string get_calib_boreside_person	(){return m_calib_boreside_person;}
-	std::string get_calib_boreside_comments	(){return m_calib_boreside_comments;}
 	
 	//overwrite of Cam funktions
 	bool read_from_ini(const char *datname);

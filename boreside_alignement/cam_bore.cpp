@@ -48,43 +48,9 @@ CCam_bore::CCam_bore(
 		double B_ddx, double B_ddy, double B_ddz,
 		double B_rotx, double B_roty, double B_rotz,
 		double B_drotx, double B_droty, double B_drotz,
-		std::string camera_name,
-		int         channels,
-		std::string camera_serial_number,
-		std::string objectiv_name,
-		std::string focal_length,
-		std::string objectiv_serial_number,
-		std::string calib_inner_date,
-		std::string calib_inner_person,
-		std::string calib_inner_comments,
-		std::string calib_outer_date,
-		std::string calib_outer_person,
-		std::string calib_outer_comments,
-		std::string calib_boreside_date,
-		std::string calib_boreside_person,
-		std::string calib_boreside_comments
-		)://m_pix_size(pix_size),m_pix_row(pix_row),m_pix_col(pix_col),
-		  //m_O(OX,OY,OZ),
-		  //m_rotX(rotX),m_rotY(rotY),m_rotZ(rotZ),
-		  //m_c(c),m_xh(xh),m_yh(yh),
-		  //m_A1(A1),m_A2(A2),
-		  //m_A3(A3),m_B1(B1),m_B2(B2),
-		  //m_C1(C1),m_C2(C2),m_r0(r0),
-				        m_camera_name(camera_name),
-						m_channels(channels),
-						m_camera_serial_number(camera_serial_number),
-						m_objectiv_name(objectiv_name),
-						m_focal_length(focal_length),
-						m_objectiv_serial_number(objectiv_serial_number),
-						m_calib_inner_date(calib_inner_date),
-						m_calib_inner_person(calib_inner_person),
-						m_calib_inner_comments(calib_inner_comments),
-						m_calib_outer_date(calib_outer_date),
-						m_calib_outer_person(calib_outer_person),
-						m_calib_outer_comments(calib_outer_comments),
-						m_calib_boreside_date(calib_boreside_date),
-						m_calib_boreside_person(calib_boreside_person),
-						m_calib_boreside_comments(calib_boreside_comments)
+		int         channels
+		
+		)
 {
 			          m_pix_size=pix_size;
 			          m_pix_row=pix_row;
