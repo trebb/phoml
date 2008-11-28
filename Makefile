@@ -10,3 +10,6 @@ Wrapper = wrapper_for_java//CBPointList.cpp wrapper_for_java//Vorwaertsschnitt_j
 
 photogrammetrie:	$(Swig) $(Basics) $(GPS) $(Matrix) $(Photo) $(Boreside) $(Wrapper)
 	g++ -fpic -shared -I$(JAVA_HOME)/include  -I$(JAVA_HOME)/include/linux -o bin/libphotogrammetrie.so $^
+	
+photogrammetrie_win:	$(Swig) $(Basics) $(GPS) $(Matrix) $(Photo) $(Boreside) $(Wrapper)
+	g++ -shared -I$(JAVA_HOME)/include  -I$(JAVA_HOME)/include/win32 -o bin/photogrammetrie.dll $^
