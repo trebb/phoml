@@ -32,7 +32,10 @@ public:
  //double Abstand        (Point &P);
  //Point  LotFussP       (Point &P);
  //double SchnittWinkel  (Ebene &E);
- //Point  Schnitt        (Ebene &E);
+ //Point  Schnitt        (Ebene &E1,Ebene &E1);
+
+ bool write(std::string &filename);
+ bool read(std::string &filename);
 
 private:
 
@@ -50,11 +53,11 @@ inline ostream& operator<<(ostream& s,const Ebene &E)
    s.setf(ios::right, ios::adjustfield);
    s.precision(precision);
 
-   Point P=E.get_N();
+   //Point P=E.get_N();
 
    s<<"( n: "
 	//<<setfill(' ')<<setw(precision+vorkommastellen+1)
-	<<P
+	<<E.get_N()
 	<<","
 	<<" d:"
 	<<setfill(' ')<<setw(precision+vorkommastellen+1)

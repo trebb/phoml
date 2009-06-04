@@ -84,6 +84,66 @@ CCam_bore::CCam_bore(
 					  m_B_drotz=B_drotz;
 }
 
+CCam_bore::CCam_bore(
+				double pix_row, double pix_col, double pix_size,
+				double OX, double OY, double OZ,
+			    double rotX, double rotY, double rotZ,
+			    double c, double xh, double yh, 
+				double A1, double A2, double A3,
+				double B1, double B2, double C1,
+				double C2, double r0,
+				double B_dx, double B_dy, double B_dz,
+				double B_ddx, double B_ddy, double B_ddz,
+				double B_rotx, double B_roty, double B_rotz,
+				double B_drotx, double B_droty, double B_drotz
+				)		        
+		{
+					        m_camera_name.assign("unknow");
+							m_camera_serial_number.assign("unknow");
+							m_objectiv_name.assign("unknow");
+							m_focal_length.assign("unknow");
+							m_objectiv_serial_number.assign("unknow");
+							m_calib_inner_date.assign("unknow");
+							m_calib_inner_person.assign("unknow");
+							m_calib_inner_comments.assign("unknow");
+							m_calib_outer_date.assign("unknow");
+							m_calib_outer_person.assign("unknow");
+							m_calib_outer_comments.assign("unknow");
+							m_calib_boreside_date.assign("unknow");
+							m_calib_boreside_person.assign("unknow");
+							m_calib_boreside_comments.assign("unknow");
+					          m_pix_size=pix_size;
+					          m_pix_row=pix_row;
+					          m_pix_col=pix_col;
+							  m_O=Point(OX,OY,OZ);
+							  m_rotX=rotX;
+							  m_rotY=rotY;
+							  m_rotZ=rotZ;
+							  m_c=c;
+							  m_xh=xh;
+							  m_yh=yh;
+							  m_A1=A1;
+							  m_A2=A2;
+							  m_A3=A3;
+							  m_B1=B1;
+							  m_B2=B2;
+							  m_C1=C1;
+							  m_C2=C2;
+							  m_r0=r0;
+							  m_B_dx=B_dx;
+							  m_B_dy=B_dy;
+							  m_B_dz=B_dz;
+							  m_B_ddx=B_ddx;
+							  m_B_ddy=B_ddy;
+							  m_B_ddz=B_ddz;
+							  m_B_rotx=B_rotx;
+							  m_B_roty=B_roty;
+							  m_B_rotz=B_rotz;
+							  m_B_drotx=B_drotx;
+							  m_B_droty=B_droty;
+							  m_B_drotz=B_drotz;
+		}
+
 CCam_bore::~CCam_bore()
 {
 }

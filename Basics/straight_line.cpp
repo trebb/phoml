@@ -15,6 +15,76 @@ Gerade::Gerade(Point P1,Point P2)
  m_p2=P2;
 }
 
+Gerade::Gerade(list<Point>& KooL)
+{
+ //ungetestet!!!!!
+	if(KooL.size()>2)
+	{
+	  Point Koo_Schw;
+	 
+	  //Schwerpunktberechnung
+	  double sum_x=0,sum_y=0,sum_z=0;
+	 
+	  list<Point>::iterator iKooL = KooL.begin();
+
+	  while(iKooL!=KooL.end())
+	  {
+	   sum_x+=iKooL->get_X();
+	   sum_y+=iKooL->get_Y();
+	   sum_z+=iKooL->get_Z();
+	   ++iKooL;
+	  }
+	
+	  Koo_Schw.set_X(sum_x/KooL.size());
+	  Koo_Schw.set_Y(sum_y/KooL.size());
+	  Koo_Schw.set_Z(sum_z/KooL.size());
+	  //END
+
+
+	  Matrix A(static_cast<int>(KooL.size()),3,Empty);
+	  
+	  iKooL = KooL.begin();
+	  int i=0;
+	  while(iKooL != KooL.end())
+	  {
+	   A(i,0)=iKooL->get_X() - Koo_Schw.get_X();
+	   A(i,1)=iKooL->get_Y() - Koo_Schw.get_Y();
+	   A(i,2)=iKooL->get_Z() - Koo_Schw.get_Z();
+	  
+	   ++i;
+	   ++iKooL;
+	  }
+
+	  Matrix Q = A.MatTrans().MatMult(A);
+	  //Matrix ew;
+	  Matrix Ev = Q.MatEigVek();//ew
+
+	  //Point KooEv;
+	  //KooEv.set_X(Ev(0,0));
+	  //KooEv.set_Y(Ev(1,0));
+	  //KooEv.set_Z(Ev(2,0));
+	 
+	  Point KooEv;
+	  KooEv.set_X(Ev(0,2));
+	  KooEv.set_Y(Ev(1,2));
+	  KooEv.set_Z(Ev(2,2));
+	  	  
+	  //test
+	  //double d;
+	  
+	  //direction angle
+	  
+	  (*this).set_O_R(Koo_Schw,KooEv);
+	  
+	  //m_d=KooEv.Mult(Koo_Schw)*(-1.0);//change problems
+	  //m_d=KooEv.Mult(Koo_Schw)*(-1.0);//change problems
+	   
+	  //m_d = (Point(sum_x/KooL.size(),sum_y/KooL.size(),sum_z/KooL.size()).Mult(KooEv))/KooL.size();
+	  //cout<<endl<<"d_alt:"<<m_d<<"d_neu: "<<d<<flush;
+	}
+	
+}
+
 Gerade::Gerade(const Gerade& G)
 {
  (*this)=G;
@@ -170,3 +240,21 @@ Point Gerade::Schnitt(Gerade &G)
 
  return Sn;
 }
+
+ostream& operator<<(ostream& s,const Gerade& G)
+{
+   int precision=5;       //Nachkommastellen   
+   //int vorkommastellen=8; //Minus zhlt als Vorkommastelle
+
+   s.setf(ios::fixed|ios::showpoint, ios::floatfield);//<<showpoint<<fixed
+   s.setf(ios::right, ios::adjustfield);
+   s.precision(precision);
+
+   s<<"O: ("
+	<<G.get_O()
+	<<"  R: "
+	<<G.get_R()
+    <<") ";
+
+return s;
+};

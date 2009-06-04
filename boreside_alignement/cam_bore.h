@@ -27,6 +27,22 @@ public:
 					int         channels
 	);
 	
+	//a short constructor for Christian' java ;-)
+	
+	CCam_bore(
+				        double pix_row, double pix_col, double pix_size,
+						double OX, double OY, double OZ,
+					    double rotX, double rotY, double rotZ,
+					    double c, double xh, double yh, 
+						double A1, double A2, double A3,
+						double B1, double B2, double C1,
+						double C2, double r0,
+						double B_dx, double B_dy, double B_dz,
+						double B_ddx, double B_ddy, double B_ddz,
+						double B_rotx, double B_roty, double B_rotz,
+						double B_drotx, double B_droty, double B_drotz
+		);
+	
 	CCam_bore(const CCam_bore &C);
 	CCam_bore& operator=(const CCam_bore &C);
 	CCam_bore& operator=(Cam &C);

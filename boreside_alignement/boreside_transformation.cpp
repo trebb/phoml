@@ -47,7 +47,10 @@ Point CBoreside_transformation::get_utm_koordinate()
 {
  //calc back into the sensor coordinate system
  Point pos_local = m_pos_local.RotationRueck(m_translation_cam,m_rotation_cam);
- 
+ // test for laser line 
+ //todo testing
+ //Point pos_local = m_pos_local.Rotation(m_translation_cam,m_rotation_cam);
+	
  //calc utm coordinate from the local cam coordinate system 
  //Point transl = m_translation_car.Add(m_translation_utm);
  //Matrix rotat = m_rotation_car.MatMult(m_rotation_utm);

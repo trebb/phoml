@@ -2,6 +2,7 @@
 
 #include "../Photo/forward_intersection.h"
 #include "../boreside_alignement/boreside_transformation.h"
+#include "../Basics/fix_values.h"
 
 CMainWrapperJava::CMainWrapperJava()
 {
@@ -27,7 +28,16 @@ Point CMainWrapperJava::get_3D_Point_global(Point P_local_in_m,CCam_bore cam, do
 {
 	CBoreside_transformation bore(cam);
 	
-	bore.set_car_position_utm(E,N,eH,roll,pitch,heading);
+	double rroll,rpitch,rheading;
+	rroll	= (roll)/180.0*PI;	
+	rpitch	= (pitch)/180.0*PI;
+	rheading= (heading)/180.0*PI;
+		if(heading<=180.0)
+			rheading= (-heading)/180.0*PI;
+		else
+			rheading= (360.0-heading)/180.0*PI;
+	
+	bore.set_car_position_utm(E,N,eH,rroll,rpitch,rheading);
 		
 	bore.set_local_koordinate(P_local_in_m.get_X(),P_local_in_m.get_Y(),P_local_in_m.get_Z());
 	
@@ -38,7 +48,17 @@ Point CMainWrapperJava::get_3D_Point_local(Point P_global_E_N_eH_in_m,CCam_bore 
 {
 	CBoreside_transformation bore(cam);
 	
-	bore.set_car_position_utm(E,N,eH,roll,pitch,heading);
+	double rroll,rpitch,rheading;
+	rroll	= (roll)/180.0*PI;	
+	rpitch	= (pitch)/180.0*PI;
+	rheading= (heading)/180.0*PI;
+		if(heading<=180.0)
+			rheading= (-heading)/180.0*PI;
+		else
+			rheading= (360.0-heading)/180.0*PI;
+
+	
+	bore.set_car_position_utm(E,N,eH,rroll,rpitch,rheading);
 	
 	bore.set_utm_koordinate(P_global_E_N_eH_in_m.get_X(),P_global_E_N_eH_in_m.get_Y(),P_global_E_N_eH_in_m.get_Z());
 	

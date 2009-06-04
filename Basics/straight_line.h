@@ -2,6 +2,7 @@
 #define __STRAIGHT_LINE_h
 
 #include <iostream>
+#include <list>
 
 #include "point.h"
 
@@ -12,11 +13,16 @@ class Gerade
 public:
  Gerade();
  Gerade(Point P1,Point P2);
+ Gerade(list<Point>& points);
  Gerade(const Gerade& G);
  ~Gerade();
 
  Gerade& operator=(const Gerade& G);
 
+ enum Eplane{xy,yz,xz};
+
+ //calc_average_plane();
+ 
  Point get_O() const { return m_p1; }
     
  Point get_R() const { Point P;
@@ -43,7 +49,7 @@ private:
 
 };
 
-
+ostream& operator<<(ostream& s,const Gerade& G);
 
 
 #endif

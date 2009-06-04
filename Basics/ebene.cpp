@@ -1,6 +1,9 @@
 #include "ebene.h"
 #include "Matrix//matrix.h"
 
+#include <fstream>
+#include <sstream>
+
 Ebene::Ebene()
 {
  (*this).m_n = Point(0.0,0.0,1.0);
@@ -180,12 +183,114 @@ Gerade Ebene::Schnitt(Ebene &E)
 
 Point Ebene::Durchstoss(Gerade &G)
 {
- Point P=G.get_O().Add( 
-	            G.get_R().MultS(
-	                            ( (*this).get_D()-(*this).get_N().Mult(G.get_O()) ) /
-	                            ( (*this).get_N().Mult(G.get_R())                )
-							   )
-			         );
+ //Point P=G.get_O().Add( 
+//	            G.get_R().MultS(
+//	                            ( (*this).get_D()-(*this).get_N().Mult(G.get_O()) ) /
+//	                            ( (*this).get_N().Mult(G.get_R())                )
+//							   )
+//			         );
+ //pimp 11.05.2009
+ Point GO = G.get_O();
+ Point GR = G.get_R();
+ 
+ Point P=GO.Add( 
+ 	            GR.MultS(
+ 	                            ( (*this).m_d-(*this).m_n.Mult(GO) ) /
+ 	                            ( (*this).m_n.Mult(GR)                )
+ 							   )
+ 			         );
+ 
 
 return P;
 }
+
+bool Ebene::write(std::string &filename)
+{
+	ofstream SET_TXT(filename.c_str(),ios_base::out);  
+		 
+	 //SET_TXT.open(datname); 
+	 if(!SET_TXT) { return false; }
+	 else
+	 {  
+		SET_TXT.precision(10);
+		SET_TXT.setf(ios::left,ios::showpoint);
+		SET_TXT.setf(ios::showbase);
+		
+		SET_TXT<<std::endl<<"# comment:";
+		SET_TXT<<std::endl<<"[PLANE]";
+		SET_TXT<<std::endl<<""				<<(*this).m_n.get_X();
+		SET_TXT<<std::endl<<""				<<(*this).m_n.get_Y();
+		SET_TXT<<std::endl<<""				<<(*this).m_n.get_Z();
+		SET_TXT<<std::endl<<""				<<(*this).m_d;
+		
+	  SET_TXT.close();
+	  SET_TXT.clear();
+	 }
+		
+	 return true;
+}
+
+bool Ebene::read(std::string &filename)
+{
+	std::ifstream SET_TXT;  
+	SET_TXT.open(filename.c_str(),ios_base::in); 
+	 if(!SET_TXT) { return false; }
+	
+	 std::string hilf;
+	 
+	 //####line offset of the input file
+	 //int lineoffset=m_start_line;
+	 //int count=0;
+	 //while(count++!=lineoffset)
+	 //	 getline(SET_TXT,hilf);
+	 //####
+	 
+	 
+	 double nx=0,ny=0,nz=0,d=0;
+	 
+	 int line=0;
+	 int j=0;
+	  while(getline(SET_TXT,hilf))
+	  {					
+		  if(hilf.length()>0 )
+		  if(hilf.at(j)!='#' )
+		  if(hilf.at(j)!='/' && hilf.at(j+1)!='/')
+		  if(hilf.at(j)!='[')
+		  {
+	 				  //####
+	 				  //ersetzen der ; durch " "
+	 				  //std::string search((*this).m_separator);
+	 				  //std::string replace(" ");
+	 				
+	 				  //size_t pos = hilf.find(search);
+	 				  //while(pos!=std::string::npos)
+	 				  //{
+	 			     //	hilf.replace(hilf.find(search),1,replace);	
+	 			   	  //  pos = hilf.find(search,pos+replace.length());
+	 				  //}
+	 				  //#####
+	 				  
+	 			 std::stringstream stream; stream<<hilf.c_str();
+	 			 if(line==0)
+	 			    stream>>nx;
+	 			 if(line==1)
+	 			    stream>>ny;
+	 			 if(line==2)
+	 			   stream>>nz;
+	 			 if(line==3)
+	 			   stream>>d;
+	 	 ++line;			 
+	 	}
+	  		
+	  }
+	  SET_TXT.close();
+	  SET_TXT.clear();
+   
+	  m_n.set_X(nx);
+	  m_n.set_Y(ny);
+	  m_n.set_Z(nz);
+	  m_d=d;
+	  
+ return true;
+}
+

@@ -28,7 +28,8 @@ public:
 	BPoint get_BPoint_from_local_3D_Point(Point P_local,CCam_bore cam);
 	
 	
-	//global funktions (boreside in [m]) in UTM coordinates if the Car position also in UTM
+	//global funktions (boreside in [m]) in UTM coordinates if the Car position also in UTM, angels [roll,pitch,heading] in old degree 
+	//(applanix like: roll pitch in mathematic direction and heading in geodetic direction ;-))
 	
 	//put the local 3D Point from get_3D_Point_local(), the camera_calibration
 	// cam_bore and the car position (Esting,Northing,ellHieght,roll,pitch,heading) inside

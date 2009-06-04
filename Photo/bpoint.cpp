@@ -11,8 +11,8 @@
 bool BPoint::PixKooInBildKoo()
 {
  //von Pixelkoordinaten in Bildkoordinaten unkorrigiert
- m_x = ( m_m - m_Cam->get_pix_row()/2 + 0.5 )*m_Cam->get_pix_size();
- m_y = ( m_Cam->get_pix_col()/2 - m_n + 0.5 )*m_Cam->get_pix_size();
+ m_x = ( m_m - m_Cam->get_pix_row()/2.0 + 0.5 )*m_Cam->get_pix_size();
+ m_y = ( m_Cam->get_pix_col()/2.0 - m_n + 0.5 )*m_Cam->get_pix_size();
  m_z = -fabs(m_Cam->get_c());//
 
 return true;
@@ -22,10 +22,13 @@ return true;
 bool BPoint::Verzeichnungskorrektur(double& vx,double& vy)
 {
 /**/
+ double m_x2 = m_x*m_x;
+ double m_y2 = m_y*m_y;
  
  //Berechnung der Radial-symetrischen Verzeichnung
- double rB =sqrt(m_x*m_x+m_y*m_y); //Bildradius,Abstand vom Bildhauptpunkt
-
+ //double rB =sqrt(m_x*m_x+m_y*m_y); //Bildradius,Abstand vom Bildhauptpunkt
+ double rB =sqrt(m_x2+m_y2);
+ 
  double dx_rad = m_x * (  m_Cam->get_A1()*(pow(rB,2.0)-pow(m_Cam->get_r0(),2.0))
 	                    + m_Cam->get_A2()*(pow(rB,4.0)-pow(m_Cam->get_r0(),4.0))
 				        + m_Cam->get_A3()*(pow(rB,6.0)-pow(m_Cam->get_r0(),6.0)));
@@ -34,9 +37,12 @@ bool BPoint::Verzeichnungskorrektur(double& vx,double& vy)
 				        + m_Cam->get_A3()*(pow(rB,6.0)-pow(m_Cam->get_r0(),6.0)));
 
   //Berechnung der Radial-asymetrischen und tangentialen Verzeichnung
- double dx_tan = m_Cam->get_B1() * ( rB*rB + 2.0*m_x*m_x ) + 2.0*m_Cam->get_B2()*m_x*m_y;
- double dy_tan = m_Cam->get_B2() * ( rB*rB + 2.0*m_y*m_y ) + 2.0*m_Cam->get_B1()*m_x*m_y;
+ //double dx_tan = m_Cam->get_B1() * ( rB*rB + 2.0*m_x*m_x ) + 2.0*m_Cam->get_B2()*m_x*m_y;
+ //double dy_tan = m_Cam->get_B2() * ( rB*rB + 2.0*m_y*m_y ) + 2.0*m_Cam->get_B1()*m_x*m_y;
+ double dx_tan = m_Cam->get_B1() * ( rB*rB + 2.0*m_x2 ) + 2.0*m_Cam->get_B2()*m_x*m_y;
+ double dy_tan = m_Cam->get_B2() * ( rB*rB + 2.0*m_y2 ) + 2.0*m_Cam->get_B1()*m_x*m_y;
 
+ 
  //Berechnung Affinitt und Scherung
  double dx_aff = m_Cam->get_C1()*m_x + m_Cam->get_C2()*m_y;
  double dy_aff = 0;
@@ -56,12 +62,12 @@ bool BPoint::TransInObjKoo()
  Matrix R;
  R=M;//.get_Matrix();
  
- Matrix x(3,1,Null);
+ Matrix x(3,1,Empty);
  x(0,0)=m_x;
  x(1,0)=m_y;
  x(2,0)=m_z;
  
- Matrix X0(3,1,Null);
+ Matrix X0(3,1,Empty);
  X0(0,0)=m_Cam->get_OX();
  X0(1,0)=m_Cam->get_OY();
  X0(2,0)=m_Cam->get_OZ();
@@ -119,12 +125,12 @@ return true;
 bool BPoint::PixelkorrekturVonBildInPixKoo()
 {
  //Rcktransformation von Objektkoordinaten in Bildkoordinaten
- Matrix X(3,1,Null);
+ Matrix X(3,1,Empty);
  X(0,0)=m_x;
  X(1,0)=m_y;
  X(2,0)=m_z;
 
- Matrix X0(3,1,Null);
+ Matrix X0(3,1,Empty);
  X0(0,0)=m_Cam->get_OX();
  X0(1,0)=m_Cam->get_OY();
  X0(2,0)=m_Cam->get_OZ();
@@ -156,13 +162,18 @@ bool BPoint::PixelkorrekturVonBildInPixKoo()
  {
    
    Verzeichnungskorrektur(vx,vy); 
-   m_x=(m_Cam->get_c())/x(2,0)*x(0,0)+vx;
-   m_y=(m_Cam->get_c())/x(2,0)*x(1,0)+vy;
+   //m_x=(m_Cam->get_c())/x(2,0)*x(0,0)+vx;
+   //m_y=(m_Cam->get_c())/x(2,0)*x(1,0)+vy;
+   m_x = m_xkorr + vx;
+   m_y = m_ykorr + vy;
    dx=m_x-xt;
    dy=m_y-yt;
    xt=m_x;
    yt=m_y;
    ++i;
+   
+   //Achtung BUG!! für ortho 
+   //if(i>0)
    if(i>10000)
    {
        m_isOK=false;
@@ -175,10 +186,10 @@ bool BPoint::PixelkorrekturVonBildInPixKoo()
  m_y+=m_Cam->get_yh();
 
  //von Bildkoordinaten in Pixelkoordinaten unkorrigiert	
- m_m =         m_x/m_Cam->get_pix_size() + m_Cam->get_pix_row()/2 - 0.5  ;
- m_n =(-1.0)*( m_y/m_Cam->get_pix_size() - m_Cam->get_pix_col()/2 - 0.5 );
+ m_m =         m_x/m_Cam->get_pix_size() + m_Cam->get_pix_row()/2.0 - 0.5  ;
+ m_n =(-1.0)*( m_y/m_Cam->get_pix_size() - m_Cam->get_pix_col()/2.0 - 0.5 );
 
- //Rckschreiben der Objektkoordinaten
+ //Rückschreiben der Objektkoordinaten
  m_x=X(0,0);
  m_y=X(1,0);
  m_z=X(2,0);
