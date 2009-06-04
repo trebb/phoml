@@ -12,6 +12,7 @@ class CCam_bore:public Cam
 public:
 	CCam_bore();
 	virtual ~CCam_bore();
+
 	CCam_bore(
 			        double pix_row, double pix_col, double pix_size,
 					double OX, double OY, double OZ,
@@ -24,8 +25,23 @@ public:
 					double B_ddx, double B_ddy, double B_ddz,
 					double B_rotx, double B_roty, double B_rotz,
 					double B_drotx, double B_droty, double B_drotz,
-					int         channels
+					std::string camera_name,
+					int         channels,
+					std::string camera_serial_number,
+					std::string objectiv_name,
+					std::string focal_length,
+					std::string objectiv_serial_number,
+					std::string calib_inner_date,
+					std::string calib_inner_person,
+					std::string calib_inner_comments,
+					std::string calib_outer_date,
+					std::string calib_outer_person,
+					std::string calib_outer_comments,
+					std::string calib_boreside_date,
+					std::string calib_boreside_person,
+					std::string calib_boreside_comments
 	);
+
 	
 	//a short constructor for Christian' java ;-)
 	
