@@ -12,8 +12,8 @@
 double Vorwaertsschnitt::Zaehler_x(Cam K, Point OP_0, Matrix& R)
 {
 	double Z;
-  	Z =   R(0,0) * (OP_0.get_X() - K.get_OX()) 
-		+ R(1,0) * (OP_0.get_Y() - K.get_OY()) 
+  	Z =   R(0,0) * (OP_0.get_X() - K.get_OX())
+		+ R(1,0) * (OP_0.get_Y() - K.get_OY())
 		+ R(2,0) * (OP_0.get_Z() - K.get_OZ());
 	return Z;
 }
@@ -21,8 +21,8 @@ double Vorwaertsschnitt::Zaehler_x(Cam K, Point OP_0, Matrix& R)
 double Vorwaertsschnitt::Zaehler_y(Cam K, Point OP_0, Matrix& R)
 {
 	double Z;
-	Z =   R(0,1) * (OP_0.get_X() - K.get_OX()) 
-		+ R(1,1) * (OP_0.get_Y() - K.get_OY()) 
+	Z =   R(0,1) * (OP_0.get_X() - K.get_OX())
+		+ R(1,1) * (OP_0.get_Y() - K.get_OY())
 		+ R(2,1) * (OP_0.get_Z() - K.get_OZ());
 	return Z;
 }
@@ -30,8 +30,8 @@ double Vorwaertsschnitt::Zaehler_y(Cam K, Point OP_0, Matrix& R)
 double Vorwaertsschnitt::Nenner(Cam K, Point OP_0, Matrix& R)
 {
 	double N;
-	N =   R(0,2) * (OP_0.get_X() - K.get_OX()) 
-		+ R(1,2) * (OP_0.get_Y() - K.get_OY()) 
+	N =   R(0,2) * (OP_0.get_X() - K.get_OX())
+		+ R(1,2) * (OP_0.get_Y() - K.get_OY())
 		+ R(2,2) * (OP_0.get_Z() - K.get_OZ());
 	return N;
 }
@@ -125,19 +125,19 @@ Vorwaertsschnitt::Vorwaertsschnitt(vector<BPoint> &BP)//,Point Org
 
  BPoint BP1 = BP[0];
  BPoint BP2 = BP[1];
- 
+
  //cout <<endl<<"m: "<< BP1.get_m()<<" n: "<<BP1.get_n()<< flush;
  //cout <<endl<<"m: "<< BP2.get_m()<<" n: "<<BP2.get_n()<< flush;
- 
+
  Gerade G_l(BP1.get_Point(),BP1.get_Cam().get_O());
  Gerade G_r(BP2.get_Point(),BP2.get_Cam().get_O());
 
  m_schnittpunkt=G_l.Schnitt(G_r);
-  
+
  //cout <<endl<<"schnittp: "<< m_schnittpunkt;
- //###############################################		 
+ //###############################################
  //Vorwrtsschnitt
- 
+
  Point OP_0;
  OP_0=m_schnittpunkt; // Zuweisen des Nherungswertes
 
@@ -149,7 +149,7 @@ Vorwaertsschnitt::Vorwaertsschnitt(vector<BPoint> &BP)//,Point Org
  //	Kontrollrechnung
    double x_st_l,y_st_l,x_st_r,y_st_r,x_korr_l,x_unkorr_l,y_korr_l,y_unkorr_l,x_korr_r,x_unkorr_r,y_korr_r,y_unkorr_r;
    double dx_l,dy_l,dx_r,dy_r;
-   
+
     x_st_l = x(K1,OP_0,R1);
 	x_korr_l=BP1.get_xyBKooKorr().get_X();
 	x_unkorr_l=BP1.get_xyBKoo().get_X();
@@ -168,7 +168,7 @@ Vorwaertsschnitt::Vorwaertsschnitt(vector<BPoint> &BP)//,Point Org
 	y_st_r = y(K2,OP_0,R2);
     y_korr_r=BP2.get_xyBKooKorr().get_Y();
 	y_unkorr_r=BP2.get_xyBKoo().get_Y();
-	dy_r=y_st_r-y_korr_r;	
+	dy_r=y_st_r-y_korr_r;
  //#################################################
 */
 
@@ -187,7 +187,8 @@ while(!( fabs(dOP.get_X())<0.00000001 && fabs(dOP.get_Y())<0.00000001 && fabs(dO
 		BPoint BB  = BP[j];
 		Cam KK     = BB.get_Cam();
 	    Rot R_hilf(KK.get_rotX(),KK.get_rotY(),KK.get_rotZ());
-		Matrix RR  = R_hilf;//.get_Matrix();
+		Matrix RR;
+		RR = R_hilf;//.get_Matrix();
 		A(k  ,0) = dxdX(KK, Zaehler_x(KK,OP_0,RR), Nenner(KK,OP_0,RR), RR);
 		A(k  ,1) = dxdY(KK, Zaehler_x(KK,OP_0,RR), Nenner(KK,OP_0,RR), RR);
 		A(k  ,2) = dxdZ(KK, Zaehler_x(KK,OP_0,RR), Nenner(KK,OP_0,RR), RR);
@@ -202,11 +203,11 @@ while(!( fabs(dOP.get_X())<0.00000001 && fabs(dOP.get_Y())<0.00000001 && fabs(dO
 
 	//A.MatShow();
 	//l.MatShow();
-		
+
 	Matrix N(3,3,Null);
 	N = A.MatTrans().MatMult(A);
 	//N.MatShow();
-	
+
 	Matrix Q(3,3,Null);
 	Q = N.MatInvert();
 	//Q.MatShow();
@@ -217,8 +218,8 @@ while(!( fabs(dOP.get_X())<0.00000001 && fabs(dOP.get_Y())<0.00000001 && fabs(dO
 	Matrix x;//(3,1,Null);
 	x = Q.MatMult( tx );
 	//x.MatShow();
-	
-    
+
+
 	// Anbringen der "dX Verbesserung" x an den Nherungsobjektpunkt
 	OP.set_X( OP_0.get_X() + x(0,0));
 	OP.set_Y( OP_0.get_Y() + x(1,0));
