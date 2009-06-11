@@ -7,7 +7,6 @@
 
 
 
-
 //###################################################################################
 double Vorwaertsschnitt::Zaehler_x(Cam K, Point OP_0, Matrix& R)
 {
