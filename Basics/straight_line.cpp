@@ -18,7 +18,7 @@ Gerade::Gerade(Point P1,Point P2)
 Gerade::Gerade(list<Point>& KooL)
 {
  //ungetestet!!!!!
-	if(KooL.size()>2)
+	if(KooL.size()>3)
 	{
 	  Point Koo_Schw;
 	 

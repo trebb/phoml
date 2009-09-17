@@ -29,13 +29,15 @@ Point CMainWrapperJava::get_3D_Point_global(Point P_local_in_m,CCam_bore cam, do
 	CBoreside_transformation bore(cam);
 	
 	double rroll,rpitch,rheading;
-	rroll	= (roll)/180.0*PI;	
-	rpitch	= (pitch)/180.0*PI;
-	rheading= (heading)/180.0*PI;
+	rroll	= -(roll)/180.0*PI;	
+	rpitch	= -(pitch)/180.0*PI;
+	
 		if(heading<=180.0)
-			rheading= (-heading)/180.0*PI;
+			rheading= (-heading);
 		else
-			rheading= (360.0-heading)/180.0*PI;
+			rheading= (360.0-heading);
+		
+	rheading= (rheading)/180.0*PI;
 	
 	bore.set_car_position_utm(E,N,eH,rroll,rpitch,rheading);
 		
@@ -49,13 +51,15 @@ Point CMainWrapperJava::get_3D_Point_local(Point P_global_E_N_eH_in_m,CCam_bore 
 	CBoreside_transformation bore(cam);
 	
 	double rroll,rpitch,rheading;
-	rroll	= (roll)/180.0*PI;	
-	rpitch	= (pitch)/180.0*PI;
-	rheading= (heading)/180.0*PI;
+	rroll	= -(roll)/180.0*PI;	
+	rpitch	= -(pitch)/180.0*PI;
+	
 		if(heading<=180.0)
-			rheading= (-heading)/180.0*PI;
+			rheading= (-heading);
 		else
-			rheading= (360.0-heading)/180.0*PI;
+			rheading= (360.0-heading);
+		
+	rheading= (rheading)/180.0*PI;
 
 	
 	bore.set_car_position_utm(E,N,eH,rroll,rpitch,rheading);
