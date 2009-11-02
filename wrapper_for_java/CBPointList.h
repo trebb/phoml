@@ -7,11 +7,11 @@ class CBPointList
 {
 public:
 	CBPointList();
-	virtual ~CBPointList();
+	~CBPointList();
 	void addBPoint(BPoint bp);
 	int size();
 	void clearBPointList();
-	vector <BPoint> m_BPoint_List; 
+	vector<BPoint> m_BPoint_List;
 };
 
 
