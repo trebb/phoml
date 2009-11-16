@@ -105,6 +105,9 @@ void CBoreside_transformation::fill_params_utm()
 	//Translation
 	m_translation_utm = Point(m_Easting,m_Northing,m_ell_Height);
 	//Rotation
-	m_rotation_utm = Rot(m_pitch,m_roll,m_heading);
+	
+	//TODO change the rotation
+	//m_rotation_utm = Rot(m_pitch,m_roll,m_heading);
+	m_rotation_utm = Rot(m_roll,m_pitch,m_heading);
 	//std::cout<<std::endl<<"Rnach: "<<m_rotation_utm<<std::flush;
 }
