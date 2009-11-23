@@ -253,3 +253,12 @@ BPoint BPoint::get_KernlinenPunkt( Cam &C, double s )
 
 return BPKern;
 }
+
+//###################################################################################
+//Schnitt Bildstrahl mit Ebene (mono camera system)
+//###################################################################################
+Point BPoint::calc_mono_cam_to_plane_intersection(Ebene &E)
+{
+  Gerade G( (*this).get_Cam().get_O() , (*this).get_Point() );
+  return E.Durchstoss(G);
+}

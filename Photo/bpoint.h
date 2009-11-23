@@ -6,8 +6,7 @@
 
 #include "cam.h"
 #include "..//Basics//point.h"
-
-//#include "straight_line.h"
+#include "..//Basics//ebene.h"
 
 using namespace std;
 
@@ -86,6 +85,8 @@ public:
 
 	BPoint get_KernlinenPunkt( Cam &C, double s ); //Cam &C ist die Kamera in der der Kernlinien Punkt gesucht wird
 	                                               // s ist die Entfernung von Kamerahauptpunkt in den Objektraum
+
+	Point calc_mono_cam_to_plane_intersection(Ebene &E);
 
 private:
 
