@@ -25,6 +25,7 @@ public:
 
 	PointNr& get_PointNR(int number);
 	std::list<PointNr>& get_PointNr_list();
+	std::list<Point>& get_Point_list();
 
 	bool add(PointNr& P);
 	bool del(int number);
@@ -37,6 +38,9 @@ private:
   std::string m_list_name;
 
   std::list<PointNr> m_point_nr_list;
+
+  //empty list -> only for output the list<Point> format
+  std::list<Point> m_point_list;
 
   PointNr m_default_point_nr;
 };

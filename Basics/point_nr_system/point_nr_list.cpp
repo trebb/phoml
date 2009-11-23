@@ -46,6 +46,19 @@ std::list<PointNr>& CPoint_nr_list::get_PointNr_list()
  return m_point_nr_list;
 }
 
+std::list<Point>& CPoint_nr_list::get_Point_list()
+{
+	std::list<PointNr>::iterator iP = m_point_nr_list.begin();
+
+	      while(iP!=m_point_nr_list.end())
+		  {
+	    	  m_point_list.push_back(*iP);
+		   ++iP;
+		  }
+
+ return m_point_list;
+}
+
 bool CPoint_nr_list::add(PointNr& P)
 {
    size_t so = m_point_nr_list.size();
