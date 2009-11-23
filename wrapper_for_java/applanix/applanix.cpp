@@ -39,21 +39,15 @@ void CApplanix::convert_angles_UTM_to_math_coo_system(double &roll,double &pitch
 		sdpitch=sdpitch/180.0*PI;
 		sdheading=sdheading/180.0*PI;
 
-/*
-			cout<<endl<<" roll    :"<<roll;
-			cout<< "   pitch   :"<<pitch;
-			cout<< "   heading :"<<heading;
-*/
-
-
 		Rot_appl R_appl(pitch,roll,heading);
-		R_appl.get_RotWinkel(roll,pitch,heading);
-
+		R_appl.get_RotWinkel(pitch,roll,heading);
 /*
+		cout<<endl;
 			cout<<endl<<" roll    :"<<roll;
 			cout<< "   pitch   :"<<pitch;
 			cout<< "   heading :"<<heading;
 */
+
 
 		//transformation the standard deviation
 		Matrix M_appl;
@@ -78,9 +72,10 @@ double CApplanix::calc_approximately_meridian_convergence_degree(double Easting,
 {
   //for left hand coordinate system -> input the geographic heading and get the utm projection heading back
   m_meridian_convergence_dergee = (Easting - 500000) / 6371000.8 * tan(latitude/180.0*PI);
+  //m_meridian_convergence_dergee = (Easting - 500000) /  6378137 * tan(latitude/180.0*PI);
   m_meridian_convergence_dergee = m_meridian_convergence_dergee/PI * 180.0;
 
-  //Heading = Heading + m_meridian_convergence_dergee/2;
+  //Heading = Heading - m_meridian_convergence_dergee;
 
  return m_meridian_convergence_dergee;
 }

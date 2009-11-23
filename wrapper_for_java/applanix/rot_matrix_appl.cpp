@@ -11,7 +11,6 @@ Rot_appl::Rot_appl(double rotX,double rotY,double rotZ)
 	 
 	 m_R.create(3,3,Null);
 
-
 	 //[z][x][y] -> geodätic rotation
 
 	         m_R(0,0) =  sin(rotX) * sin(rotY) * sin(rotZ) + cos(rotY) * cos(rotZ) ;
