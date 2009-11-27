@@ -31,7 +31,7 @@ CApplanix::~CApplanix()
 
 void CApplanix::convert_angles_UTM_to_math_coo_system(double &roll,double &pitch,double &heading,double &sdroll,double &sdpitch,double &sdheading)
 {
-	    roll=roll/180.0*PI;
+    roll=roll/180.0*PI;
 		pitch=pitch/180.0*PI;
 		heading=heading/180.0*PI;
 
@@ -39,33 +39,41 @@ void CApplanix::convert_angles_UTM_to_math_coo_system(double &roll,double &pitch
 		sdpitch=sdpitch/180.0*PI;
 		sdheading=sdheading/180.0*PI;
 
-		Rot_appl R_appl(pitch,roll,heading);
-		R_appl.get_RotWinkel(pitch,roll,heading);
-/*
-		cout<<endl;
-			cout<<endl<<" roll    :"<<roll;
-			cout<< "   pitch   :"<<pitch;
-			cout<< "   heading :"<<heading;
-*/
 
+		//body to geographic frame
+		Rot_appl R_appl(roll,pitch,heading);
 
-		//transformation the standard deviation
 		Matrix M_appl;
 		M_appl = R_appl.get_Matrix();
 
-		Rot R_math(roll,pitch,heading);
-		Matrix M_math;
-		M_math = R_math.get_Matrix();
 
-		Matrix M_rot;
-		M_rot = M_math.MatMult(M_appl);
+		//axes right and left hand
+				Matrix M_axes_rl(3,3,Null);
+				M_axes_rl(0,1) = 1;
+				M_axes_rl(1,0) = 1;
+				M_axes_rl(2,2) = -1;
 
-		Point mP(sdroll,sdpitch,sdheading);
-        Point null;
+		Matrix M_opk;
+		M_opk = M_axes_rl.MatMult(M_appl);
 
-		Point mP_new = mP.Rotation(null,M_rot);
-		//cout << endl << " old, new sd angle: " << mP <<","<< mP_new;
+		Rot R_opk(M_opk);
+		R_opk.get_RotWinkel(roll,pitch,heading);
 
+
+
+		//transformation the standard deviation
+
+				Rot R_math(roll,pitch,heading);
+				Matrix M_math;
+				M_math = R_math.get_Matrix();
+
+				Matrix M_rot;
+				M_rot = M_math.MatMult(M_appl);
+
+				Point mP(sdroll,sdpitch,sdheading);
+		        Point null;
+
+				Point mP_new = mP.Rotation(null,M_rot);
 }
 
 double CApplanix::calc_approximately_meridian_convergence_degree(double Easting, double latitude, double &Heading)
