@@ -322,18 +322,21 @@ public:
 	BPoint get_BPoint_from_local_3D_Point(Point P_local,CCam_bore cam);
 	
 	
-	//global funktions (boreside in [m]) in UTM coordinates if the Car position also in UTM
+	//global funktions (boreside in [m]) in UTM coordinates if the Car position also in UTM, angels [roll,pitch,heading] in old degree 
+	//(applanix like: roll pitch in mathematic direction and heading in geodetic direction ;-))
 	
 	//put the local 3D Point from get_3D_Point_local(), the camera_calibration
 	// cam_bore and the car position (Esting,Northing,ellHieght,roll,pitch,heading) inside
 	// and get the UTM coordinate of the local Point
 	Point get_3D_Point_global(Point P_local_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading);
-	
+	Point get_3D_Point_global_wMC(Point P_local_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading,double latitude,double longitude);
+
 	//put a global 3D Point Point(Easting,Northing,eHeight), the camera_calibration
 	// cam_bore and the car position (Esting,Northing,ellHieght,roll,pitch,heading) inside
 	// and get the local 3D coordinates of the global Point
 	Point get_3D_Point_local(Point P_global_E_N_eH_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading);
-	
+	Point get_3D_Point_local_wMC(Point P_global_E_N_eH_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading,double latitude,double longitude);
+
 };
 
 class CPhotogrammetrieTest
