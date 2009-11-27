@@ -35,12 +35,14 @@ public:
 	// cam_bore and the car position (Esting,Northing,ellHieght,roll,pitch,heading) inside
 	// and get the UTM coordinate of the local Point
 	Point get_3D_Point_global(Point P_local_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading);
-	
+	Point get_3D_Point_global_wMC(Point P_local_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading,double latitude,double longitude);
+
 	//put a global 3D Point Point(Easting,Northing,eHeight), the camera_calibration
 	// cam_bore and the car position (Esting,Northing,ellHieght,roll,pitch,heading) inside
 	// and get the local 3D coordinates of the global Point
 	Point get_3D_Point_local(Point P_global_E_N_eH_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading);
-	
+	Point get_3D_Point_local_wMC(Point P_global_E_N_eH_in_m,CCam_bore cam, double Easting, double Northing, double eHeigth, double roll, double pitch, double heading,double latitude,double longitude);
+
 };
 
 #endif /*MAINWRAPPERJAVA_H_*/
