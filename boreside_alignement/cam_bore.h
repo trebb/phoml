@@ -100,13 +100,31 @@ public:
 	void set_B_drotx(double B_drotx){m_B_drotx=B_drotx;}
 	void set_B_droty(double B_droty){m_B_droty=B_droty;}
 	void set_B_drotz(double B_drotz){m_B_drotz=B_drotz;}
+
+	//secondary get funktions
+	std::string get_camera_name();
+	int         get_channels();
+	std::string get_camera_serial_number();
+	std::string get_objectiv_name();
+	std::string get_focal_length();
+	std::string get_objectiv_serial_number();
+	std::string get_calib_inner_date();
+	std::string get_calib_inner_person();
+	std::string get_calib_inner_comments();
+	std::string get_calib_outer_date();
+	std::string get_calib_outer_person();
+	std::string get_calib_outer_comments();
+	std::string get_calib_boreside_date();
+	std::string get_calib_boreside_person();
+	std::string get_calib_boreside_comments();
 		
-	int 		get_channels				(){return m_channels;}
-	
 	//overwrite of Cam funktions
 	bool read_from_ini(const char *datname);
 	bool  write_in_ini(const char *datname);
 	
+	bool copy_bore_side(const CCam_bore &C);
+	bool copy_relative_orientation(const CCam_bore &C);
+
 private:
 	//[GENERAL]
 	std::string m_camera_name;

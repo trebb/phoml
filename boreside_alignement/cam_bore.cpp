@@ -278,6 +278,68 @@ CCam_bore::operator Cam() const
 		    );
 }
 
+//secondary get funktions
+std::string CCam_bore::get_camera_name()
+{ return (*this).m_camera_name;
+}
+
+int         CCam_bore::get_channels()
+{ return (*this).m_channels;
+}
+
+std::string CCam_bore::get_camera_serial_number()
+{ return (*this).m_camera_serial_number;
+}
+
+std::string CCam_bore::get_objectiv_name()
+{ return (*this).m_objectiv_name;
+}
+
+std::string CCam_bore::get_focal_length()
+{ return (*this).m_focal_length;
+}
+
+std::string CCam_bore::get_objectiv_serial_number()
+{ return (*this).m_objectiv_serial_number;
+}
+
+std::string CCam_bore::get_calib_inner_date()
+{ return (*this).m_calib_inner_date;
+}
+
+std::string CCam_bore::get_calib_inner_person()
+{ return (*this).m_calib_inner_person;
+}
+
+std::string CCam_bore::get_calib_inner_comments()
+{ return (*this).m_calib_inner_comments;
+}
+
+std::string CCam_bore::get_calib_outer_date()
+{ return (*this).m_calib_outer_date;
+}
+
+std::string CCam_bore::get_calib_outer_person()
+{ return (*this).m_calib_outer_person;
+}
+
+std::string CCam_bore::get_calib_outer_comments()
+{ return (*this).m_calib_outer_comments;
+}
+
+std::string CCam_bore::get_calib_boreside_date()
+{ return (*this).m_calib_boreside_date;
+}
+
+std::string CCam_bore::get_calib_boreside_person()
+{ return (*this).m_calib_boreside_person;
+}
+
+std::string CCam_bore::get_calib_boreside_comments()
+{ return (*this).m_calib_boreside_comments;
+}
+
+
 
 bool CCam_bore::read_from_ini(const char *datname)
 {
@@ -947,3 +1009,52 @@ bool  CCam_bore::write_in_ini(const char *datname)
 	
  return true;
 }
+
+bool CCam_bore::copy_bore_side(const CCam_bore &C)
+{
+	//[BORESIDE_ALIGNEMENT]
+	m_calib_boreside_date 		= C.m_calib_boreside_date;
+	m_calib_boreside_person		= C.m_calib_boreside_person;
+	m_calib_boreside_comments   = C.m_calib_boreside_comments;
+
+	// tranlation [mm]
+	m_B_dx			= C.m_B_dx;
+	m_B_dy			= C.m_B_dy;
+	m_B_dz			= C.m_B_dz;
+
+	//standart deviation translation
+	m_B_ddx			= C.m_B_ddx;
+	m_B_ddy			= C.m_B_ddy;
+	m_B_ddz			= C.m_B_ddz;
+
+	// rotation [rad]
+	m_B_rotx			= C.m_B_rotx;
+	m_B_roty			= C.m_B_roty;
+	m_B_rotz			= C.m_B_rotz;
+
+	//standart deviation rotation
+	m_B_drotx			= C.m_B_drotx;
+	m_B_droty			= C.m_B_droty;
+	m_B_drotz			= C.m_B_drotz;
+
+return true;
+}
+
+bool CCam_bore::copy_relative_orientation(const CCam_bore &C)
+{
+	//[BORESIDE_ALIGNEMENT]
+	m_calib_boreside_date 		= C.m_calib_outer_date;
+	m_calib_boreside_person		= C.m_calib_outer_person;
+	m_calib_boreside_comments   = C.m_calib_outer_comments;
+
+	// tranlation [mm]
+	(*this).m_O      	= C.m_O;
+	(*this).m_rotX 		= C.m_rotX;
+	(*this).m_rotY 		= C.m_rotY;
+	(*this).m_rotZ 		= C.m_rotZ;
+
+//TODO input the standard deviation into the cam class
+
+return true;
+}
+
