@@ -83,7 +83,7 @@ double CApplanix::calc_approximately_meridian_convergence_degree(double Easting,
   //m_meridian_convergence_dergee = (Easting - 500000) /  6378137 * tan(latitude/180.0*PI);
   m_meridian_convergence_dergee = m_meridian_convergence_dergee/PI * 180.0;
 
-  Heading = Heading - m_meridian_convergence_dergee;
+  Heading = Heading + m_meridian_convergence_dergee;
 
  return m_meridian_convergence_dergee;
 }
