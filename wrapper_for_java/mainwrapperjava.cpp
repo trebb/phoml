@@ -89,7 +89,7 @@ Point CMainWrapperJava::get_3D_Point_local_wMC(Point P_global_E_N_eH_in_m,CCam_b
 	double mroll=0.0,mpitch=0.0,mheading=0.0;
 
 	CApplanix appl;
-	appl.calc_approximately_meridian_convergence_degree(E,latitude,eH);
+	appl.calc_approximately_meridian_convergence_degree(E,latitude,heading);
 	appl.convert_angles_UTM_to_math_coo_system(roll,pitch,heading,mroll,mpitch,mheading);
 
 	bore.set_car_position_utm(E,N,eH,roll,pitch,heading);
