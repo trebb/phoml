@@ -11,24 +11,7 @@ Rot_appl::Rot_appl(double rotX,double rotY,double rotZ)
 	 
 	 m_R.create(3,3,Null);
 
-	 //[z][x][y] -> geodätic rotation
-/*
-	         m_R(0,0) =  sin(rotX) * sin(rotY) * sin(rotZ) + cos(rotY) * cos(rotZ) ;
-	         m_R(0,1) =  cos(rotX) * sin(rotZ) ;
-	         m_R(0,2) =  sin(rotX) * cos(rotY) * sin(rotZ) - sin(rotY) * cos(rotZ);
-
-	         //second line
-	         m_R(1,0) = sin(rotX) * sin(rotY) * cos(rotZ) + cos(rotY) * sin(rotZ) ;
-	         m_R(1,1) = cos(rotX) * cos(rotZ) ;
-	         m_R(1,2) = sin(rotX) * cos(rotY) * cos(rotZ) + sin(rotY) * sin(rotZ) ;
-
-	         //last line
-	         m_R(2,0) = cos(rotX) * sin(rotY) ;
-	         m_R(2,1) = -sin(rotX) ;
-	         m_R(2,2) = cos(rotX) * cos(rotY);
-
-*/
-///* [z][y][x] -> geodätic rotation
+///* [z][y][x] -> geodetic rotation
 	    	 //first row
 	    	 m_R(0,0) = cos(rotY) * cos(rotZ) ;
 	         m_R(0,1) = sin(rotX) * sin(rotY) * cos(rotZ) - cos(rotX) * sin(rotZ) ;

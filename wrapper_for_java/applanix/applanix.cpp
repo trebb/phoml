@@ -39,6 +39,15 @@ void CApplanix::convert_angles_UTM_to_math_coo_system(double &roll,double &pitch
 		sdpitch=sdpitch/180.0*PI;
 		sdheading=sdheading/180.0*PI;
 
+		//latitude      = latitude / 180.0 * PI ;
+		//longitude     = longitude / 180.0 * PI ;
+
+					/*
+							cout<<endl;
+							cout<<endl<< "   roll    :"<<roll/PI*180.0;
+								  cout<< "   pitch   :"<<pitch/PI*180.0;
+								  cout<< "   heading :"<<heading/PI*180.0;
+					*/
 
 		//body to geographic frame
 		Rot_appl R_appl(roll,pitch,heading);
@@ -47,33 +56,70 @@ void CApplanix::convert_angles_UTM_to_math_coo_system(double &roll,double &pitch
 		M_appl = R_appl.get_Matrix();
 
 
-		//axes right and left hand
-				Matrix M_axes_rl(3,3,Null);
-				M_axes_rl(0,1) = 1;
-				M_axes_rl(1,0) = 1;
-				M_axes_rl(2,2) = -1;
+															//test variable
+														  // double w1,w2,w3;
+
+								/*
+															R_appl.get_RotWinkel(w1,w2,w3);
+															cout<<endl<< "   roll    :"<<w1/PI*180.0;
+																  cout<< "   pitch   :"<<w2/PI*180.0;
+																  cout<< "   heading :"<<w3/PI*180.0;
+								*/
+
+										/*
+
+												  //test
+												  Rot_appl R_appl_w(M_appl);
+												  R_appl_w.get_RotWinkel(w1,w2,w3);
+													cout<<endl<< "   roll    :"<<w1/PI*180.0;
+														  cout<< "   pitch   :"<<w2/PI*180.0;
+														  cout<< "   heading :"<<w3/PI*180.0;
+
+										*/
+										/*
+										//test
+										//geographic frame to earth frame -> is included in the applanix output file not necessary
+										Rot_transport R_transport( longitude,latitude );
+										Matrix M_transport;
+										M_transport = R_transport.get_Matrix();
+
+
+														  Rot_transport R_transport_w(M_transport);
+														  R_transport_w.get_RotWinkel(w1,w2);
+															cout<<endl<< "   lat    :"<<w1/PI*180.0;
+																  cout<< "   lon   :"<<w2/PI*180.0;
+
+																  Rot_appl R_appl_tranport(M_transport);
+																R_appl_tranport.get_RotWinkel(w1,w2,w3);
+
+																cout<<endl<< "   roll    :"<<w1/PI*180.0;
+																	  cout<< "   pitch   :"<<w2/PI*180.0;
+																	  cout<< "   heading :"<<w3/PI*180.0;
+
+										*/
+
+
+		//axes transformation matrix > is the same like (180°,0°,90°) rotation in the geodetic coordinate system
+		//							    			or (0°,180°,-90°) rotation in the mathematics coordinate system
+		Matrix M_axes(3,3,Null);
+		M_axes(0,1) = 1;
+		M_axes(1,0) = 1;
+		M_axes(2,2) = -1;
+
+
+		//Rot_appl R_n90(180.0/180.0*PI ,0.0/180.0*PI ,90.0/180.0*PI );
+		//Matrix M_n90 = R_n90.get_Matrix();
 
 		Matrix M_opk;
-		M_opk = M_axes_rl.MatMult(M_appl);
 
+		//transformation in body frame:  M_opk = ( M_axes_rl ).MatMult(M_appl)
+		//second transformation is for the car coordinate system z- up, y in drive direction and x to the right side (mathematics coordinate system)
+		M_opk = M_axes.MatMult(M_appl).MatMult(M_axes);
+
+      //get the mathematics angels from the matrix
 		Rot R_opk(M_opk);
 		R_opk.get_RotWinkel(roll,pitch,heading);
 
-
-
-		//transformation the standard deviation
-
-				Rot R_math(roll,pitch,heading);
-				Matrix M_math;
-				M_math = R_math.get_Matrix();
-
-				Matrix M_rot;
-				M_rot = M_math.MatMult(M_appl);
-
-				Point mP(sdroll,sdpitch,sdheading);
-		        Point null;
-
-				Point mP_new = mP.Rotation(null,M_rot);
 }
 
 double CApplanix::calc_approximately_meridian_convergence_degree(double Easting, double latitude, double &Heading)
@@ -83,7 +129,7 @@ double CApplanix::calc_approximately_meridian_convergence_degree(double Easting,
   //m_meridian_convergence_dergee = (Easting - 500000) /  6378137 * tan(latitude/180.0*PI);
   m_meridian_convergence_dergee = m_meridian_convergence_dergee/PI * 180.0;
 
-  Heading = Heading + m_meridian_convergence_dergee;
+  Heading = Heading - m_meridian_convergence_dergee;
 
  return m_meridian_convergence_dergee;
 }
