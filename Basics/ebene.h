@@ -29,8 +29,7 @@ public:
  Gerade Schnitt        (Ebene  &E);
  Point  Durchstoss     (Gerade &G);
 	
- //double Abstand        (Point &P);
- //Point  LotFussP       (Point &P);
+ Point  LotFussP       (Point &P);
  //double SchnittWinkel  (Ebene &E);
  //Point  Schnitt        (Ebene &E1,Ebene &E1);
 

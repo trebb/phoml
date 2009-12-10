@@ -69,7 +69,7 @@ Ebene::Ebene(list<Point> &KooL)
 	  
 	  m_n=KooEv;
 	  //m_d=KooEv.Mult(Koo_Schw)*(-1.0);//change problems
-	  m_d=KooEv.Mult(Koo_Schw)*(-1.0);//change problems
+	  m_d=KooEv.Mult(Koo_Schw)*(1.0);//change problems
 	   
 	  //m_d = (Point(sum_x/KooL.size(),sum_y/KooL.size(),sum_z/KooL.size()).Mult(KooEv))/KooL.size();
 	  //cout<<endl<<"d_alt:"<<m_d<<"d_neu: "<<d<<flush;
@@ -202,6 +202,16 @@ Point Ebene::Durchstoss(Gerade &G)
  
 
 return P;
+}
+
+Point Ebene::LotFussP       (Point &P)
+{
+ Gerade G(P,P.Add((*this).m_n));
+
+ Point PL;
+ PL = (*this).Durchstoss(G);
+
+ return PL;
 }
 
 bool Ebene::write(std::string &filename)

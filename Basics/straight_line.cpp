@@ -136,7 +136,7 @@ double Gerade::SchnittWinkelGG(Gerade& G)
   G2R=G.get_R(); //Richtungsvektor
 
   double w = acos( ( G1R.Mult(G2R) / ( G1R.Betrag()*G2R.Betrag() ) ) );
-  w=w/PI*180;
+  w=w/PI*180.0;
  
 return w;
 }
