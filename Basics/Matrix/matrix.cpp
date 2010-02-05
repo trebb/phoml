@@ -500,9 +500,13 @@ Matrix Matrix::MatInvert()
 
 	//Test singulre Matrix
 	if(MatLu(A,D)==-1)
-	{	assert( "singulre Matrix" );
-	    cout<<endl<<"singulre Matrix! Programmabbruch";
-	    exit(1);
+	{
+		cout << endl << "## ERROR ## singular matrix!" << (*this);
+		cout << endl << "Detreminante:  " << (*this).MatDet();
+		assert( "## ERROR ## singular matrix!" );
+		cout<<endl<<"## ERROR ## singular matrix! Programmabbruch";
+	    //TODO exeption handling
+		// exit(1);
 	}
 	int i=0;
 	while( i != n )

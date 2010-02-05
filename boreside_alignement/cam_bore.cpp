@@ -452,6 +452,7 @@ bool CCam_bore::read_from_ini(const char *datname)
 				if(hilf.at(j)!='#' )
 				if(hilf.at(j)!='/' && hilf.at(j+1)!='/')
 				if(hilf.at(j)!='[')
+			    if(hilf.at(j)!=' ')
 				{                  		   
 				
 					//[GENERAL]
