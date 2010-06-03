@@ -279,63 +279,63 @@ CCam_bore::operator Cam() const
 }
 
 //secondary get funktions
-std::string CCam_bore::get_camera_name()
+std::string CCam_bore::get_camera_name() const
 { return (*this).m_camera_name;
 }
 
-int         CCam_bore::get_channels()
+int         CCam_bore::get_channels() const
 { return (*this).m_channels;
 }
 
-std::string CCam_bore::get_camera_serial_number()
+std::string CCam_bore::get_camera_serial_number() const
 { return (*this).m_camera_serial_number;
 }
 
-std::string CCam_bore::get_objectiv_name()
+std::string CCam_bore::get_objectiv_name() const
 { return (*this).m_objectiv_name;
 }
 
-std::string CCam_bore::get_focal_length()
+std::string CCam_bore::get_focal_length() const
 { return (*this).m_focal_length;
 }
 
-std::string CCam_bore::get_objectiv_serial_number()
+std::string CCam_bore::get_objectiv_serial_number() const
 { return (*this).m_objectiv_serial_number;
 }
 
-std::string CCam_bore::get_calib_inner_date()
+std::string CCam_bore::get_calib_inner_date() const
 { return (*this).m_calib_inner_date;
 }
 
-std::string CCam_bore::get_calib_inner_person()
+std::string CCam_bore::get_calib_inner_person() const
 { return (*this).m_calib_inner_person;
 }
 
-std::string CCam_bore::get_calib_inner_comments()
+std::string CCam_bore::get_calib_inner_comments() const
 { return (*this).m_calib_inner_comments;
 }
 
-std::string CCam_bore::get_calib_outer_date()
+std::string CCam_bore::get_calib_outer_date() const
 { return (*this).m_calib_outer_date;
 }
 
-std::string CCam_bore::get_calib_outer_person()
+std::string CCam_bore::get_calib_outer_person() const
 { return (*this).m_calib_outer_person;
 }
 
-std::string CCam_bore::get_calib_outer_comments()
+std::string CCam_bore::get_calib_outer_comments() const
 { return (*this).m_calib_outer_comments;
 }
 
-std::string CCam_bore::get_calib_boreside_date()
+std::string CCam_bore::get_calib_boreside_date() const
 { return (*this).m_calib_boreside_date;
 }
 
-std::string CCam_bore::get_calib_boreside_person()
+std::string CCam_bore::get_calib_boreside_person() const
 { return (*this).m_calib_boreside_person;
 }
 
-std::string CCam_bore::get_calib_boreside_comments()
+std::string CCam_bore::get_calib_boreside_comments() const
 { return (*this).m_calib_boreside_comments;
 }
 
@@ -449,12 +449,16 @@ bool CCam_bore::read_from_ini(const char *datname)
 	 while(getline(SET_TXT,hilf))
 	 {					
 				if(hilf.length()>0 )
+                if(hilf.at(j)!='\r')
+                if(hilf.at(j)!='\n')
 				if(hilf.at(j)!='#' )
-				if(hilf.at(j)!='/' && hilf.at(j+1)!='/')
-				if(hilf.at(j)!='[')
-			    if(hilf.at(j)!=' ')
+				if(hilf.at(j)!='[' )
+			    if(hilf.at(j)!=' ' )
+				if(hilf.length()>1 ) //one character is nothing
+			    if(hilf.at(j)!='/' && hilf.at(j+1)!='/')
 				{                  		   
-				
+			    	//cout<<endl<<"line"<<count<<" "<<hilf<<flush;
+
 					//[GENERAL]
 					   size_t find_0_1=0;
 	              	      find_0_1=hilf.find(s_0_1)+1;  
@@ -924,9 +928,15 @@ bool CCam_bore::read_from_ini(const char *datname)
 	 SET_TXT.clear();
 	 
 	 if(count!=41)
+	 {
+		 cout<<endl<<"Fail to read calibration file!! "<<datname<<flush;
 		 return false;
+	 }
 
-	return true;
+	 cout<<endl<<"OK -> reading calibration file "<<datname<<flush;
+	 //cout<<endl<<(*this);
+
+ return true;
 }
 
 bool  CCam_bore::write_in_ini(const char *datname)
@@ -983,10 +993,11 @@ bool  CCam_bore::write_in_ini(const char *datname)
 	SET_TXT<<std::endl<<"CALIB_OUTER_DATE="			<<(*this).m_calib_outer_date;
 	SET_TXT<<std::endl<<"CALIB_OUTER_PERSON="		<<(*this).m_calib_outer_person;
 	SET_TXT<<std::endl<<"CALIB_OUTER_COMMENTS="		<<(*this).m_calib_outer_comments;
-	SET_TXT<<std::endl<<"// principal point [mm]";
+	SET_TXT<<std::endl<<"// principal point [m]";
 	SET_TXT<<std::endl<<"dx="						<<(*this).m_O.get_X();
 	SET_TXT<<std::endl<<"dy="						<<(*this).m_O.get_Y();
-	SET_TXT<<std::endl<<"dz="						<<(*this).m_O.get_Z();		
+	SET_TXT<<std::endl<<"dz="						<<(*this).m_O.get_Z();
+	SET_TXT<<std::endl<<"// orientation angle [rad]";
 	SET_TXT<<std::endl<<"rotx="						<<(*this).get_rotX();
 	SET_TXT<<std::endl<<"roty="						<<(*this).get_rotY();
 	SET_TXT<<std::endl<<"rotz="						<<(*this).get_rotZ();
@@ -995,7 +1006,7 @@ bool  CCam_bore::write_in_ini(const char *datname)
 	SET_TXT<<std::endl<<"CALIB_BORESIDE_DATE="		<<(*this).m_calib_boreside_date;
 	SET_TXT<<std::endl<<"CALIB_BORESIDE_PERSON="	<<(*this).m_calib_boreside_person;
 	SET_TXT<<std::endl<<"CALIB_BORESIDE_COMMENTS="  <<(*this).m_calib_boreside_comments;
-	SET_TXT<<std::endl<<"// translation [mm]";
+	SET_TXT<<std::endl<<"// translation [m]";
 	SET_TXT<<std::endl<<"B_dx="						<<(*this).m_B_dx;
 	SET_TXT<<std::endl<<"B_dy="						<<(*this).m_B_dy;
 	SET_TXT<<std::endl<<"B_dz="						<<(*this).m_B_dz;
@@ -1057,5 +1068,77 @@ bool CCam_bore::copy_relative_orientation(const CCam_bore &C)
 //TODO input the standard deviation into the cam class
 
 return true;
+}
+
+ostream& operator<<(ostream& s,const CCam_bore& C)
+{
+		s.precision(10);
+		s.setf(ios::left,ios::showpoint);
+		s.setf(ios::showbase);
+
+		s<<"[GENERAL]";
+		s<<std::endl<<"CAMERA_NAME="				<<C.get_camera_name();
+		s<<std::endl<<"//in [pixel]";
+		s<<std::endl<<"SENSOR_WIDTH_PIX="			<<C.get_pix_row();
+		s<<std::endl<<"SENSOR_HEIGHT_PIX="		<<C.get_pix_col();
+		s<<std::endl<<"CHANNELS="					<<C.get_channels();
+		s<<std::endl<<"CAMERA_SERIAL_NUMBER="		<<C.get_camera_serial_number();
+		s<<std::endl<<"//pixel size in [mm]";
+		s<<std::endl<<"PIXELSIZE="				<<C.get_pix_size();
+		s<<std::endl<<"";
+		s<<std::endl<<"[OBJECTIV]";
+		s<<std::endl<<"OBJECTIV_NAME="			<<C.get_objectiv_name();
+		s<<std::endl<<"//focal length in [mm]";
+		s<<std::endl<<"FOCAL_LENGTH="				<<C.get_focal_length();
+		s<<std::endl<<"OBJECTIV_SERIAL_NUMBER="	<<C.get_objectiv_serial_number();
+		s<<std::endl<<"";
+		s<<std::endl<<"[INNER_ORIENTATION]";
+		s<<std::endl<<"CALIB_INNER_DATE="			<<C.get_calib_inner_date();
+		s<<std::endl<<"CALIB_INNER_PERSON="		<<C.get_calib_inner_person();
+		s<<std::endl<<"CALIB_INNER_COMMENTS="		<<C.get_calib_inner_comments();
+		s<<std::endl<<"//focal length calibrated [mm]";
+		s<<std::endl<<"c=-"						<<fabs(C.get_c());
+		s<<std::endl<<"//principal point [mm]";
+		s<<std::endl<<"xh="						<<C.get_xh();
+		s<<std::endl<<"yh="						<<C.get_yh();
+		s<<std::endl<<"//distorsion radial";
+		s<<std::endl<<"a1="						<<C.get_A1();
+		s<<std::endl<<"a2="						<<C.get_A2();
+		s<<std::endl<<"a3="						<<C.get_A3();
+		s<<std::endl<<"//distorsion asymmetric and tangential";
+		s<<std::endl<<"b1="						<<C.get_B1();
+		s<<std::endl<<"b2="						<<C.get_B2();
+		s<<std::endl<<"//distorsion affinity and shearing";
+		s<<std::endl<<"c1="						<<C.get_C1();
+		s<<std::endl<<"c2="						<<C.get_C2();
+		s<<std::endl<<"//r0-parameter";
+		s<<std::endl<<"r0="						<<C.get_r0();
+		s<<std::endl<<"";
+		s<<std::endl<<"[OUTER_ORIENTATION]";
+		s<<std::endl<<"CALIB_OUTER_DATE="			<<C.get_calib_outer_date();
+		s<<std::endl<<"CALIB_OUTER_PERSON="		<<C.get_calib_outer_person();
+		s<<std::endl<<"CALIB_OUTER_COMMENTS="		<<C.get_calib_outer_comments();
+		s<<std::endl<<"// principal point [m]";
+		s<<std::endl<<"dx="						<<C.get_O().get_X();
+		s<<std::endl<<"dy="						<<C.get_O().get_Y();
+		s<<std::endl<<"dz="						<<C.get_O().get_Z();
+		s<<std::endl<<"rotx="						<<C.get_rotX();
+		s<<std::endl<<"roty="						<<C.get_rotY();
+		s<<std::endl<<"rotz="						<<C.get_rotZ();
+		s<<std::endl<<"";
+		s<<std::endl<<"[BORESIDE_ALIGNEMENT]";
+		s<<std::endl<<"CALIB_BORESIDE_DATE="		<<C.get_calib_boreside_date();
+		s<<std::endl<<"CALIB_BORESIDE_PERSON="	<<C.get_calib_boreside_person();
+		s<<std::endl<<"CALIB_BORESIDE_COMMENTS="  <<C.get_calib_boreside_comments();
+		s<<std::endl<<"// translation [m]";
+		s<<std::endl<<"B_dx="						<<C.get_B_dx();
+		s<<std::endl<<"B_dy="						<<C.get_B_dy();
+		s<<std::endl<<"B_dz="						<<C.get_B_dz();
+		s<<std::endl<<"// orientation angle [rad]";
+		s<<std::endl<<"B_rotx="					<<C.get_B_rotx();
+		s<<std::endl<<"B_roty="					<<C.get_B_roty();
+		s<<std::endl<<"B_rotz="					<<C.get_B_rotz();
+
+return s;
 }
 

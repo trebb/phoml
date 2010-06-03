@@ -300,7 +300,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 
 			   char s_7_3[]="rotz=";
 
- int cout=0;
+ int count=0;
 	
  while(getline(SET_TXT,hilf))
  {					
@@ -315,7 +315,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					   stringstream stream; stream<<hilf.c_str(); //c_str() ein Befehl in der Klasse string, schiebe den Rest von hilfe in 
 					                                              //stream, welches als stringstream deklariert wurden, nur hier kann man reinkopieren ....
 					   hilf.erase(); 	   stream>>m_pix_row;
-					   ++cout;
+					   ++count;
 					  }
               
 
@@ -326,7 +326,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_0_2-2)+sizeof(s_0_2));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_pix_col;
-					   ++cout;
+					   ++count;
 					  }
 					  
 
@@ -337,7 +337,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_0_3-2)+sizeof(s_0_3));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_pix_size;
-					   ++cout;
+					   ++count;
 					  }
 			
 				
@@ -349,7 +349,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_c;
 					   m_c=-fabs(m_c);
-					   ++cout;
+					   ++count;
 					  }
 
 
@@ -360,7 +360,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_1_0-2)+sizeof(s_1_0));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_xh;
-					   ++cout;
+					   ++count;
 					  }
               
 
@@ -371,7 +371,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_1_1-2)+sizeof(s_1_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_yh;
-					   ++cout;
+					   ++count;
 					  }          
 					  
 				  size_t find_2_1=0;
@@ -381,7 +381,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_2_1-2)+sizeof(s_2_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_A1;
-					   ++cout;
+					   ++count;
 					  }              
 
 
@@ -392,7 +392,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_2_2-2)+sizeof(s_2_2));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_A2;
-					   ++cout;
+					   ++count;
 					  } 
 
 					  
@@ -403,7 +403,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_2_3-2)+sizeof(s_2_3));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_A3;
-					   ++cout;
+					   ++count;
 					  } 
 
 
@@ -414,7 +414,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_3_1-2)+sizeof(s_3_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_B1;
-					   ++cout;
+					   ++count;
 					  }              
 
 
@@ -425,7 +425,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_3_2-2)+sizeof(s_3_2));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_B2;
-					   ++cout;
+					   ++count;
 					  } 
 
 
@@ -436,7 +436,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_4_1-2)+sizeof(s_4_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_C1;
-					   ++cout;
+					   ++count;
 					  }              
 
 
@@ -447,7 +447,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_4_2-2)+sizeof(s_4_2));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_C2;
-					   ++cout;
+					   ++count;
 					  }
 					  
 
@@ -458,7 +458,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_5_1-2)+sizeof(s_5_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_r0;
-					   ++cout;
+					   ++count;
 					  }
 
 
@@ -470,7 +470,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); double m_OX=0.0;   stream>>m_OX;
 					   m_O.set_X(m_OX);
-					   ++cout;
+					   ++count;
 					  }              
 
 
@@ -482,7 +482,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); double m_OY=0.0;   stream>>m_OY;
 					   m_O.set_Y(m_OY);
-					   ++cout;
+					   ++count;
 					  } 
 
 					  
@@ -494,7 +494,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); double m_OZ=0.0;  stream>>m_OZ;
 					   m_O.set_Z(m_OZ);
-					   ++cout;
+					   ++count;
 					  } 
 
 
@@ -505,7 +505,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_7_1-2)+sizeof(s_7_1));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_rotX;
-					   ++cout;
+					   ++count;
 					  }              
 
 
@@ -516,7 +516,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_7_2-2)+sizeof(s_7_2));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_rotY;
-					   ++cout;
+					   ++count;
 					  } 
 
 					  
@@ -527,7 +527,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  {hilf.erase(0,(find_7_3-2)+sizeof(s_7_3));
 					   stringstream stream; stream<<hilf.c_str();
 					   hilf.erase(); 	   stream>>m_rotZ;
-					   ++cout;
+					   ++count;
 					  } 
 
 				  
@@ -538,8 +538,13 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
  SET_TXT.close();
  SET_TXT.clear();
 
- if(cout != 20)
+ if(count != 20)
+ {
+  cout<<endl<<"Fail to read calibration file!! "<<datname<<flush;
   return false;
+ }
+ cout<<endl<<"OK -> reading calibration file "<<datname<<flush;
+ //cout<<endl<<(*this);
  return true;
 }
 
@@ -607,4 +612,55 @@ bool Cam::write_in_ini(const char *datname)
  }
 
 return true;
+}
+
+ostream& operator<<(ostream& s,const Cam& C)
+{
+	  s.precision(10);
+	  s.setf(ios::left,ios::showpoint);
+	  s.setf(ios::showbase);
+
+	  s<<"//in Pixel"<<endl;
+	  s<<"SensorBreitePix="<<C.get_pix_row()<<endl;
+	  s<<"SensorHoehePix="<<C.get_pix_col()<<endl<<endl;
+
+	  s<<"//Pixelgroee in [mm]"<<endl;
+	  s<<"Pixelgroesse="<<C.get_pix_size()<<endl<<endl;
+
+	  s<<"//KameraKonstante in [mm]"<<endl;
+	  s<<"c= "<<C.get_c()<<endl<<endl;
+
+	  s<<"// Werte der inneren Orientierung"<<endl;
+	  s<<"// Hauptpunkt [mm]"<<endl;
+	  s<<"xh="<<C.get_xh()<<endl;
+	  s<<"yh="<<C.get_yh()<<endl<<endl;
+
+	  s<<"// Verzeichnungsparameter Radialsymmetrik"<<endl,
+	  s<<"a1="<<C.get_A1()<<endl;
+	  s<<"a2="<<C.get_A2()<<endl;
+	  s<<"a3="<<C.get_A3()<<endl<<endl;
+
+	  s<<"// asymmterische und tangentiale Verzeichnung"<<endl;
+	  s<<"b1="<<C.get_B1()<<endl;
+	  s<<"b2="<<C.get_B2()<<endl<<endl;
+
+	  s<<"// Affinitt und Scherung"<<endl;
+	  s<<"c1="<<C.get_C1()<<endl;
+	  s<<"c2="<<C.get_C2()<<endl<<endl;
+
+	  s<<"// r0-Parameter"<<endl;
+	  s<<"r0="<<C.get_r0()<<endl<<endl;
+
+	  s<<"//äußere Orientierung [mm]"<<endl;
+
+	  s<<"dx= "<<C.get_O().get_X()<<endl;
+	  s<<"dy= "<<C.get_O().get_Y()<<endl;
+	  s<<"dz= "<<C.get_O().get_Z()<<endl<<endl;
+
+	  s<<"// in [rad]"<<endl;
+	  s<<"rotx="<<C.get_rotX()<<endl;
+	  s<<"roty="<<C.get_rotY()<<endl;
+	  s<<"rotz="<<C.get_rotZ()<<endl<<endl;
+
+ return s;
 }

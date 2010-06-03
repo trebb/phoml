@@ -67,22 +67,22 @@ public:
 	operator Cam () const;
 	
 	//get funktions
-	Point  get_B()   {Point P(m_B_dx,m_B_dy,m_B_dz); P.set_dX(m_B_ddx); P.set_dY(m_B_ddy);P.set_dZ(m_B_ddz);return P;}
-	double get_B_dx(){return m_B_dx;}
-	double get_B_dy(){return m_B_dy;}
-	double get_B_dz(){return m_B_dz;}
+	Point  get_B()    const {Point P(m_B_dx,m_B_dy,m_B_dz); P.set_dX(m_B_ddx); P.set_dY(m_B_ddy);P.set_dZ(m_B_ddz);return P;}
+	double get_B_dx() const {return m_B_dx;}
+	double get_B_dy() const {return m_B_dy;}
+	double get_B_dz() const {return m_B_dz;}
 	
-	double get_B_ddx(){return m_B_ddx;}
-	double get_B_ddy(){return m_B_ddy;}
-	double get_B_ddz(){return m_B_ddz;}
+	double get_B_ddx() const {return m_B_ddx;}
+	double get_B_ddy() const {return m_B_ddy;}
+	double get_B_ddz() const {return m_B_ddz;}
 	
-	double get_B_rotx(){return m_B_rotx;}
-	double get_B_roty(){return m_B_roty;}
-	double get_B_rotz(){return m_B_rotz;}
+	double get_B_rotx() const {return m_B_rotx;}
+	double get_B_roty() const {return m_B_roty;}
+	double get_B_rotz() const {return m_B_rotz;}
 	
-	double get_B_drotx(){return m_B_drotx;}
-	double get_B_droty(){return m_B_droty;}
-	double get_B_drotz(){return m_B_drotz;}
+	double get_B_drotx() const {return m_B_drotx;}
+	double get_B_droty() const {return m_B_droty;}
+	double get_B_drotz() const {return m_B_drotz;}
 		
 	//set funktions
 	void set_B_dx(double B_dx){m_B_dx=B_dx;}
@@ -102,21 +102,21 @@ public:
 	void set_B_drotz(double B_drotz){m_B_drotz=B_drotz;}
 
 	//secondary get funktions
-	std::string get_camera_name();
-	int         get_channels();
-	std::string get_camera_serial_number();
-	std::string get_objectiv_name();
-	std::string get_focal_length();
-	std::string get_objectiv_serial_number();
-	std::string get_calib_inner_date();
-	std::string get_calib_inner_person();
-	std::string get_calib_inner_comments();
-	std::string get_calib_outer_date();
-	std::string get_calib_outer_person();
-	std::string get_calib_outer_comments();
-	std::string get_calib_boreside_date();
-	std::string get_calib_boreside_person();
-	std::string get_calib_boreside_comments();
+	std::string get_camera_name() const ;
+	int         get_channels() const ;
+	std::string get_camera_serial_number() const ;
+	std::string get_objectiv_name() const ;
+	std::string get_focal_length() const ;
+	std::string get_objectiv_serial_number() const ;
+	std::string get_calib_inner_date() const ;
+	std::string get_calib_inner_person() const ;
+	std::string get_calib_inner_comments() const ;
+	std::string get_calib_outer_date() const ;
+	std::string get_calib_outer_person() const ;
+	std::string get_calib_outer_comments() const ;
+	std::string get_calib_boreside_date() const ;
+	std::string get_calib_boreside_person() const ;
+	std::string get_calib_boreside_comments() const ;
 		
 	//overwrite of Cam funktions
 	bool read_from_ini(const char *datname);
@@ -173,5 +173,8 @@ private:
 	double m_B_droty;
 	double m_B_drotz;
 };
+
+ostream& operator<<(ostream& s,const CCam_bore& A);
+
 
 #endif /*CAM_BORE_H_*/

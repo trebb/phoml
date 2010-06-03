@@ -27,32 +27,32 @@ public:
 	Cam(const Cam &C);
 	
 	
-	double get_pix_row(){return m_pix_row;}
-    double get_pix_col(){return m_pix_col;}
-	double get_pix_size(){return m_pix_size;}
+	double get_pix_row() const {return m_pix_row;}
+    double get_pix_col() const {return m_pix_col;}
+	double get_pix_size() const {return m_pix_size;}
 
-    Point  get_O() {return m_O;}
-	double get_OX(){return m_O.get_X();}
-    double get_OY(){return m_O.get_Y();}
-	double get_OZ(){return m_O.get_Z();}
+    Point  get_O()  const {return m_O;}
+	double get_OX() const {return m_O.get_X();}
+    double get_OY() const {return m_O.get_Y();}
+	double get_OZ() const {return m_O.get_Z();}
     
-	double get_rotX(){return m_rotX;}
-    double get_rotY(){return m_rotY;}
-	double get_rotZ(){return m_rotZ;}
+	double get_rotX() const {return m_rotX;}
+    double get_rotY() const {return m_rotY;}
+	double get_rotZ() const {return m_rotZ;}
 	
-	double get_c() {return m_c;}
-    double get_xh(){return m_xh;}
-	double get_yh(){return m_yh;}
+	double get_c()  const {return m_c;}
+    double get_xh() const {return m_xh;}
+	double get_yh() const {return m_yh;}
 
-	double get_A1(){return m_A1;}
-	double get_A2(){return m_A2;}
-	double get_A3(){return m_A3;}
-	double get_B1(){return m_B1;}
-	double get_B2(){return m_B2;}
-	double get_C1(){return m_C1;}
-	double get_C2(){return m_C2;}
+	double get_A1() const {return m_A1;}
+	double get_A2() const {return m_A2;}
+	double get_A3() const {return m_A3;}
+	double get_B1() const {return m_B1;}
+	double get_B2() const {return m_B2;}
+	double get_C1() const {return m_C1;}
+	double get_C2() const {return m_C2;}
 
-	double get_r0(){return m_r0;}
+	double get_r0() const {return m_r0;}
 	
 	//verfügbare set_ Funktionen um die Ausrichtung der Kamera im Raum zu gewährleisten  
 	void set_rotX(double rotX) {m_rotX = rotX;}
@@ -88,7 +88,7 @@ protected:
             
 };
 
-
+ostream& operator<<(ostream& s,const Cam& C);
 
 
 #endif
