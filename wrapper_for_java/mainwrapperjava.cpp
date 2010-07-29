@@ -4,7 +4,7 @@
 #include "../boreside_alignement/boreside_transformation.h"
 #include "../Basics/fix_values.h"
 
-#include "applanix//applanix.h"
+#include "..//transformation//applanix.h"
 
 CMainWrapperJava::CMainWrapperJava()
 {
@@ -34,7 +34,7 @@ Point CMainWrapperJava::get_3D_Point_global(Point P_local_in_m,CCam_bore cam, do
 
 	CApplanix appl;
 	//appl.calc_approximately_meridian_convergence_degree(E,latitude,Hea);
-	appl.convert_angles_UTM_to_math_coo_system(roll,pitch,heading,mroll,mpitch,mheading);
+	appl.compare_gps_coosystem_degree_to_math_coosystem_pi(roll,pitch,heading,mroll,mpitch,mheading);
 
 	//bore.set_car_position_utm(E,N,eH,rroll,rpitch,rheading);
 	bore.set_car_position_utm(E,N,eH,roll,pitch,heading);
@@ -52,7 +52,7 @@ Point CMainWrapperJava::get_3D_Point_local(Point P_global_E_N_eH_in_m,CCam_bore 
 
 	CApplanix appl;
 	//appl.calc_approximately_meridian_convergence_degree(E,latitude,Hea);
-	appl.convert_angles_UTM_to_math_coo_system(roll,pitch,heading,mroll,mpitch,mheading);
+	appl.compare_gps_coosystem_degree_to_math_coosystem_pi(roll,pitch,heading,mroll,mpitch,mheading);
 
 
 	//bore.set_car_position_utm(E,N,eH,rroll,rpitch,rheading);
@@ -73,7 +73,7 @@ Point CMainWrapperJava::get_3D_Point_global_wMC(Point P_local_in_m,CCam_bore cam
 
 	CApplanix appl;
 	appl.calc_approximately_meridian_convergence_degree(E,latitude,heading);
-	appl.convert_angles_UTM_to_math_coo_system(roll,pitch,heading,mroll,mpitch,mheading);
+	appl.compare_gps_coosystem_degree_to_math_coosystem_pi(roll,pitch,heading,mroll,mpitch,mheading);
 
 	bore.set_car_position_utm(E,N,eH,roll,pitch,heading);
 
@@ -90,7 +90,7 @@ Point CMainWrapperJava::get_3D_Point_local_wMC(Point P_global_E_N_eH_in_m,CCam_b
 
 	CApplanix appl;
 	appl.calc_approximately_meridian_convergence_degree(E,latitude,heading);
-	appl.convert_angles_UTM_to_math_coo_system(roll,pitch,heading,mroll,mpitch,mheading);
+	appl.compare_gps_coosystem_degree_to_math_coosystem_pi(roll,pitch,heading,mroll,mpitch,mheading);
 
 	bore.set_car_position_utm(E,N,eH,roll,pitch,heading);
 
