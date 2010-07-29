@@ -116,14 +116,19 @@ Vorwaertsschnitt::Vorwaertsschnitt(vector<BPoint> &BP)//,Point Org
 {
  if(BP.size()>1)
  {
- m_is_error=false;
+  m_is_error=false;
 
  //###############################################
  //Nherungsberechnung des Schnittpunktes
  //2 Geraden die sich schneiden (sollten)
 
- BPoint BP1 = BP[0];
- BPoint BP2 = BP[1];
+ //old
+ //BPoint BP1 = BP[0];
+ //BPoint BP2 = BP[1];
+
+ //new ->problem when change the orientation center the Point into the BP1 is not acutely
+ BPoint BP1(BP.begin()->get_Cam(),BP.begin()->get_m(),BP.begin()->get_n());
+ BPoint BP2((++BP.begin())->get_Cam(),(++BP.begin())->get_m(),(++BP.begin())->get_n());
 
  //cout <<endl<<"m: "<< BP1.get_m()<<" n: "<<BP1.get_n()<< flush;
  //cout <<endl<<"m: "<< BP2.get_m()<<" n: "<<BP2.get_n()<< flush;
@@ -141,7 +146,7 @@ Vorwaertsschnitt::Vorwaertsschnitt(vector<BPoint> &BP)//,Point Org
  OP_0=m_schnittpunkt; // Zuweisen des Nherungswertes
 
  //Anzahl der verfgbaren Bildpunkte:
- int anzahl = BP.size();
+ int anzahl = static_cast<int>( BP.size() );
 
  /*
  //###############################################
@@ -177,8 +182,8 @@ Vorwaertsschnitt::Vorwaertsschnitt(vector<BPoint> &BP)//,Point Org
  int i=0,k,j; //Laufvariable fr Abbruch
  Point dOP(100,100,100); //Differenz zwischen dem NherungsObjektpunkt und neu berechnetem Objektpunkt
 
-while(!( fabs(dOP.get_X())<0.00000001 && fabs(dOP.get_Y())<0.00000001 && fabs(dOP.get_Z())<0.00000001 ) )
-{
+ while(!( fabs(dOP.get_X())<0.00000001 && fabs(dOP.get_Y())<0.00000001 && fabs(dOP.get_Z())<0.00000001 ) )
+ {
 	Matrix A(anzahl*2,3,Null);
 	Matrix l(anzahl*2,1,Null);
 	for(k=0,j=0;k<anzahl*2;k=k+2,j++)
@@ -250,18 +255,22 @@ while(!( fabs(dOP.get_X())<0.00000001 && fabs(dOP.get_Y())<0.00000001 && fabs(dO
 	OP.set_dY( sy );
 	OP.set_dZ( sz );
 
- ++i;
- if(i>1000)
- {
-     m_is_error=true;
-	 break;
-	 //cout<< "i ist grer als 1000!!!\n";
- }
+	 if(i>1000)
+	 {
+		 m_is_error=true;
+		 cerr << endl << "(VWS) ERROR more than 1000 iterations !!!\n" <<flush;
+		 break;
+	 }
 
-}//Ende der while-Schleife
+	 ++i;
+ }//Ende der while-Schleife
 
  m_schnittpunkt=OP;
 
  }
- else m_is_error=true;
+ else
+ {m_is_error=true;
+ }
+
+
 }

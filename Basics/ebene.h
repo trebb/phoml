@@ -13,6 +13,7 @@ class Ebene
 public:
  Ebene();
  Ebene(Point N,double D);
+ Ebene(double nx,double ny,double nz,double D);
  Ebene(list<Point> &KooL);
  Ebene(const Ebene& E );
  ~Ebene();
@@ -33,13 +34,16 @@ public:
  //double SchnittWinkel  (Ebene &E);
  //Point  Schnitt        (Ebene &E1,Ebene &E1);
 
+ Ebene Rotation(Point& X0, Matrix& R);
+ Ebene RotationRueck(Point& X0, Matrix& R);
+
  bool write(std::string &filename);
  bool read(std::string &filename);
 
 private:
 
-  Point m_n; //Normalenvektor
-  double m_d; //Abstand zum Koordinatenursprung
+  Point m_n; //Normalenvektor (normal vector from the "Hessische Normalform")
+  double m_p; //Abstand zum Koordinatenursprung (distance from the oringin point) ( math. p = |d| / ||n|| )
 
 };
 
@@ -58,7 +62,7 @@ inline ostream& operator<<(ostream& s,const Ebene &E)
 	//<<setfill(' ')<<setw(precision+vorkommastellen+1)
 	<<E.get_N()
 	<<","
-	<<" d:"
+	<<" p:"
 	<<setfill(' ')<<setw(precision+vorkommastellen+1)
 	<<E.get_D()
 	<<") ";

@@ -929,11 +929,11 @@ bool CCam_bore::read_from_ini(const char *datname)
 	 
 	 if(count!=41)
 	 {
-		 cout<<endl<<"Fail to read calibration file!! "<<datname<<flush;
+		 cout<<endl<<"CAM_BORE -> ERROR - Fail to read calibration file!! "<<datname<<flush;
 		 return false;
 	 }
 
-	 cout<<endl<<"OK -> reading calibration file "<<datname<<flush;
+	 cout<<endl<<"CAM_BORE -> OK - reading calibration file "<<datname<<flush;
 	 //cout<<endl<<(*this);
 
  return true;

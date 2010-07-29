@@ -7,13 +7,19 @@
 Ebene::Ebene()
 {
  (*this).m_n = Point(0.0,0.0,1.0);
- (*this).m_d = 0.0;
+ (*this).m_p = 0.0;
 }
 
 Ebene::Ebene(Point N,double D)
 {
  m_n=N.Norm();
- m_d=D;
+ m_p=D;
+}
+
+Ebene::Ebene(double nx,double ny,double nz,double D)
+{
+ (*this).m_n = Point(nx,ny,nz).Norm();
+ (*this).m_p = D;
 }
 
 Ebene::Ebene(list<Point> &KooL)
@@ -68,11 +74,9 @@ Ebene::Ebene(list<Point> &KooL)
 	  //double d;
 	  
 	  m_n=KooEv;
-	  //m_d=KooEv.Mult(Koo_Schw)*(-1.0);//change problems
-	  m_d=KooEv.Mult(Koo_Schw)*(1.0);//change problems
-	   
-	  //m_d = (Point(sum_x/KooL.size(),sum_y/KooL.size(),sum_z/KooL.size()).Mult(KooEv))/KooL.size();
-	  //cout<<endl<<"d_alt:"<<m_d<<"d_neu: "<<d<<flush;
+	  //m_p=KooEv.Mult(Koo_Schw)*(-1.0);
+	  m_p=KooEv.Mult(Koo_Schw)*(1.0);//change problems
+
 	}
 }
 
@@ -88,13 +92,13 @@ Ebene::~Ebene()
 Ebene& Ebene::operator= (const Ebene &E)
 {
 	 (*this).m_n=E.get_N();
-	 (*this).m_d=E.get_D();
+	 (*this).m_p=E.get_D();
   return (*this);
 }
 
 bool Ebene::operator== (const Ebene &E)
 {
-	return ((*this).m_n==E.get_N() && (*this).m_d==E.get_D());
+	return ((*this).m_n==E.get_N() && (*this).m_p==E.get_D());
 }
 
 Point Ebene::get_N() const 
@@ -104,12 +108,12 @@ Point Ebene::get_N() const
     
 double Ebene::get_D() const
 { 
- return m_d; 
+ return m_p; 
 }
 
 double Ebene::Abstand(const Point &P)
 {
- return m_n.Mult(P)-m_d;
+ return m_n.Mult(P)-m_p;
 }
 
 Gerade Ebene::Schnitt(Ebene &E)
@@ -195,7 +199,7 @@ Point Ebene::Durchstoss(Gerade &G)
  
  Point P=GO.Add( 
  	            GR.MultS(
- 	                            ( (*this).m_d-(*this).m_n.Mult(GO) ) /
+ 	                            ( (*this).m_p-(*this).m_n.Mult(GO) ) /
  	                            ( (*this).m_n.Mult(GR)                )
  							   )
  			         );
@@ -212,6 +216,93 @@ Point Ebene::LotFussP       (Point &P)
  PL = (*this).Durchstoss(G);
 
  return PL;
+}
+
+Ebene Ebene::Rotation(Point& X0, Matrix& R)
+{
+ //steps for point generate
+ Point Px_d(0.0,10.0,10.0);
+ Point Py_d(10.0,0.0,10.0);
+ Point Pz_d(10.0,10.0,0.0);
+ Point Px(10000.0,10000.0,10000.0),Py(10000.0,10000.0,10000.0),Pz(10000.0,10000.0,10000.0);
+
+ //point generate
+ std::list<Point> pl;
+ int c=0;
+ while(c!=100)
+ {
+  Px = Px.Add(Px_d);
+  Py = Py.Add(Py_d);
+  Pz = Pz.Add(Pz_d);
+
+  //add to the point vector
+  pl.push_back(Px);
+  pl.push_back(Py);
+  pl.push_back(Pz);
+
+  pl.push_back(Px.MultS(-1.0));
+  pl.push_back(Py.MultS(-1.0));
+  pl.push_back(Pz.MultS(-1.0));
+
+  ++c;
+ }
+
+ //transform the points on to the plain
+
+ std::list<Point>::iterator ipl = pl.begin();
+ while(ipl!=pl.end())
+ {
+  *ipl=(*this).LotFussP(*ipl).RotationRueck(X0,R);
+  ++ipl;
+ }
+
+ //calc the average plane
+ Ebene E(pl);
+
+  return E;
+}
+
+Ebene Ebene::RotationRueck(Point& X0, Matrix& R)
+{
+	 //steps for point generate
+	 Point Px_d(0.0,10.0,10.0);
+	 Point Py_d(10.0,0.0,10.0);
+	 Point Pz_d(10.0,10.0,0.0);
+	 Point Px(10000.0,10000.0,10000.0),Py(10000.0,10000.0,10000.0),Pz(10000.0,10000.0,10000.0);
+
+	 //point generate
+	 std::list<Point> pl;
+	 int c=0;
+	 while(c!=10)
+	 {
+	  Px = Px.Add(Px_d);
+	  Py = Py.Add(Py_d);
+	  Pz = Pz.Add(Pz_d);
+
+	  //add to the point vector (+ and - values)
+	  pl.push_back(Px);
+	  pl.push_back(Py);
+	  pl.push_back(Pz);
+
+	  pl.push_back(Px.MultS(-1.0));
+	  pl.push_back(Py.MultS(-1.0));
+	  pl.push_back(Pz.MultS(-1.0));
+
+	  ++c;
+	 }
+
+	 //transform the points on to the plain and rotate into the new coordinate system
+	 std::list<Point>::iterator ipl = pl.begin();
+	 while(ipl!=pl.end())
+	 {
+		 *ipl=(*this).LotFussP(*ipl).RotationRueck(X0,R);
+		 ++ipl;
+	 }
+
+	 //calc the average plane
+	 Ebene E(pl);
+
+	 return E;
 }
 
 bool Ebene::write(std::string &filename)
@@ -231,7 +322,7 @@ bool Ebene::write(std::string &filename)
 		SET_TXT<<std::endl<<""				<<(*this).m_n.get_X();
 		SET_TXT<<std::endl<<""				<<(*this).m_n.get_Y();
 		SET_TXT<<std::endl<<""				<<(*this).m_n.get_Z();
-		SET_TXT<<std::endl<<""				<<(*this).m_d;
+		SET_TXT<<std::endl<<""				<<(*this).m_p;
 		
 	  SET_TXT.close();
 	  SET_TXT.clear();
@@ -299,7 +390,7 @@ bool Ebene::read(std::string &filename)
 	  m_n.set_X(nx);
 	  m_n.set_Y(ny);
 	  m_n.set_Z(nz);
-	  m_d=d;
+	  m_p=d;
 	  
  return true;
 }

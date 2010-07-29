@@ -14,7 +14,7 @@ void CBPointList::addBPoint(BPoint bp)
 }
 int CBPointList::size()
 {
-	return m_BPoint_List.size();
+	return static_cast<int>(m_BPoint_List.size());
 }
 void CBPointList::clearBPointList()
 {

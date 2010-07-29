@@ -559,14 +559,19 @@ bool Cam::write_in_ini(const char *datname)
   string hilf;
   //int j=0;
   
-  SET_TXT<<"//in Pixel"<<endl;
+  SET_TXT.precision(10);
+  SET_TXT.setf(ios::left,ios::showpoint);
+  SET_TXT.setf(ios::showbase);
+
+
+  SET_TXT<<"// in Pixel"<<endl;
   SET_TXT<<"SensorBreitePix="<<m_pix_row<<endl;
   SET_TXT<<"SensorHoehePix="<<m_pix_col<<endl<<endl;
 
-  SET_TXT<<"//Pixelgroee in [mm]"<<endl;
+  SET_TXT<<"// Pixelgroee in [mm]"<<endl;
   SET_TXT<<"Pixelgroesse="<<m_pix_size<<endl<<endl;
 
-  SET_TXT<<"//KameraKonstante in [mm]"<<endl;
+  SET_TXT<<"// KameraKonstante in [mm]"<<endl;
   SET_TXT<<"c= "<<m_c<<endl<<endl;
 
   SET_TXT<<"// Werte der inneren Orientierung"<<endl;
@@ -590,17 +595,10 @@ bool Cam::write_in_ini(const char *datname)
   SET_TXT<<"// r0-Parameter"<<endl;
   SET_TXT<<"r0="<<m_r0<<endl<<endl;
 
-  SET_TXT<<"//uere Orientierung [mm]"<<endl;
-  char hilfstring[100];
-  sprintf(hilfstring,"dx= %12.4f",m_O.get_X());
-  SET_TXT<<hilfstring<<endl;
-  sprintf(hilfstring,"dy= %12.4f",m_O.get_Y());
-  SET_TXT<<hilfstring<<endl;
-  sprintf(hilfstring,"dz= %12.4f",m_O.get_Z());
-  SET_TXT<<hilfstring<<endl<<endl;
-  //SET_TXT<<"dx= "<<m_O.get_X()<<endl;
-  //SET_TXT<<"dy= "<<m_O.get_Y()<<endl;
-  //SET_TXT<<"dz= "<<m_O.get_Z()<<endl<<endl;
+  SET_TXT<<"// äußere Orientierung [?]"<<endl;
+  SET_TXT<<"dx= "<<m_O.get_X()<<endl;
+  SET_TXT<<"dy= "<<m_O.get_Y()<<endl;
+  SET_TXT<<"dz= "<<m_O.get_Z()<<endl<<endl;
 
   SET_TXT<<"// in [rad]"<<endl;
   SET_TXT<<"rotx="<<m_rotX<<endl;
