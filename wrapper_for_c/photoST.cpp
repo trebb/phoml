@@ -5,25 +5,6 @@
 #include <vector>
 #include <string>
 
-
-
-/*
-#if defined(_MSC_VER)
-
-//for ms compiler
-#include "point.h"
-#include "cam.h"
-#include "cam_bore.h"
-#include "bpoint.h"
-#include "forward_intersection.h"
-
-//include boreside_transformation
-#include "applanix.h"
-#include "boreside_transformation.h"
-
-#else
-*/
-
 //for gcc compiler
 #include "../Basics/point.h"
 #include "../Photo/bpoint.h"
@@ -37,16 +18,14 @@
 //#endif
 
 //set the compiler specific calls for the interface export
-
-//#if defined(_MSC_VER)
-//	#include <windows.h>
-//#endif
+#if defined(_MSC_VER)
+	#include <windows.h>
+#endif
 
 //own header with the "C" export interface
 #include "photoST.h"
 
 //declaration is included in the header file
-
 #if defined(_MSC_VER)
  #define _DLL_EXPORT
 
@@ -82,13 +61,14 @@ static std::vector<BPoint> lBPoint;
 static int m_saved_cams = 0;
 static int m_used_cams  = 0;
 
-static bool m_is_set_mn								=false;
-static bool m_is_set_LocalMeasurementPoint			=false;
-static bool m_is_set_GlobalMeasurementPoint			=false;
-static bool m_is_set_GlobalCarReferencePoint		=false;
-static bool m_is_set_GlobalCarReferencePoint_std	=false;
-static bool m_is_set_GlobalReferenceFrame			=false;
-static bool m_is_set_RefGroundSurface				=false;
+static bool m_is_set_mn										=false;
+static bool m_is_set_LocalMeasurementPoint					=false;
+static bool m_is_set_GlobalMeasurementPoint					=false;
+static bool m_is_set_GlobalCarReferencePoint				=false;
+static bool m_is_set_GlobalCarReferencePoint_std			=false;
+static bool m_is_set_GlobalReferenceFrame					=false;
+static bool m_is_set_RefGroundSurface						=false;
+static bool m_is_set_GlobalCarReferencePoint_CamSetGlobal	=false;
 
 static bool m_is_calc_vws							=false;
 static bool m_is_calc_bore							=false;
@@ -374,29 +354,6 @@ _DLL_EXPORT int STDCALL addBPoint2(		     int pix_row,
 	return 1;
 }
 
-/*
-_DLL_EXPORT void STDCALL addBPoint3(LPCSTR psz_ini_file, double m, double n)
-{
-	//todo test the input parameter!
-
-	//create a boreside cam
-	CCam_bore cam; // = new Cam();
-	//load the ini file
-	cam.read_from_ini(psz_ini_file);
-	//add to the cam list
-	lCam_bore.push_back(cam);
-
-	//create a new picture point
-	BPoint bp( *lCam_bore.end() , m , n );
-	//save the picture into the global list
-	lBPoint.push_back( bp );
-
-	//control
-	m_saved_cams+=1;
-	m_used_cams+=1;
-}
-*/
-
 _DLL_EXPORT void STDCALL addGlobalCarReferencePoint(double Easting, double Northing, double eHeigth, double roll, double pitch, double heading, double latitude, double longitude)
 {
 	I.m_Easting 	= Easting;
@@ -476,8 +433,8 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_CamSetGlobal(double Easting,
 	lBPoint.rbegin()->get_Cam_Ref().set_rotY(p);
 	lBPoint.rbegin()->get_Cam_Ref().set_rotZ(h);
 
-	m_is_set_GlobalCarReferencePoint	=true;
-
+	m_is_set_GlobalCarReferencePoint				= true;
+	m_is_set_GlobalCarReferencePoint_CamSetGlobal 	= true;
 }
 
 _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_std(double dEasting, double dNorthing, double deHeigth, double droll, double dpitch, double dheading)
@@ -797,19 +754,33 @@ _DLL_EXPORT int STDCALL calculate()
 	//calc global measurement point > boreside calibration
 	if( m_is_set_LocalMeasurementPoint && m_is_set_GlobalCarReferencePoint && m_is_set_GlobalReferenceFrame)
 	{
-		CBoreside_transformation bore(*lCam_bore.begin());
-
-		if(!m_is_set_GlobalCarReferencePoint_std)
-			I.m_dEasting=I.m_dNorthing=I.m_deHeigth=I.m_droll=I.m_dpitch=I.m_dheading=0.0;
-
-		//cout<<endl<<"carpos: E: "<<m_Easting<<"  N:"<<m_Northing<<"  H:"<<m_eHeigth<<"  r:"<<m_roll<<"  p:"<<m_pitch<<"  h:"<<m_heading;
-		bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeigth,I.m_roll,I.m_pitch,I.m_heading);
-
-		//cout<<endl<<"intern P local: "<<m_x_local <<" "<< m_y_local <<" "<<  m_z_local;
-		bore.set_local_koordinate( I.m_x_local , I.m_y_local , I.m_z_local );
-
 		Point p;
-		p=bore.get_utm_koordinate();
+
+		if(!m_is_set_GlobalCarReferencePoint_CamSetGlobal)
+		{
+			CBoreside_transformation bore(*lCam_bore.begin());
+
+			if(!m_is_set_GlobalCarReferencePoint_std)
+				I.m_dEasting=I.m_dNorthing=I.m_deHeigth=I.m_droll=I.m_dpitch=I.m_dheading=0.0;
+
+			//cout<<endl<<"carpos: E: "<<m_Easting<<"  N:"<<m_Northing<<"  H:"<<m_eHeigth<<"  r:"<<m_roll<<"  p:"<<m_pitch<<"  h:"<<m_heading;
+			bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeigth,I.m_roll,I.m_pitch,I.m_heading);
+
+			//cout<<endl<<"intern P local: "<<m_x_local <<" "<< m_y_local <<" "<<  m_z_local;
+			bore.set_local_koordinate( I.m_x_local , I.m_y_local , I.m_z_local );
+
+			p=bore.get_utm_koordinate();
+		}
+		else
+		{
+			//for global coordinate into the forwardintersection function -- boresight transformation is not necessary
+			Point tmp(I.m_x_local , I.m_y_local , I.m_z_local);
+			tmp.set_dX(I.m_stdx_local);
+			tmp.set_dY(I.m_stdy_local);
+			tmp.set_dZ(I.m_stdz_local);
+			//I=p;
+			p=tmp;
+		}
 
 		I.m_x_global		=p.get_X();
 		I.m_y_global		=p.get_Y();
