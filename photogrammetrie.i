@@ -5,11 +5,11 @@
 #include "Photo/cam.h"
 #include "Photo/forward_intersection.h"
 #include "boreside_alignement/cam_bore.h"
+#include <vector>
 #include "wrapper_for_java/Vorwaertsschnitt_java.h"
 #include "wrapper_for_java/CBPointList.h"
 #include "wrapper_for_java/mainwrapperjava.h"
-#include <vector>
-#include "wrapper_for_java/CPhotogrammetrieTest.h"
+#include "internal_control/CPhotogrammetrieTest.h"
 %}
 
 class Point
