@@ -61,20 +61,20 @@ static std::vector<BPoint> lBPoint;
 static int m_saved_cams = 0;
 static int m_used_cams  = 0;
 
-static bool m_is_set_mn										=false;
-static bool m_is_set_LocalMeasurementPoint					=false;
-static bool m_is_set_GlobalMeasurementPoint					=false;
-static bool m_is_set_GlobalCarReferencePoint				=false;
-static bool m_is_set_GlobalCarReferencePoint_std			=false;
-static bool m_is_set_GlobalReferenceFrame					=false;
-static bool m_is_set_RefGroundSurface						=false;
-static bool m_is_set_GlobalCarReferencePoint_CamSetGlobal	=false;
-static bool m_is_set_distance_epi							=false;
+static bool m_is_set_mn =false;
+static bool m_is_set_LocalMeasurementPoint =false;
+static bool m_is_set_GlobalMeasurementPoint =false;
+static bool m_is_set_GlobalCarReferencePoint =false;
+static bool m_is_set_GlobalCarReferencePoint_std =false;
+static bool m_is_set_GlobalReferenceFrame =false;
+static bool m_is_set_RefGroundSurface =false;
+static bool m_is_set_GlobalCarReferencePoint_CamSetGlobal =false;
+static bool m_is_set_distance_epi =false;
 
-static bool m_is_calc_vws							=false;
-static bool m_is_calc_bore							=false;
-static bool m_is_calc_lokal_RefGroundSurface		=false;
-static bool m_is_calc_epipolarline					=false;
+static bool m_is_calc_vws =false;
+static bool m_is_calc_bore =false;
+static bool m_is_calc_lokal_RefGroundSurface =false;
+static bool m_is_calc_epipolarline =false;
 
 
 
