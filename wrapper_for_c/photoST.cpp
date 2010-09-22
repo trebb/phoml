@@ -61,18 +61,20 @@ static std::vector<BPoint> lBPoint;
 static int m_saved_cams = 0;
 static int m_used_cams  = 0;
 
-static bool m_is_set_mn =false;
-static bool m_is_set_LocalMeasurementPoint =false;
-static bool m_is_set_GlobalMeasurementPoint =false;
-static bool m_is_set_GlobalCarReferencePoint =false;
-static bool m_is_set_GlobalCarReferencePoint_std =false;
-static bool m_is_set_GlobalReferenceFrame =false;
-static bool m_is_set_RefGroundSurface =false;
-static bool m_is_set_GlobalCarReferencePoint_CamSetGlobal =false;
+static bool m_is_set_mn										=false;
+static bool m_is_set_LocalMeasurementPoint					=false;
+static bool m_is_set_GlobalMeasurementPoint					=false;
+static bool m_is_set_GlobalCarReferencePoint				=false;
+static bool m_is_set_GlobalCarReferencePoint_std			=false;
+static bool m_is_set_GlobalReferenceFrame					=false;
+static bool m_is_set_RefGroundSurface						=false;
+static bool m_is_set_GlobalCarReferencePoint_CamSetGlobal	=false;
+static bool m_is_set_distance_epi							=false;
 
-static bool m_is_calc_vws =false;
-static bool m_is_calc_bore =false;
-static bool m_is_calc_lokal_RefGroundSurface =false;
+static bool m_is_calc_vws							=false;
+static bool m_is_calc_bore							=false;
+static bool m_is_calc_lokal_RefGroundSurface		=false;
+static bool m_is_calc_epipolarline					=false;
 
 
 
@@ -530,7 +532,22 @@ _DLL_EXPORT int STDCALL addRefGroundSurface(double nx, double ny, double nz, dou
 
   m_is_set_RefGroundSurface = true;
 
+ return 1;
+}
+
+_DLL_EXPORT int STDCALL setDistanceForEpipolarLine(double d)
+{
+ if(d>0 && d<100000)
+ {
+  I.m_distance_epi = d;
+  m_is_set_distance_epi = true;
   return 1;
+ }
+ else
+ {
+  cerr<<"Error in epipolar distance!";
+  return 0;
+ }
 }
 
 //delete all parameters
@@ -606,112 +623,149 @@ _DLL_EXPORT void STDCALL del_all()
 
 _DLL_EXPORT void STDCALL show_variabes_and_infos()
 {
-  cout<<endl;
-  cout<<endl<<"#### Begin - output / input values of the photogrammetrie library ########";
+	//test
+	cout.precision(15);
+	cout.setf(ios::left,ios::showpoint);
+	cout.setf(ios::showbase);
 
-  cout<<endl;
-  cout<<endl<<" size of the camera list (lCam_bore)  :"<<lCam_bore.size();
+	cout<<endl;
+    cout<<endl<<"#### Begin - output / input values of the photogrammetrie library ########";
 
-  cout<<endl<<" size of the BPoint list (lBPoint)    :"<<lBPoint.size();
+	cout<<endl;
+	cout<<endl<<" size of the camera list (lCam_bore)  :"<<lCam_bore.size();
 
-  cout<<endl<<" m_is_set_mn bool:"<<m_is_set_mn;
-  if(m_is_set_mn)
+	cout<<endl<<" size of the BPoint list (lBPoint)    :"<<lBPoint.size();
+
+	cout<<endl<<" m_is_set_mn bool:"<<m_is_set_mn;
+	if(m_is_set_mn)
+	{
+		if(lBPoint.size())
+		{
+		        int i=1;
+		        cout<<endl;
+
+		        vector<BPoint>::iterator iBP = lBPoint.begin();
+				while(iBP !=lBPoint.end())
+				{
+					cout<<endl<<"  pixel pair "<<i<<" : ( "<<iBP->get_m()<<" , "<<iBP->get_n()<<" )";
+					++iBP;
+					++i;
+				}
+		}
+		else
+		{
+			cout<<endl;
+			cout<<endl<<"  pixel pair :( "<<I.m_m<<" , "<<I.m_n<<" )";
+		}
+		cout<<endl<<flush;
+
+	}
+
+
+	cout<<endl<<" m_is_set_LocalMeasurementPoint bool  :"<<m_is_set_LocalMeasurementPoint;
+    if(m_is_set_LocalMeasurementPoint)
     {
-      if(lBPoint.size())
-        {
-          int i=1;
-          cout<<endl;
+    	    cout<<endl;
+    	    //local coordinate system for the output (camera_coordinate system)
+    		cout<<endl<<"  m_x_local      :"<<I.m_x_local;
+    		cout<<endl<<"  m_y_local      :"<<I.m_y_local;
+    		cout<<endl<<"  m_z_local      :"<<I.m_z_local;
 
-          vector<BPoint>::iterator iBP = lBPoint.begin();
-          while(iBP !=lBPoint.end())
-            {
-              cout<<endl<<"  pixel pair "<<i<<" : ( "<<iBP->get_m()<<" , "<<iBP->get_n()<<" )";
-              ++iBP;
-              ++i;
-            }
-        }
-      else
-        {
-          cout<<endl;
-          cout<<endl<<"  pixel pair :( "<<I.m_m<<" , "<<I.m_n<<" )";
-        }
-      cout<<endl<<flush;
-
+    		cout<<endl<<"  m_stdx_local   :"<<I.m_stdx_local;
+    		cout<<endl<<"  m_stdy_local   :"<<I.m_stdy_local;
+    		cout<<endl<<"  m_stdz_local   :"<<I.m_stdz_local;
+    		cout<<endl<<flush;
     }
 
+	cout<<endl<<" m_is_set_GlobalMeasurementPoint bool :"<<m_is_set_GlobalMeasurementPoint;
+	if(m_is_set_GlobalMeasurementPoint)
+	{
+		cout<<endl;
+		//global coordinate system for the output (global coordinate system -> depends of the input system)
+		cout<<endl<<"  m_x_global     :"<<I.m_x_global;
+		cout<<endl<<"  m_y_global     :"<<I.m_y_global;
+		cout<<endl<<"  m_z_global     :"<<I.m_z_global;
 
-  cout<<endl<<" m_is_set_LocalMeasurementPoint bool  :"<<m_is_set_LocalMeasurementPoint;
-  if(m_is_set_LocalMeasurementPoint)
+		cout<<endl<<"  m_stdx_global  :"<<I.m_stdx_global;
+		cout<<endl<<"  m_stdy_global  :"<<I.m_stdy_global;
+		cout<<endl<<"  m_stdz_global  :"<<I.m_stdz_global;
+		cout<<endl<<flush;
+	}
+
+	cout<<endl<<" m_is_set_GlobalCarReferencePoint bool:"<<m_is_set_GlobalCarReferencePoint;
+	if(m_is_set_GlobalCarReferencePoint)
+	{
+		cout<<endl;
+		//global reference point of the car
+		cout<<endl<<"  m_Easting      :"<<I.m_Easting;
+		cout<<endl<<"  m_Northing     :"<<I.m_Northing;
+		cout<<endl<<"  m_eHeigth      :"<<I.m_eHeigth;
+		cout<<endl<<"  m_roll         :"<<I.m_roll;
+		cout<<endl<<"  m_pitch        :"<<I.m_pitch;
+		cout<<endl<<"  m_heading      :"<<I.m_heading;
+		cout<<endl<<"  m_latitude     :"<<I.m_latitude;
+		cout<<endl<<"  m_longitude    :"<<I.m_longitude;
+		cout<<endl<<flush;
+	}
+
+	cout<<endl<<" m_is_set_GlobalCarReferencePoint_std bool:"<<m_is_set_GlobalCarReferencePoint_std;
+    if(m_is_set_GlobalCarReferencePoint_std)
     {
-      cout<<endl;
-      //local coordinate system for the output (camera_coordinate system)
-      cout<<endl<<"  m_x_local      :"<<I.m_x_local;
-      cout<<endl<<"  m_y_local      :"<<I.m_y_local;
-      cout<<endl<<"  m_z_local      :"<<I.m_z_local;
+    	cout<<endl;
+    	cout<<endl<<"  m_dEasting     :"<<I.m_dEasting;
+		cout<<endl<<"  m_dNorthing    :"<<I.m_dNorthing;
+		cout<<endl<<"  m_deHeigth     :"<<I.m_deHeigth;
+		cout<<endl<<"  m_droll        :"<<I.m_droll;
+		cout<<endl<<"  m_dpitch       :"<<I.m_dpitch;
+		cout<<endl<<"  m_dheading     :"<<I.m_dheading;
+		cout<<endl<<flush;
 
-      cout<<endl<<"  m_stdx_local   :"<<I.m_stdx_local;
-      cout<<endl<<"  m_stdy_local   :"<<I.m_stdy_local;
-      cout<<endl<<"  m_stdz_local   :"<<I.m_stdz_local;
-      cout<<endl<<flush;
-    }
+	}
 
-  cout<<endl<<" m_is_set_GlobalMeasurementPoint bool :"<<m_is_set_GlobalMeasurementPoint;
-  if(m_is_set_GlobalMeasurementPoint)
-    {
-      cout<<endl;
-      //global coordinate system for the output (global coordinate system -> depends of the input system)
-      cout<<endl<<"  m_x_global     :"<<I.m_x_global;
-      cout<<endl<<"  m_y_global     :"<<I.m_y_global;
-      cout<<endl<<"  m_z_global     :"<<I.m_z_global;
+	cout<<endl<<" m_is_set_GlobalReferenceFrame bool:"<<m_is_set_GlobalReferenceFrame;
+	if(m_is_set_GlobalReferenceFrame)
+	{
+		cout<<endl;
+		//todo variable coordinate systems
+		cout<<endl<<"  WGS 84 / UTM";
+		cout<<endl<<flush;
+	}
 
-      cout<<endl<<"  m_stdx_global  :"<<I.m_stdx_global;
-      cout<<endl<<"  m_stdy_global  :"<<I.m_stdy_global;
-      cout<<endl<<"  m_stdz_global  :"<<I.m_stdz_global;
-      cout<<endl<<flush;
-    }
+	cout<<endl<<" m_is_set_RefGroundSurface bool:"<<m_is_set_RefGroundSurface;
+	if(m_is_set_RefGroundSurface)
+	{
+		cout<<endl;
+		cout<<endl<<"  reference ground plane: ("<<I.m_nx<<","<<I.m_ny<<","<<I.m_nz<<") p: "<<I.m_d;
+		cout<<endl<<flush;
+	}
 
-  cout<<endl<<" m_is_set_GlobalCarReferencePoint bool:"<<m_is_set_GlobalCarReferencePoint;
-  if(m_is_set_GlobalCarReferencePoint)
-    {
-      cout<<endl;
-      //global reference point of the car
-      cout<<endl<<"  m_Easting      :"<<I.m_Easting;
-      cout<<endl<<"  m_Northing     :"<<I.m_Northing;
-      cout<<endl<<"  m_eHeigth      :"<<I.m_eHeigth;
-      cout<<endl<<"  m_roll         :"<<I.m_roll;
-      cout<<endl<<"  m_pitch        :"<<I.m_pitch;
-      cout<<endl<<"  m_heading      :"<<I.m_heading;
-      cout<<endl<<"  m_latitude     :"<<I.m_latitude;
-      cout<<endl<<"  m_longitude    :"<<I.m_longitude;
-      cout<<endl<<flush;
-    }
+	cout<<endl<<" m_is_set_GlobalCarReferencePoint_CamSetGlobal bool:"<< m_is_set_GlobalCarReferencePoint_CamSetGlobal ;
+	if(m_is_set_GlobalCarReferencePoint_CamSetGlobal)
+	{
+		cout<<endl;
+		//global reference point of the car
+		cout<<endl<<"  m_Easting      :"<<I.m_Easting;
+		cout<<endl<<"  m_Northing     :"<<I.m_Northing;
+		cout<<endl<<"  m_eHeigth      :"<<I.m_eHeigth;
+		cout<<endl<<"  m_roll         :"<<I.m_roll;
+		cout<<endl<<"  m_pitch        :"<<I.m_pitch;
+		cout<<endl<<"  m_heading      :"<<I.m_heading;
+		cout<<endl<<"  m_latitude     :"<<I.m_latitude;
+		cout<<endl<<"  m_longitude    :"<<I.m_longitude;
+		cout<<endl<<flush;
+	}
 
-  cout<<endl<<" m_is_set_GlobalCarReferencePoint_std bool:"<<m_is_set_GlobalCarReferencePoint_std;
-  if(m_is_set_GlobalCarReferencePoint_std)
-    {
-      cout<<endl;
-      cout<<endl<<"  m_dEasting     :"<<I.m_dEasting;
-      cout<<endl<<"  m_dNorthing    :"<<I.m_dNorthing;
-      cout<<endl<<"  m_deHeigth     :"<<I.m_deHeigth;
-      cout<<endl<<"  m_droll        :"<<I.m_droll;
-      cout<<endl<<"  m_dpitch       :"<<I.m_dpitch;
-      cout<<endl<<"  m_dheading     :"<<I.m_dheading;
-      cout<<endl<<flush;
+	cout<<endl<<" m_is_set_distance_epi bool:"<< m_is_set_distance_epi;
+	if(m_is_set_distance_epi)
+	{
+		cout<<endl;
+		cout<<endl<<"  distance for calculation a point on the epipolar line:   d: "<<I.m_distance_epi;
+		cout<<endl<<flush;
+	}
 
-    }
-
-  cout<<endl<<" m_is_set_GlobalReferenceFrame        bool:"<<m_is_set_GlobalReferenceFrame;
-  if(m_is_set_GlobalReferenceFrame)
-    {
-      cout<<endl;
-      //todo variable coordinate systems
-      cout<<endl<<"  WGS 84 / UTM";
-      cout<<flush;
-    }
-
-  cout<<endl;
-  cout<<endl<<"#### End - output / input values of the photogrammetrie library ########";
-  cout<<endl<<flush;
+	cout<<endl;
+	cout<<endl<<"#### End - output / input values of the photogrammetrie library ########";
+	cout<<endl<<flush;
 }
 
 
@@ -754,143 +808,163 @@ _DLL_EXPORT int STDCALL calculate()
         }
     }
 
-  //forward intersection from a pixel coordinate to a object ray into a plane
-  //for e.g. mono photogrammetrie with one cam and informations about the ground surface
-  if( 	lCam_bore.size() == 1 &&
-        m_is_set_RefGroundSurface
-        )
-    {
-      //create a plane
-      Ebene E(I.m_nx,I.m_ny,I.m_nz,I.m_d);
+	//calculate a point on the epipolarline
+	if( 	lCam_bore.size() == 2 && lBPoint.size() == 1 &&
+			m_is_set_distance_epi
+			)
+	{
+	  Cam *cam = new Cam(*lCam_bore.rbegin());
 
-      //rotation parameter boreside
-      Point BT;
-      BT = (lCam_bore.rbegin())->get_B();
-      Rot BR(lCam_bore.rbegin()->get_B_rotx(),lCam_bore.rbegin()->get_B_roty(),lCam_bore.rbegin()->get_B_rotz());
+	  BPoint bp = lBPoint.begin()->get_KernlinenPunkt( *cam , I.m_distance_epi );
 
-      E=E.RotationRueck(BT,BR);
+	  delete cam;
 
-      Cam *cam = new Cam(*lCam_bore.rbegin());
-
-      BPoint bp(*cam,I.m_m,I.m_n);
-
-      Point p;
-      p = bp.calc_mono_cam_to_plane_intersection(E);
-
-      I.m_x_local	=p.get_X();
-      I.m_y_local	=p.get_Y();
-      I.m_z_local	=p.get_Z();
-      I.m_stdx_local=p.get_dX();
-      I.m_stdy_local=p.get_dY();
-      I.m_stdz_local=p.get_dZ();
-
-      delete cam;
-
-      //control
-      info=true;
-      m_is_set_LocalMeasurementPoint=true;
-      m_is_calc_lokal_RefGroundSurface=true;
-    }
+	  I.m_m = bp.get_m();
+	  I.m_n = bp.get_n();
 
 
-  //calc global measurement point > boreside calibration
-  if( m_is_set_LocalMeasurementPoint && m_is_set_GlobalCarReferencePoint && m_is_set_GlobalReferenceFrame)
-    {
-      Point p;
+	  m_is_set_distance_epi = false;
+	  m_is_calc_epipolarline =true;
+	  info=true;
+	}
 
-      if(!m_is_set_GlobalCarReferencePoint_CamSetGlobal)
-        {
-          CBoreside_transformation bore(*lCam_bore.begin());
+	//forward intersection from a pixel coordinate to a object ray into a plane
+	//for e.g. mono photogrammetrie with one cam and informations about the ground surface
+	if( 	lCam_bore.size() == 1 &&
+			m_is_set_RefGroundSurface
+			)
+	{
+			//create a plane
+			Ebene E(I.m_nx,I.m_ny,I.m_nz,I.m_d);
 
-          if(!m_is_set_GlobalCarReferencePoint_std)
-            I.m_dEasting=I.m_dNorthing=I.m_deHeigth=I.m_droll=I.m_dpitch=I.m_dheading=0.0;
+			//rotation parameter boreside
+			Point BT;
+			BT = (lCam_bore.rbegin())->get_B();
+			Rot BR(lCam_bore.rbegin()->get_B_rotx(),lCam_bore.rbegin()->get_B_roty(),lCam_bore.rbegin()->get_B_rotz());
 
-          //cout<<endl<<"carpos: E: "<<m_Easting<<"  N:"<<m_Northing<<"  H:"<<m_eHeigth<<"  r:"<<m_roll<<"  p:"<<m_pitch<<"  h:"<<m_heading;
-          bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeigth,I.m_roll,I.m_pitch,I.m_heading);
+			E=E.RotationRueck(BT,BR);
 
-          //cout<<endl<<"intern P local: "<<m_x_local <<" "<< m_y_local <<" "<<  m_z_local;
-          bore.set_local_koordinate( I.m_x_local , I.m_y_local , I.m_z_local );
+			Cam *cam = new Cam(*lCam_bore.rbegin());
 
-          p=bore.get_utm_koordinate();
-        }
-      else
-        {
-          //for global coordinate into the forwardintersection function -- boresight transformation is not necessary
-          Point tmp(I.m_x_local , I.m_y_local , I.m_z_local);
-          tmp.set_dX(I.m_stdx_local);
-          tmp.set_dY(I.m_stdy_local);
-          tmp.set_dZ(I.m_stdz_local);
-          //I=p;
-          p=tmp;
-        }
+			BPoint bp(*cam,I.m_m,I.m_n);
 
-      I.m_x_global		=p.get_X();
-      I.m_y_global		=p.get_Y();
-      I.m_z_global		=p.get_Z();
-      I.m_stdx_global	    =p.get_dX();
-      I.m_stdy_global	    =p.get_dY();
-      I.m_stdz_global	    =p.get_dZ();
+			Point p;
+			p = bp.calc_mono_cam_to_plane_intersection(E);
 
-      //control
-      m_is_calc_bore = true;
-      m_is_set_GlobalMeasurementPoint=true;
-    }
+			I.m_x_local	=p.get_X();
+			I.m_y_local	=p.get_Y();
+			I.m_z_local	=p.get_Z();
+			I.m_stdx_local=p.get_dX();
+			I.m_stdy_local=p.get_dY();
+			I.m_stdz_local=p.get_dZ();
 
+			delete cam;
 
-  //backward calculation from a global point back to pixel coordinate
-  //for e.g. paint the global Point XYZ into the picture
-  if( 	lCam_bore.size() == 1 &&
-        m_is_set_GlobalCarReferencePoint &&
-        m_is_set_GlobalReferenceFrame &&
-        m_is_set_GlobalMeasurementPoint
-        )
-    {
-      //calc the bore side transformation with the global car position
-      CBoreside_transformation bore(*lCam_bore.rbegin());
-
-      CApplanix appl;
-      appl.calc_approximately_meridian_convergence_degree(I.m_Easting,I.m_latitude,I.m_heading);
-      appl.compare_gps_coosystem_degree_to_math_coosystem_pi(I.m_roll,I.m_pitch,I.m_heading,I.m_droll,I.m_dpitch,I.m_dheading);
-
-      bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeigth,I.m_roll,I.m_pitch,I.m_heading);
-
-      bore.set_utm_koordinate(I.m_x_global,I.m_y_global,I.m_z_global);
-
-      Point P_local;
-      P_local = bore.get_local_koordinate();
-
-      Cam *cam = new Cam(*lCam_bore.rbegin());
-      BPoint bp(*cam,P_local.get_X(),P_local.get_Y(),P_local.get_Z());
-
-      I.m_m = bp.get_m();
-      I.m_n = bp.get_n();
-
-      delete cam;
-
-      //control
-      info=true;
-      m_is_set_mn=true;
-    }
+			//control
+			info=true;
+			m_is_set_LocalMeasurementPoint=true;
+			m_is_calc_lokal_RefGroundSurface=true;
+	}
 
 
-  //backward calculation from a local point back to pixel coordinate
-  //for e.g. paint the local Point XYZ into the picture
-  if( 	lCam_bore.size() == 1 &&
-        m_is_set_LocalMeasurementPoint
-        )
-    {
-      Cam *cam = new Cam(*lCam_bore.rbegin());
-      BPoint bp(*cam, I.m_x_local , I.m_y_local , I.m_z_local );
+	//calc global measurement point > boreside calibration
+	if( m_is_set_LocalMeasurementPoint && m_is_set_GlobalCarReferencePoint && m_is_set_GlobalReferenceFrame)
+	{
+		Point p;
 
-      I.m_m = bp.get_m();
-      I.m_n = bp.get_n();
+		if(!m_is_set_GlobalCarReferencePoint_CamSetGlobal)
+		{
+			CBoreside_transformation bore(*lCam_bore.begin());
 
-      delete cam;
+			if(!m_is_set_GlobalCarReferencePoint_std)
+				I.m_dEasting=I.m_dNorthing=I.m_deHeigth=I.m_droll=I.m_dpitch=I.m_dheading=0.0;
 
-      //control
-      info=true;
-      m_is_set_mn=true;
-    }
+			//cout<<endl<<"carpos: E: "<<m_Easting<<"  N:"<<m_Northing<<"  H:"<<m_eHeigth<<"  r:"<<m_roll<<"  p:"<<m_pitch<<"  h:"<<m_heading;
+			bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeigth,I.m_roll,I.m_pitch,I.m_heading);
+
+			//cout<<endl<<"intern P local: "<<m_x_local <<" "<< m_y_local <<" "<<  m_z_local;
+			bore.set_local_koordinate( I.m_x_local , I.m_y_local , I.m_z_local );
+
+			p=bore.get_utm_koordinate();
+		}
+		else
+		{
+			//for global coordinate into the forwardintersection function -- boresight transformation is not necessary
+			Point tmp(I.m_x_local , I.m_y_local , I.m_z_local);
+			tmp.set_dX(I.m_stdx_local);
+			tmp.set_dY(I.m_stdy_local);
+			tmp.set_dZ(I.m_stdz_local);
+			//I=p;
+			p=tmp;
+		}
+
+		I.m_x_global		=p.get_X();
+		I.m_y_global		=p.get_Y();
+		I.m_z_global		=p.get_Z();
+		I.m_stdx_global	    =p.get_dX();
+		I.m_stdy_global	    =p.get_dY();
+		I.m_stdz_global	    =p.get_dZ();
+
+		//control
+		m_is_calc_bore = true;
+		m_is_set_GlobalMeasurementPoint=true;
+	}
+
+
+	//backward calculation from a global point back to pixel coordinate
+	//for e.g. paint the global Point XYZ into the picture
+	if( 	lCam_bore.size() == 1 &&
+			m_is_set_GlobalCarReferencePoint &&
+			m_is_set_GlobalReferenceFrame &&
+			m_is_set_GlobalMeasurementPoint
+			)
+	{
+		    //calc the bore side transformation with the global car position
+		    CBoreside_transformation bore(*lCam_bore.rbegin());
+
+			CApplanix appl;
+			//appl.calc_approximately_meridian_convergence_degree(I.m_Easting,I.m_latitude,I.m_heading);
+			//appl.compare_gps_coosystem_degree_to_math_coosystem_pi(I.m_roll,I.m_pitch,I.m_heading,I.m_droll,I.m_dpitch,I.m_dheading);
+
+			bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeigth,I.m_roll,I.m_pitch,I.m_heading);
+
+			bore.set_utm_koordinate(I.m_x_global,I.m_y_global,I.m_z_global);
+
+			Point P_local;
+			P_local = bore.get_local_koordinate();
+
+			Cam *cam = new Cam(*lCam_bore.rbegin());
+		    BPoint bp(*cam,P_local.get_X(),P_local.get_Y(),P_local.get_Z());
+
+		    I.m_m = bp.get_m();
+		    I.m_n = bp.get_n();
+
+		    delete cam;
+
+			//control
+			info=true;
+			m_is_set_mn=true;
+	}
+
+
+	//backward calculation from a local point back to pixel coordinate
+	//for e.g. paint the local Point XYZ into the picture
+	if( 	lCam_bore.size() == 1 &&
+			m_is_set_LocalMeasurementPoint
+			)
+	{
+			Cam *cam = new Cam(*lCam_bore.rbegin());
+		    BPoint bp(*cam, I.m_x_local , I.m_y_local , I.m_z_local );
+
+		    I.m_m = bp.get_m();
+		    I.m_n = bp.get_n();
+
+		    delete cam;
+
+		    //control
+			info=true;
+			m_is_set_mn=true;
+	}
 
 
 
