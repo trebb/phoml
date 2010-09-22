@@ -102,11 +102,16 @@ struct intern
   //parameter of the geodetic reference frame
   double m_idontknow;
 
-  //reference ground plane
-  double m_nx;
-  double m_ny;
-  double m_nz;
-  double m_d;
+	//reference ground plane
+	double m_nx;
+	double m_ny;
+	double m_nz;
+	double m_d;
+
+	//distance in front of the camera to calculate the point on the epipolarline
+	double m_distance_epi;
+
 };
+
 
 #endif
