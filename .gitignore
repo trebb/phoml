@@ -1,2 +1,6 @@
 *.fasl
 *~
+photo.lisp
+photo-clos.lisp
+bin/
+photogrammetrie*_wrap.cxx

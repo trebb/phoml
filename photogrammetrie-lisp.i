@@ -1,7 +1,11 @@
 %module photo
 
+%insert("lisphead") %{
+  (in-package :photogrammetrie)
+%}
+
 %header %{
-#include "wrapper_for_lisp/photoST.h"
+#include "wrapper_for_c/photoST.h"
 #include "Basics/point.h"
 #include "Photo/bpoint.h"
 #include "Photo/cam.h"
@@ -15,4 +19,4 @@
 %feature("intern_function","1");
 %feature("export");
 
-%include "wrapper_for_lisp/photoST.h";
+%include "wrapper_for_c/photoST.h";

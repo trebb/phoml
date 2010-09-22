@@ -1,8 +1,14 @@
 
 (defsystem :photogrammetrie
-  :depends-on (:verrazano)
+  :depends-on (:cffi)
   :version "0.0"
+  :serial t
   :components
-  ((:file "photogrammetrie")))
-;   (:file "photogrammetrie-cffi-bindings"
-;          :depends-on ("photogrammetrie"))))
+  ((:file "package")
+   (:file "photogrammetrie")
+   (:file "photo")))
+
+(defsystem :photogrammetrie-test
+  :depends-on (:photogrammetrie :rt)
+  :components
+  ((:file "photogrammetrie-test")))
