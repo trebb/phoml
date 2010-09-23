@@ -302,61 +302,63 @@ int main(void)
 
   printf("\nmono measurenment calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
   printf("\nmono measurenment control: (not available -> this function only for testing)\n");
+  printf("\nmono measurenment control: ( 0.410760 , 0.509896 , -3.820846 )\n");
 
   printf("\nbore side calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_global(),get_y_global(),get_z_global(),get_stdx_global(),get_stdy_global(),get_stdz_global());
   printf("\nbore side control: (not available -> this function only for testing)");
+  printf("\nbore side control: (641748.283425 , 5638451.200895 , 299.200014)");
 
   //delete all values (depends of the internal List of bpoints)
   del_all();
 
-  //##################################
+//##################################
 
-  printf("\n############################################\n");
-  printf("multi car position photogrammetrie:\n");
+		printf("\n############################################\n");
+		printf("multi car position photogrammetrie:\n");
 
-  setGlobalReferenceFrame();//todo in process -> for EPS data
+		setGlobalReferenceFrame();//todo in process -> for EPS data
 
-  //picture 13
-  addCam2(cam_left);
-  addBPoint(756.000,345.000);
-  addGlobalCarReferencePoint_CamSetGlobal(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
+		//picture 13
+		addCam2(cam_left);
+		addBPoint(756.000,345.000);
+		addGlobalCarReferencePoint_CamSetGlobal(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
 
-  //picture 13
-  addCam2(cam_right);
-  addBPoint(401.000,370.000);
-  addGlobalCarReferencePoint_CamSetGlobal(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
+		//picture 13
+		addCam2(cam_right);
+		addBPoint(401.000,370.000);
+		addGlobalCarReferencePoint_CamSetGlobal(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
 
-  //picture 12
-  addCam2(cam_left);
-  addBPoint( 715.0 , 325.0 );
-  addGlobalCarReferencePoint_CamSetGlobal(641754.9447785,5638453.2901614,296.8227930,0.0109420,-0.9424530,212.0283640,50.8803453,11.0150821);
+		//picture 12
+		addCam2(cam_left);
+		addBPoint( 715.0 , 325.0 );
+		addGlobalCarReferencePoint_CamSetGlobal(641754.9447785,5638453.2901614,296.8227930,0.0109420,-0.9424530,212.0283640,50.8803453,11.0150821);
 
-  //picture 12
-  addCam2(cam_right);
-  addBPoint( 395.0, 360.0 );
-  addGlobalCarReferencePoint_CamSetGlobal(641754.9447785,5638453.2901614,296.8227930,0.0109420,-0.9424530,212.0283640,50.8803453,11.0150821);
+		//picture 12
+		addCam2(cam_right);
+		addBPoint( 395.0, 360.0 );
+		addGlobalCarReferencePoint_CamSetGlobal(641754.9447785,5638453.2901614,296.8227930,0.0109420,-0.9424530,212.0283640,50.8803453,11.0150821);
 
-  //picture 10
-  addCam2(cam_left);
-  addBPoint( 985.0 , 369.0);
-  addGlobalCarReferencePoint_CamSetGlobal(641753.5016304,5638454.2034647,296.7935520,-0.1139750,-0.5450980,190.7414720,50.8803539,11.0150620);
+		//picture 10
+		addCam2(cam_left);
+		addBPoint( 985.0 , 369.0);
+		addGlobalCarReferencePoint_CamSetGlobal(641753.5016304,5638454.2034647,296.7935520,-0.1139750,-0.5450980,190.7414720,50.8803539,11.0150620);
 
-  //picture 10
-  addCam2(cam_right);
-  addBPoint( 506.0 , 381.0 );
-  addGlobalCarReferencePoint_CamSetGlobal(641753.5016304,5638454.2034647,296.7935520,-0.1139750,-0.5450980,190.7414720,50.8803539,11.0150620);
+		//picture 10
+		addCam2(cam_right);
+		addBPoint( 506.0 , 381.0 );
+		addGlobalCarReferencePoint_CamSetGlobal(641753.5016304,5638454.2034647,296.7935520,-0.1139750,-0.5450980,190.7414720,50.8803539,11.0150620);
 
-  //picture 1
-  addCam2(cam_left);
-  addBPoint( 65.0 , 305.0);
-  //1001;50.8803713;11.0150901;296.8429180;-0.2612280;-1.5055340;219.9422050;15:47:18;1;641755.4308509;5638456.1936776
-  addGlobalCarReferencePoint_CamSetGlobal(641755.4308509,5638456.1936776,296.8429180,-0.2612280,-1.5055340,219.9422050,50.8803713,11.0150901);
+		//picture 1
+		addCam2(cam_left);
+		addBPoint( 65.0 , 305.0);
+		//1001;50.8803713;11.0150901;296.8429180;-0.2612280;-1.5055340;219.9422050;15:47:18;1;641755.4308509;5638456.1936776
+		addGlobalCarReferencePoint_CamSetGlobal(641755.4308509,5638456.1936776,296.8429180,-0.2612280,-1.5055340,219.9422050,50.8803713,11.0150901);
 
 
-  //calculate of the forward intersection
-  calculate();
+		//calculate of the forward intersection
+		calculate();
 
-  show_variabes_and_infos();
+		show_variabes_and_infos();
 
 		printf("\n");
 		printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
