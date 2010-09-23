@@ -358,15 +358,18 @@ int main(void)
 
   show_variabes_and_infos();
 
-  printf("\n");
-  printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
-  printf("\nforwart intersection control: ((       0.40655,       0.50524,      -3.78090))\n");
+		printf("\n");
+		printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
+		printf("\nforwart intersection control: (641748.309525 , 5638451.210544 , 299.207956  std(0.023276,0.012765,0.006509))\n");
 
 
-  printf("\nbore side calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_global(),get_y_global(),get_z_global(),get_stdx_global(),get_stdy_global(),get_stdz_global());
-  printf("\nbore side control: (641748.32241, 5638451.20961,     299.20626)");
-  printf("\ntestfield control: (641748.32088, 5638451.20780,     299.20560)\n");
+		printf("\nbore side calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_global(),get_y_global(),get_z_global(),get_stdx_global(),get_stdy_global(),get_stdz_global());
+		printf("\nbore side control: (641748.309525 , 5638451.210544 , 299.207956)");
+		printf("\ntestfield control: (641748.32088  , 5638451.20780  , 299.20560)\n");
 
+
+		//delete all values (depends of the internal List of bpoints)
+		del_all();
 
 
 
