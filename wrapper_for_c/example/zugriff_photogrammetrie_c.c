@@ -250,34 +250,34 @@ int main(void)
   //delete all values (depends of the internal List of bpoints) is extreme important!!
   del_all();
 
-  /* //################################## */
+  //##################################
 
-  /* printf("\n############################################\n"); */
-  /* printf("Epipolargeomerie:\n"); */
+  printf("\n############################################\n");
+  printf("Epipolargeomerie:\n");
 
-  /* double d_begin = 3.0; */
-  /* double d_end   =50.0; */
-  /* double d_step   = 0.5; */
-  /* double d_i = d_begin; */
+  double d_begin = 3.0;
+  double d_end   =50.0;
+  double d_step   = 0.5;
+  double d_i = d_begin;
 
-  /* addCam2(cam_left); */
-  /* addBPoint(756.000,345.000); */
+  addCam2(cam_left);
+  addBPoint(756.000,345.000);
 
-  /* addCam2(cam_right); */
+  addCam2(cam_right);
 
-  /* printf("\n"); */
+  printf("\n");
 
-  /* while( d_i <= d_end ) */
-  /*   { */
-  /*     setDistanceForEpipolarLine(d_i); */
-  /*     calculate(); */
-  /*     printf("\none point in %lf m distance on the epipolar line:   m: %lf , n: %lf ",d_i,get_m(),get_n()); */
+  while( d_i <= d_end )
+    {
+      setDistanceForEpipolarLine(d_i);
+      calculate();
+      printf("\none point in %lf m distance on the epipolar line:   m: %lf , n: %lf ",d_i,get_m(),get_n());
 
-  /*     d_i+=d_step; */
-  /*   } */
+      d_i+=d_step;
+    }
 
-  /* //delete all values (depends of the internal List of bpoints) */
-  /* del_all(); */
+  //delete all values (depends of the internal List of bpoints)
+  del_all();
 
 
   //##################################
