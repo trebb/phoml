@@ -61,6 +61,7 @@ extern "C" {
   _DLL_EXPORT int STDCALL    addLocalMeasurementPoint(double X, double Y, double Z);
   _DLL_EXPORT int STDCALL    addRefGroundSurface(double nx, double ny, double nz, double d);
   _DLL_EXPORT void STDCALL   setGlobalReferenceFrame();
+  _DLL_EXPORT int STDCALL setDistanceForEpipolarLine(double d);
   _DLL_EXPORT void STDCALL   del_all();
   _DLL_EXPORT void STDCALL   show_variabes_and_infos();
   _DLL_EXPORT int STDCALL    calculate();
