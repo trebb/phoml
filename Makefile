@@ -2,13 +2,11 @@ RM := rm -rf
 JAVA_HOME = /usr/lib/jvm/java-6-sun-1.6.0.20/
 
 LIB_SO_JAVA = bin/libphotogrammetrie-java.so
-LIB_SO_LISP = bin/libphotogrammetrie-lisp.so
 LIB_SO = bin/libphotogrammetrie.so
 C_TEST = bin/zugriff_photogrammetrie_c
 JAR    = bin/photogrammetrie.jar
 
 JAVA_DIR = java
-LISP_DIR = .
 BIN_DIR = bin
 
 Basics = Basics/ebene.cpp Basics/point.cpp Basics/rot_matrix.cpp Basics/straight_line.cpp
@@ -18,7 +16,6 @@ Boreside = boreside_alignement/cam_bore.cpp boreside_alignement/boreside_transfo
 
 WRAPPER_JAVA = wrapper_for_java/CBPointList.cpp wrapper_for_java/Vorwaertsschnitt_java.cpp wrapper_for_java/mainwrapperjava.cpp internal_control/CPhotogrammetrieTest.cpp transformation/applanix.cpp transformation/rot_matrix_appl.cpp
 WRAPPER_C = wrapper_for_c/photoST.cpp   transformation/applanix.cpp transformation/rot_matrix_appl.cpp
-WRAPPER_LISP = $(WRAPPER_C)
 
 PHOTOGRAMMETRIE_SOURCES = $(Basics) $(Matrix) $(Photo) $(Boreside)
 JAVA_SOURCES = $(PHOTOGRAMMETRIE_SOURCES) $(WRAPPER_JAVA)
@@ -28,15 +25,15 @@ SWIG_JAVA_SOURCE = photogrammetrie-java.i
 SWIG_LISP_SOURCE = photogrammetrie-lisp.i
 
 SWIG_JAVA = photogrammetrie_wrap.cxx
-SWIG_LISP = photogrammetrie-lisp_wrap.cxx
+SWIG_LISP = photo.lisp
 
 HEADERS = $(wildcard */*.h)
 
 
-all: $(LIB_SO_LISP) $(C_TEST)
+all: $(LIB_SO) $(SWIG_LISP) $(C_TEST)
 
 clean:
-	-$(RM) $(BIN_DIR) $(JAVA_DIR) $(LISP_DIR) $(SWIG_JAVA) $(SWIG_LISP) *.fasl photo.lisp photo-clos.lisp
+	-$(RM) $(BIN_DIR) $(JAVA_DIR) $(SWIG_JAVA) $(SWIG_LISP) *.fasl photo-clos.lisp
 
 .PHONY: all clean
 
@@ -48,10 +45,6 @@ $(LIB_SO_JAVA): $(SWIG_JAVA)
 	mkdir -p $(BIN_DIR)
 	g++ -fpic -shared -I$(JAVA_HOME)/include  -I$(JAVA_HOME)/include/linux -o $@ $(JAVA_SOURCES)
 
-$(LIB_SO_LISP): $(PHOTOGRAMMETRIE-SOURCES) $(WRAPPER_LISP) $(SWIG_LISP) $(HEADERS)
-	mkdir -p $(BIN_DIR)
-	g++ -fpic -shared -o $@ $(PHOTOGRAMMETRIE_SOURCES) $(WRAPPER_LISP) $(SWIG_LISP)
-
 $(LIB_SO): $(PHOTOGRAMMETRIE_SOURCES) $(WRAPPER_C) $(HEADERS)
 	mkdir -p $(BIN_DIR)
 	g++ -fpic -shared -o $@ $(PHOTOGRAMMETRIE_SOURCES) $(WRAPPER_C)
@@ -61,8 +54,7 @@ $(SWIG_JAVA): $(SWIG_JAVA_SOURCE) $(JAVA_SOURCES)
 	swig -c++ -java -package photogrammetrie -outdir $(JAVA_DIR) $(SWIG_JAVA_SOURCE)
 
 $(SWIG_LISP): $(SWIG_LISP_SOURCE) $(PHOTOGRAMMETRIE_SOURCES) $(HEADERS)
-	mkdir -p $(LISP_DIR)
-	swig -c++ -cffi -outdir $(LISP_DIR) $(SWIG_LISP_SOURCE)
+	swig -cffi -outdir . $(SWIG_LISP_SOURCE)
 
 $(C_TEST): $(LIB_SO) $(TEST_SOURCES) $(HEADERS)
 	mkdir -p $(BIN_DIR)
