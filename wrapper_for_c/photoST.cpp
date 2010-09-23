@@ -553,70 +553,84 @@ _DLL_EXPORT int STDCALL setDistanceForEpipolarLine(double d)
 //delete all parameters
 _DLL_EXPORT void STDCALL del_all()
 {
-  I.m_m=0.0;
-  I.m_n=0.0;
+	I.m_m=0.0;
+	I.m_n=0.0;
 
-  I.m_x_local=0.0;
-  I.m_y_local=0.0;
-  I.m_z_local=0.0;
+	I.m_x_local=0.0;
+	I.m_y_local=0.0;
+	I.m_z_local=0.0;
 
-  I.m_stdx_local=0.0;
-  I.m_stdy_local=0.0;
-  I.m_stdz_local=0.0;
+	I.m_stdx_local=0.0;
+	I.m_stdy_local=0.0;
+	I.m_stdz_local=0.0;
 
-  I.m_x_global=0.0;
-  I.m_y_global=0.0;
-  I.m_z_global=0.0;
+	I.m_x_global=0.0;
+	I.m_y_global=0.0;
+	I.m_z_global=0.0;
 
-  I.m_stdx_global=0.0;
-  I.m_stdy_global=0.0;
-  I.m_stdz_global=0.0;
+	I.m_stdx_global=0.0;
+	I.m_stdy_global=0.0;
+	I.m_stdz_global=0.0;
 
-  //car reference positon
-  I.m_Easting=0.0;
-  I.m_Northing=0.0;
-  I.m_eHeigth=0.0;
-  I.m_roll=0.0;
-  I.m_pitch=0.0;
-  I.m_heading=0.0;
-  I.m_latitude=0.0;
-  I.m_longitude=0.0;
+	//car reference positon
+	I.m_Easting=0.0;
+	I.m_Northing=0.0;
+	I.m_eHeigth=0.0;
+	I.m_roll=0.0;
+	I.m_pitch=0.0;
+	I.m_heading=0.0;
+	I.m_latitude=0.0;
+	I.m_longitude=0.0;
 
-  I.m_dEasting=0.0;
-  I.m_dNorthing=0.0;
-  I.m_deHeigth=0.0;
-  I.m_droll=0.0;
-  I.m_dpitch=0.0;
-  I.m_dheading=0.0;
+	I.m_dEasting=0.0;
+	I.m_dNorthing=0.0;
+	I.m_deHeigth=0.0;
+	I.m_droll=0.0;
+	I.m_dpitch=0.0;
+	I.m_dheading=0.0;
 
-  lCam_bore.clear();
+	//parameter of the geodetic reference frame
+	I.m_idontknow=0.0;
 
-  //hack not very nice
-  vector<BPoint>::iterator iBP = lBPoint.begin();
-  while(iBP !=lBPoint.end())
-    {
-      delete &iBP->get_Cam();
-      ++iBP;
-    }
-  lBPoint.clear();
+		//reference ground plane
+	I.m_nx=0.0;
+	I.m_ny=0.0;
+	I.m_nz=0.0;
+	I.m_d=0.0;
+
+	lCam_bore.erase(lCam_bore.begin(),lCam_bore.end());
+	lCam_bore.clear();
+
+	//hack not very nice
+	vector<BPoint>::iterator iBP = lBPoint.begin();
+		while(iBP !=lBPoint.end())
+		{
+			delete &iBP->get_Cam();
+			++iBP;
+		}
+	lBPoint.erase(lBPoint.begin(),lBPoint.end());
+	lBPoint.clear();
 
 
+	//controll values
+	m_saved_cams = 0;
+	m_used_cams  = 0;
 
-  //controll values
-  m_saved_cams = 0;
-  m_used_cams  = 0;
+	m_is_set_mn										=false;
+	m_is_set_LocalMeasurementPoint					=false;
+	m_is_set_GlobalMeasurementPoint					=false;
+	m_is_set_GlobalCarReferencePoint				=false;
+	m_is_set_GlobalCarReferencePoint_std			=false;
+	m_is_set_GlobalReferenceFrame					=false;
+	m_is_set_RefGroundSurface						=false;
+	m_is_set_GlobalCarReferencePoint_CamSetGlobal	=false;
+	m_is_set_distance_epi							=false;
 
-  m_is_set_mn =false;
-  m_is_set_LocalMeasurementPoint =false;
-  m_is_set_GlobalMeasurementPoint =false;
-  m_is_set_GlobalCarReferencePoint =false;
-  m_is_set_GlobalCarReferencePoint_std =false;
-  m_is_set_GlobalReferenceFrame =false;
-  m_is_set_RefGroundSurface =false;
+	m_is_calc_vws							=false;
+	m_is_calc_bore							=false;
+	m_is_calc_lokal_RefGroundSurface		=false;
+	m_is_calc_epipolarline					=false;
 
-  m_is_calc_vws =false;
-  m_is_calc_bore =false;
-  m_is_calc_lokal_RefGroundSurface =false;
 
 
 }
