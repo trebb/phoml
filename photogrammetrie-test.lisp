@@ -28,12 +28,14 @@
        0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0 0d0)
       (add-bpoint 223d0 300d0)
       (calculate)
-      (values
-       (get-m) (get-n)
-       (get-x-local) (get-y-local) (get-z-local)
-       (get-stdx-local) (get-stdy-local) (get-stdz-local)
-       (get-x-global) (get-y-global) (get-z-global)
-       (get-stdx-global) (get-stdy-global) (get-stdz-global)))
+      (multiple-value-prog1 
+          (values
+           (get-m) (get-n)
+           (get-x-local) (get-y-local) (get-z-local)
+           (get-stdx-local) (get-stdy-local) (get-stdz-local)
+           (get-x-global) (get-y-global) (get-z-global)
+           (get-stdx-global) (get-stdy-global) (get-stdz-global))
+        (del-all)))
   223.0d0 300.0d0
   -1062.3945612937443d0 1587.5888858836176d0 -7728.733215755937d0
   5.473015866381161d0 12.58146038763985d0 57.68237735678784d0
@@ -84,12 +86,14 @@
       (apply #'add-global-car-reference-point *global-car-reference-point*)
       (set-global-reference-frame)
       (calculate)
-      (values
-       (get-m) (get-n)
-       (get-x-local) (get-y-local) (get-z-local)
-       (get-stdx-local) (get-stdy-local) (get-stdz-local)
-       (get-x-global) (get-y-global) (get-z-global)
-       (get-stdx-global) (get-stdy-global) (get-stdz-global)))
+      (multiple-value-prog1
+          (values
+           (get-m) (get-n)
+           (get-x-local) (get-y-local) (get-z-local)
+           (get-stdx-local) (get-stdy-local) (get-stdz-local)
+           (get-x-global) (get-y-global) (get-z-global)
+           (get-stdx-global) (get-stdy-global) (get-stdz-global))
+        (del-all)))
   401.0d0 370.0d0
   0.4065545831586287d0 0.5052388614207152d0 -3.7809044494132813d0
   0.0030916030241650407d0 0.004254531230252718d0 0.019928437349091173d0
@@ -109,7 +113,9 @@
       (apply #'add-global-car-reference-point *global-car-reference-point*)
       (set-global-reference-frame)
       (calculate)
-      (values (get-m) (get-n)))
+      (multiple-value-prog1
+          (values (get-m) (get-n))
+        (del-all)))
   756.0215947053355d0 344.8316172438852d0)
 
 (rt:deftest rws/right
@@ -120,7 +126,9 @@
       (apply #'add-global-car-reference-point *global-car-reference-point*)
       (set-global-reference-frame)
       (calculate)
-      (values (get-m) (get-n)))
+      (multiple-value-prog1
+          (values (get-m) (get-n))
+        (del-all)))
   400.96040801712263d0 370.25506200401304d0)
 
 (rt:deftest mono/1
@@ -132,53 +140,79 @@
       (apply #'add-global-car-reference-point *global-car-reference-point*)
       (set-global-reference-frame)
       (calculate)
-      (values (get-m) (get-n)))
+      (multiple-value-prog1
+          (values (get-m) (get-n))
+        (del-all)))
   755.9999994508227d0 345.0000006141719d0)
 
-;(rt:deftest epipolar/1
-; ... ?)
-
-(rt:deftest multi-car-position/1
+(rt:deftest epipolar/1
     (progn
       (del-all)
-      (set-global-reference-frame)
-      (apply #'add-cam *cam-left*) ; pic 13
+      (apply #'add-cam *cam-left*)
       (add-bpoint 756d0 345d0)
-      (apply #'add-global-car-reference-point-cam-set-global *global-car-reference-point*)
       (apply #'add-cam *cam-right*)
-      (add-bpoint 401d0 370d0)
-      (apply #'add-global-car-reference-point-cam-set-global *global-car-reference-point*)
-      (let ((global-car-reference-point ; pic 12
-             '(641754.9447785d0 5638453.2901614d0 296.8227930d0
-               0.0109420d0 -0.9424530d0 212.0283640d0
-               50.8803453d0 11.0150821d0)))
-        (apply #'add-cam *cam-left*)
-        (add-bpoint 715d0 325d0)
-        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
-        (apply #'add-cam *cam-right*)
-        (add-bpoint 395d0 316d0)
-        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
-      (let ((global-car-reference-point ; pic 10
-             '(641753.5016304d0 5638454.2034647d0 296.7935520d0
-               -0.1139750d0 -0.5450980d0 190.7414720d0
-               50.8803539d0 11.0150620d0)))
-        (apply #'add-cam *cam-left*)
-        (add-bpoint 985d0 369d0)
-        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
-        (apply #'add-cam *cam-right*)
-        (add-bpoint 506d0 381d0)
-        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
-      (let ((global-car-reference-point ; pic 1
-             '(641755.4308509d0 5638456.1936776d0 296.8429180d0
-               -0.2612280d0 -1.5055340d0 219.9422050d0
-               50.8803713d0 11.0150901d0)))
-        (apply #'add-cam *cam-left*)
-        (add-bpoint 65d0 305d0)
-        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
-      (calculate)
-      (values (get-x-local) (get-y-local) (get-z-local)
-              (get-stdx-local) (get-stdy-local) (get-stdz-local)
-              (get-x-global) (get-y-global) (get-z-global)
-              (get-stdx-global) (get-stdy-global) (get-stdz-global)))
-  nil)
+      (prog1
+          (loop
+             for i from 3d0 upto 50d0 by 7d0
+             do
+               (set-distance-for-epipolar-line i)
+               (calculate)
+             collect (list i (get-m) (get-n)))
+        (del-all)))
+  ((3.0d0 348.8838003312308d0 362.92922097055947d0)
+   (10.0d0 562.3853909475243d0 393.8075286053437d0)
+   (17.0d0 618.790875020272d0 402.15394569448256d0)
+   (24.0d0 644.7568644672281d0 406.02503563147326d0)
+   (31.0d0 659.6776642730952d0 408.2577629003564d0)
+   (38.0d0 669.3626651434224d0 409.71025002804396d0)
+   (45.0d0 676.1558194809563d0 410.7305574257181d0)))
 
+;;(rt:deftest multi-car-position/1
+;;    (progn
+;;      (del-all)
+;;      (set-global-reference-frame)
+;;      (let ((global-car-reference-point ; pic 13
+;;             '(641754.64076d0 5638452.77658d0 296.79691d0
+;;               -0.2235410d0 -0.6600010d0 214.0967730d0
+;;               50.8803408d0 11.0150776d0)))
+;;        (apply #'add-cam *cam-left*)
+;;        (add-bpoint 756d0 345d0)
+;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
+;;        (apply #'add-cam *cam-right*)
+;;        (add-bpoint 401d0 370d0)
+;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
+;;      (let ((global-car-reference-point ; pic 12
+;;             '(641754.9447785d0 5638453.2901614d0 296.8227930d0
+;;               0.0109420d0 -0.9424530d0 212.0283640d0
+;;               50.8803453d0 11.0150821d0)))
+;;        (apply #'add-cam *cam-left*)
+;;        (add-bpoint 715d0 325d0)
+;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
+;;        (apply #'add-cam *cam-right*)
+;;        (add-bpoint 395d0 360d0)
+;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
+;;      (let ((global-car-reference-point ; pic 10
+;;             '(641753.5016304d0 5638454.2034647d0 296.7935520d0
+;;               -0.1139750d0 -0.5450980d0 190.7414720d0
+;;               50.8803539d0 11.0150620d0)))
+;;        (apply #'add-cam *cam-left*)
+;;        (add-bpoint 985d0 369d0)
+;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
+;;        (apply #'add-cam *cam-right*)
+;;        (add-bpoint 506d0 381d0)
+;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
+;;      (let ((global-car-reference-point ; pic 1
+;;             '(641755.4308509d0 5638456.1936776d0 296.8429180d0
+;;               -0.2612280d0 -1.5055340d0 219.9422050d0
+;;               50.8803713d0 11.0150901d0)))
+;;        (apply #'add-cam *cam-left*)
+;;        (add-bpoint 65d0 305d0)
+;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
+;;      (calculate)
+;;      (multiple-value-prog1
+;;          (values (get-x-local) (get-y-local) (get-z-local)
+;;                  (get-stdx-local) (get-stdy-local) (get-stdz-local)
+;;                  (get-x-global) (get-y-global) (get-z-global)
+;;                  (get-stdx-global) (get-stdy-global) (get-stdz-global))
+;;        (del-all)))
+;;  nil)
