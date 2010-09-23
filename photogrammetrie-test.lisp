@@ -141,9 +141,13 @@
       (set-global-reference-frame)
       (calculate)
       (multiple-value-prog1
-          (values (get-m) (get-n))
+          (values (get-m) (get-n)
+                  (get-x-local) (get-y-local) (get-z-local)
+                  (get-x-global) (get-y-global) (get-z-global))
         (del-all)))
-  755.9999994508227d0 345.0000006141719d0)
+  755.9999994508227d0 345.0000006141719d0
+  0.41075965074325677d0 0.5098961375789827d0 -3.8208460421855737d0
+  641748.2834246102d0 5638451.200894518d0 299.20001392632093d0)
 
 (rt:deftest epipolar/1
     (progn
