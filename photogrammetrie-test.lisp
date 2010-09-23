@@ -167,52 +167,55 @@
    (38.0d0 669.3626651434224d0 409.71025002804396d0)
    (45.0d0 676.1558194809563d0 410.7305574257181d0)))
 
-;;(rt:deftest multi-car-position/1
-;;    (progn
-;;      (del-all)
-;;      (set-global-reference-frame)
-;;      (let ((global-car-reference-point ; pic 13
-;;             '(641754.64076d0 5638452.77658d0 296.79691d0
-;;               -0.2235410d0 -0.6600010d0 214.0967730d0
-;;               50.8803408d0 11.0150776d0)))
-;;        (apply #'add-cam *cam-left*)
-;;        (add-bpoint 756d0 345d0)
-;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
-;;        (apply #'add-cam *cam-right*)
-;;        (add-bpoint 401d0 370d0)
-;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
-;;      (let ((global-car-reference-point ; pic 12
-;;             '(641754.9447785d0 5638453.2901614d0 296.8227930d0
-;;               0.0109420d0 -0.9424530d0 212.0283640d0
-;;               50.8803453d0 11.0150821d0)))
-;;        (apply #'add-cam *cam-left*)
-;;        (add-bpoint 715d0 325d0)
-;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
-;;        (apply #'add-cam *cam-right*)
-;;        (add-bpoint 395d0 360d0)
-;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
-;;      (let ((global-car-reference-point ; pic 10
-;;             '(641753.5016304d0 5638454.2034647d0 296.7935520d0
-;;               -0.1139750d0 -0.5450980d0 190.7414720d0
-;;               50.8803539d0 11.0150620d0)))
-;;        (apply #'add-cam *cam-left*)
-;;        (add-bpoint 985d0 369d0)
-;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
-;;        (apply #'add-cam *cam-right*)
-;;        (add-bpoint 506d0 381d0)
-;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
-;;      (let ((global-car-reference-point ; pic 1
-;;             '(641755.4308509d0 5638456.1936776d0 296.8429180d0
-;;               -0.2612280d0 -1.5055340d0 219.9422050d0
-;;               50.8803713d0 11.0150901d0)))
-;;        (apply #'add-cam *cam-left*)
-;;        (add-bpoint 65d0 305d0)
-;;        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
-;;      (calculate)
-;;      (multiple-value-prog1
-;;          (values (get-x-local) (get-y-local) (get-z-local)
-;;                  (get-stdx-local) (get-stdy-local) (get-stdz-local)
-;;                  (get-x-global) (get-y-global) (get-z-global)
-;;                  (get-stdx-global) (get-stdy-global) (get-stdz-global))
-;;        (del-all)))
-;;  nil)
+(rt:deftest multi-car-position/1
+    (progn
+      (del-all)
+      (set-global-reference-frame)
+      (let ((global-car-reference-point ; pic 13
+             '(641754.64076d0 5638452.77658d0 296.79691d0
+               -0.2235410d0 -0.6600010d0 214.0967730d0
+               50.8803408d0 11.0150776d0)))
+        (apply #'add-cam *cam-left*)
+        (add-bpoint 756d0 345d0)
+        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
+        (apply #'add-cam *cam-right*)
+        (add-bpoint 401d0 370d0)
+        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
+      (let ((global-car-reference-point ; pic 12
+             '(641754.9447785d0 5638453.2901614d0 296.8227930d0
+               0.0109420d0 -0.9424530d0 212.0283640d0
+               50.8803453d0 11.0150821d0)))
+        (apply #'add-cam *cam-left*)
+        (add-bpoint 715d0 325d0)
+        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
+        (apply #'add-cam *cam-right*)
+        (add-bpoint 395d0 360d0)
+        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
+      (let ((global-car-reference-point ; pic 10
+             '(641753.5016304d0 5638454.2034647d0 296.7935520d0
+               -0.1139750d0 -0.5450980d0 190.7414720d0
+               50.8803539d0 11.0150620d0)))
+        (apply #'add-cam *cam-left*)
+        (add-bpoint 985d0 369d0)
+        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
+        (apply #'add-cam *cam-right*)
+        (add-bpoint 506d0 381d0)
+        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
+      (let ((global-car-reference-point ; pic 1
+             '(641755.4308509d0 5638456.1936776d0 296.8429180d0
+               -0.2612280d0 -1.5055340d0 219.9422050d0
+               50.8803713d0 11.0150901d0)))
+        (apply #'add-cam *cam-left*)
+        (add-bpoint 65d0 305d0)
+        (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point))
+      (calculate)
+      (multiple-value-prog1
+          (values (get-x-local) (get-y-local) (get-z-local)
+                  (get-stdx-local) (get-stdy-local) (get-stdz-local)
+                  (get-x-global) (get-y-global) (get-z-global)
+                  (get-stdx-global) (get-stdy-global) (get-stdz-global))
+        (del-all)))
+  641748.3095247374d0 5638451.210544314d0 299.20795568520276d0
+  0.02327612548040077d0 0.01276520778633635d0 0.0065087018321247185d0
+  641748.3095247374d0 5638451.210544314d0 299.20795568520276d0
+  0.02327612548040077d0 0.01276520778633635d0 0.0065087018321247185d0)
