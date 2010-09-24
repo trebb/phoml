@@ -5,7 +5,6 @@
   :serial t
   :components
   ((:file "package")
-;   (:file "photogrammetrie")
    (:file "photo")))
 
 (defsystem :photogrammetrie-test

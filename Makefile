@@ -1,13 +1,13 @@
 RM := rm -rf
 JAVA_HOME = /usr/lib/jvm/java-6-sun-1.6.0.20/
 
-LIB_SO_JAVA = bin/libphotogrammetrie-java.so
-LIB_SO = bin/libphotogrammetrie.so
-C_TEST = bin/zugriff_photogrammetrie_c
-JAR    = bin/photogrammetrie.jar
+LIB_SO_JAVA = lib/libphotogrammetrie-java.so
+LIB_SO = lib/libphotogrammetrie.so
+C_TEST = lib/zugriff_photogrammetrie_c
+JAR    = lib/photogrammetrie.jar
 
 JAVA_DIR = java
-BIN_DIR = bin
+LIB_DIR = lib
 
 Basics = Basics/ebene.cpp Basics/point.cpp Basics/rot_matrix.cpp Basics/straight_line.cpp
 Matrix = Basics/Matrix/matrix.cpp
@@ -34,7 +34,7 @@ HEADERS = $(wildcard */*.h)
 all: $(LIB_SO) $(SWIG_LISP) $(C_TEST)
 
 clean:
-	-$(RM) $(BIN_DIR) $(JAVA_DIR) $(SWIG_JAVA) $(SWIG_LISP) *.fasl
+	-$(RM) $(LIB_DIR) $(JAVA_DIR) $(SWIG_JAVA) $(SWIG_LISP) *.fasl
 
 .PHONY: all clean
 
@@ -43,11 +43,11 @@ $(JAR): $(LIB_SO_JAVA)
 	jar cf $@ -C $(JAVA_DIR) ./
 
 $(LIB_SO_JAVA): $(SWIG_JAVA)
-	mkdir -p $(BIN_DIR)
+	mkdir -p $(LIB_DIR)
 	g++ -fpic -shared -I$(JAVA_HOME)/include  -I$(JAVA_HOME)/include/linux -o $@ $(JAVA_SOURCES)
 
 $(LIB_SO): $(PHOTOGRAMMETRIE_SOURCES) $(WRAPPER_C) $(HEADERS)
-	mkdir -p $(BIN_DIR)
+	mkdir -p $(LIB_DIR)
 	g++ -fpic -shared -o $@ $(PHOTOGRAMMETRIE_SOURCES) $(WRAPPER_C)
 
 $(SWIG_JAVA): $(SWIG_JAVA_SOURCE) $(JAVA_SOURCES)
@@ -58,5 +58,5 @@ $(SWIG_LISP): $(SWIG_LISP_SOURCE) $(PHOTOGRAMMETRIE_SOURCES) $(HEADERS)
 	swig -cffi -outdir . $(SWIG_LISP_SOURCE)
 
 $(C_TEST): $(LIB_SO) $(TEST_SOURCES) $(HEADERS)
-	mkdir -p $(BIN_DIR)
+	mkdir -p $(LIB_DIR)
 	gcc -o $@ $(TEST_SOURCES) -L ./ $(LIB_SO)
