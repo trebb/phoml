@@ -2,5 +2,5 @@
 *~
 photo.lisp
 photo-clos.lisp
-bin/
+lib/
 photogrammetrie*_wrap.cxx

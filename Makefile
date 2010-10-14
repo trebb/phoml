@@ -31,7 +31,9 @@ SWIG_LISP = photo.lisp
 HEADERS = $(wildcard */*.h)
 
 
-all: $(LIB_SO) $(SWIG_LISP) $(C_TEST)
+all: $(LIB_SO) $(SWIG_LISP)
+
+test: $(C_TEST)
 
 clean:
 	-$(RM) $(LIB_DIR) $(JAVA_DIR) $(SWIG_JAVA) $(SWIG_LISP) *.fasl
