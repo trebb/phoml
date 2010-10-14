@@ -127,8 +127,13 @@ Vorwaertsschnitt::Vorwaertsschnitt(vector<BPoint> &BP)//,Point Org
  //BPoint BP2 = BP[1];
 
  //new ->problem when change the orientation center the Point into the BP1 is not acutely
- BPoint BP1(BP.begin()->get_Cam(),BP.begin()->get_m(),BP.begin()->get_n());
- BPoint BP2((++BP.begin())->get_Cam(),(++BP.begin())->get_m(),(++BP.begin())->get_n());
+ //BPoint BP1(BP.begin()->get_Cam(),BP.begin()->get_m(),BP.begin()->get_n());
+ //BPoint BP2((++BP.begin())->get_Cam(),(++BP.begin())->get_m(),(++BP.begin())->get_n());
+
+ //update BPoint class outside //steffen 20101013
+ BPoint BP1 ( *(  BP.begin()) );
+ BPoint BP2 ( *(++BP.begin()) );
+
 
  //cout <<endl<<"m: "<< BP1.get_m()<<" n: "<<BP1.get_n()<< flush;
  //cout <<endl<<"m: "<< BP2.get_m()<<" n: "<<BP2.get_n()<< flush;

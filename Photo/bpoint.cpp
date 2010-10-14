@@ -176,7 +176,7 @@ bool BPoint::PixelkorrekturVonBildInPixKoo()
    //if(i>0)
    if(i>10000)
    {
-       m_isOK=false;
+       m_iteration_limit=true;
 	   break;
    }
  }
@@ -194,7 +194,10 @@ bool BPoint::PixelkorrekturVonBildInPixKoo()
  m_y=X(1,0);
  m_z=X(2,0);
 
-return true;
+if(m_iteration_limit)
+	return false;
+else
+	return true;
 }
 
 
@@ -203,35 +206,56 @@ return true;
 //###################################################################################
 // Eingabe / Ausgaberoutinen
 //###################################################################################
-void  BPoint::set_mnPixKoo (double m,double n) //Eingabe (m,n) des Bildpunktes in [pix]
-{
+bool  BPoint::set_mnPixKoo (double m,double n) //Eingabe (m,n) des Bildpunktes in [pix]
+{//todo exception handling an check picture coordinates	//steffen
  m_m=m;
  m_n=n;
  m_x=m_y=m_z    =-111111.1;
- BildpunktkorrekturVonPixInBildKoo();
+
+ m_iteration_limit=false;
+ m_change_cam=false;
+ return BildpunktkorrekturVonPixInBildKoo();
 }
 
 //###################################################################################
-void  BPoint::set_xyBKoo(double x,double y)
-{
+bool  BPoint::set_xyBKoo(double x,double y)
+{//todo exception handling an check picture coordinates	//steffen
  m_m =         x/m_Cam->get_pix_size() + m_Cam->get_pix_row()/2 - 0.5  ;
  m_n =(-1.0)*( y/m_Cam->get_pix_size() - m_Cam->get_pix_col()/2 - 0.5 );
 
- BildpunktkorrekturVonPixInBildKoo();
+ m_iteration_limit=false;
+ m_change_cam=false;
+ return BildpunktkorrekturVonPixInBildKoo();
 }
 
 //###################################################################################
-void  BPoint::set_XYZObjKoo(double X,double Y,double Z) //Eingabe (x,y,z) des Objektpunktes in [mm]
-{
+bool  BPoint::set_XYZObjKoo(double X,double Y,double Z)//Eingabe (x,y,z) des Objektpunktes in [m]
+{//todo exception handling an check picture coordinates	//steffen
  m_x=X;
  m_y=Y;
  m_z=Z;
  m_m=m_n=-1.0;
- PixelkorrekturVonBildInPixKoo();
+
+ m_iteration_limit=false;
+ m_change_cam=false;
+ return PixelkorrekturVonBildInPixKoo();
 }
 
 //###################################################################################
-Point BPoint::get_xyBKoo()
+bool  BPoint::set_XYZObjKoo(const Point &P)//Eingabe (x,y,z) des Objektpunktes in [m]
+{//todo exception handling an check picture coordinates	//steffen
+ m_x=P.get_X();
+ m_y=P.get_Y();
+ m_z=P.get_Z();
+ m_m=m_n=-1.0;
+
+ m_iteration_limit=false;
+ m_change_cam=false;
+ return PixelkorrekturVonBildInPixKoo();
+}
+
+//###################################################################################
+Point BPoint::get_xyBKoo() const
 {
  Point P;
  P.set_X( ( m_m - m_Cam->get_pix_row()/2 + 0.5 )*m_Cam->get_pix_size() );
@@ -244,9 +268,10 @@ Point BPoint::get_xyBKoo()
 //Kernlinie
 //###################################################################################
 BPoint BPoint::get_KernlinenPunkt( Cam &C, double s )
-{
-
- Gerade G( (*this).get_Cam().get_O() , (*this).get_Point() );
+{//todo exception handling an check picture coordinates	//steffen
+ //old steffen 20101013
+ //Gerade G( (*this).get_Cam().get_O() , (*this).get_Point() );
+ Gerade G( (*this).m_Cam->get_O() , (*this) );
  Point PK = G.get_O().Add( G.get_R().MultS( s ) );
 
  BPoint BPKern(C,PK.get_X(),PK.get_Y(),PK.get_Z());
@@ -259,6 +284,8 @@ return BPKern;
 //###################################################################################
 Point BPoint::calc_mono_cam_to_plane_intersection(Ebene &E)
 {
-  Gerade G( (*this).get_Cam().get_O() , (*this).get_Point() );
+  //old steffen 20101013
+  //Gerade G( (*this).get_Cam().get_O() , (*this).get_Point() );
+  Gerade G( (*this).m_Cam->get_O() , (*this) );
   return E.Durchstoss(G);
 }

@@ -263,7 +263,7 @@ return PRt;
 ostream& operator<<(ostream& s,const Point& A)
 {
    int precision=5;       //Nachkommastellen   
-   int vorkommastellen=8; //Minus zhlt als Vorkommastelle
+   int vorkommastellen=8; //Minus zählt als Vorkommastelle
 
    s.setf(ios::fixed|ios::showpoint, ios::floatfield);//<<showpoint<<fixed
    s.setf(ios::right, ios::adjustfield);
@@ -278,7 +278,17 @@ ostream& operator<<(ostream& s,const Point& A)
 	<<","
 	<<setfill(' ')<<setw(precision+vorkommastellen+1)
 	<<A.get_Z()
-	<<") ";
+	<<") "
+	<<"std("
+	<<setfill(' ')<<setw(precision+1)
+    <<A.get_dX()
+    <<","
+    <<setfill(' ')<<setw(precision+1)
+    <<A.get_dY()
+    <<","
+    <<setfill(' ')<<setw(precision+1)
+    <<A.get_dZ()
+    <<") ";
 
 return s;
 };

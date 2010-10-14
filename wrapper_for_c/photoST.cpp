@@ -1,4 +1,4 @@
-// photoST.cpp : Definiert den Einstiegspunkt f�r die DLL-Anwendung.
+// photoST.cpp : Definiert den Einstiegspunkt für die DLL-Anwendung.
 
 //system includes c++
 #include <iostream>
@@ -47,7 +47,7 @@ using namespace std;
 //###################################
 //cpp values for save data structures
 
-// //intern data structure
+//intern data structure
 static intern I;
 
 //cam list for the input
@@ -263,6 +263,7 @@ _DLL_EXPORT int STDCALL addCam( int pix_col,
   lCam_bore.push_back(cam);
 
   m_saved_cams+=1;
+  m_is_set_mn = false;
   return 1;
 }
 
@@ -282,10 +283,9 @@ _DLL_EXPORT int STDCALL addCam2(char* psz_ini_file)
 
   //cout << cam << flush;
 
-
   //control
   m_saved_cams+=1;
-
+  m_is_set_mn = false;
   return static_cast<int>(t);
 }
 
@@ -429,10 +429,10 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_CamSetGlobal(double Easting,
   I.m_Northing 	= Northing;
   I.m_eHeigth 	= eHeigth;
   I.m_roll 		= roll;
-  I.m_pitch 	    = pitch;
+  I.m_pitch     = pitch;
   I.m_heading 	= heading;
   I.m_latitude 	= latitude;
-  I.m_longitude   = longitude;
+  I.m_longitude = longitude;
 
   //todo test the data values
 
@@ -441,44 +441,50 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_CamSetGlobal(double Easting,
   appl.calc_approximately_meridian_convergence_degree(I.m_Easting,I.m_latitude,I.m_heading);
   appl.compare_gps_coosystem_degree_to_math_coosystem_pi(I.m_roll,I.m_pitch,I.m_heading,I.m_droll,I.m_dpitch,I.m_dheading);
 
+	//set the new camera orientation in global coordinates
 
+	//bore-sight transformation
+	Point BT;
+	BT = (lCam_bore.rbegin())->get_B();
+	Rot BR(lCam_bore.rbegin()->get_B_rotx(),lCam_bore.rbegin()->get_B_roty(),lCam_bore.rbegin()->get_B_rotz());
 
-  //set the new camera orientation in global coordinates
+	//global transformation
+	Point GT(I.m_Easting,I.m_Northing,I.m_eHeigth);
+	Rot GR(I.m_roll,I.m_pitch,I.m_heading);
 
-  //bore-sight transformation
-  Point BT;
-  BT = (lCam_bore.rbegin())->get_B();
-  Rot BR(lCam_bore.rbegin()->get_B_rotx(),lCam_bore.rbegin()->get_B_roty(),lCam_bore.rbegin()->get_B_rotz());
+	Point P0_cam(0.0,0.0,0.0); //new coordinate center of the camera  (camera coordinate system)
+	Point P_car,P_global;
 
-  //global transformation
-  Point GT(I.m_Easting,I.m_Northing,I.m_eHeigth);
-  Rot GR(I.m_roll,I.m_pitch,I.m_heading);
+	P_car = P0_cam.Rotation(BT,BR);
+	P_global = P_car.Rotation(GT,GR);
 
-  Point P0_cam(0.0,0.0,0.0); //new coordinate center of the camera  (camera coordinate system)
-  Point P_car,P_global;
+	Rot R_global( GR.get_Matrix().MatMult(BR) );
+    double r=0.0,p=0.0,h=0.0;
+    R_global.get_RotWinkel(r,p,h);
 
-  P_car = P0_cam.Rotation(BT,BR);
-  P_global = P_car.Rotation(GT,GR);
+    //cout<<endl<<"Pos/rot CAM:"<<P_global<<" / "<<r<<","<<p<<","<<h;
 
-  Rot R_global( GR.get_Matrix().MatMult(BR) );
-  double r=0.0,p=0.0,h=0.0;
-  R_global.get_RotWinkel(r,p,h);
+    //global cam list
+	lCam_bore.rbegin()->set_O(P_global);
+	lCam_bore.rbegin()->set_rotX(r);
+	lCam_bore.rbegin()->set_rotY(p);
+	lCam_bore.rbegin()->set_rotZ(h);
 
-  cout<<endl<<"Pos/rot CAM:"<<P_global<<" / "<<r<<","<<p<<","<<h;
+	//global bpointlist
+	if(m_is_set_mn)
+	{
+	lBPoint.rbegin()->get_Cam().set_O(P_global);
+	lBPoint.rbegin()->get_Cam().set_rotX(r);
+	lBPoint.rbegin()->get_Cam().set_rotY(p);
+	lBPoint.rbegin()->get_Cam().set_rotZ(h);
 
-  //global cam list
-  lCam_bore.rbegin()->set_O(P_global);
-  lCam_bore.rbegin()->set_rotX(r);
-  lCam_bore.rbegin()->set_rotY(p);
-  lCam_bore.rbegin()->set_rotZ(h);
+	//refresh Bpoint class!!
+	if(lBPoint.rbegin()->get_info_change_camera_settings())
+	 lBPoint.rbegin()->set_mnPixKoo(I.m_m,I.m_n);
+	}
 
-  lBPoint.rbegin()->get_Cam_Ref().set_O(P_global);
-  lBPoint.rbegin()->get_Cam_Ref().set_rotX(r);
-  lBPoint.rbegin()->get_Cam_Ref().set_rotY(p);
-  lBPoint.rbegin()->get_Cam_Ref().set_rotZ(h);
-
-  m_is_set_GlobalCarReferencePoint = true;
-  m_is_set_GlobalCarReferencePoint_CamSetGlobal = true;
+	m_is_set_GlobalCarReferencePoint				= true;
+	m_is_set_GlobalCarReferencePoint_CamSetGlobal 	= true;
 }
 
 _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_std(double dEasting, double dNorthing, double deHeigth, double droll, double dpitch, double dheading)
@@ -935,10 +941,6 @@ _DLL_EXPORT int STDCALL calculate()
 	{
 		    //calc the bore side transformation with the global car position
 		    CBoreside_transformation bore(*lCam_bore.rbegin());
-
-			CApplanix appl;
-			//appl.calc_approximately_meridian_convergence_degree(I.m_Easting,I.m_latitude,I.m_heading);
-			//appl.compare_gps_coosystem_degree_to_math_coosystem_pi(I.m_roll,I.m_pitch,I.m_heading,I.m_droll,I.m_dpitch,I.m_dheading);
 
 			bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeigth,I.m_roll,I.m_pitch,I.m_heading);
 

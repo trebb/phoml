@@ -34,7 +34,7 @@ int main(void)
   char cam_right[] = {"wrapper_for_c/example/AVT_Stingray_right_right_cam2.inikalib.ini"};
 #endif
 
-  //################################
+//################################
 
 #if defined(_MSC_VER)
   puts("access to the Photogrammetrie.dll\n");
@@ -44,49 +44,50 @@ int main(void)
 
 
 
-  //################################
+//################################
 
   printf("\n##################################\n");
   printf("forwart intersection example 1:\n");
 
-  //fill the camera list with one cam and on bpoint and than the next pair
-  //create camera left with a bpoint
-  addCam(1392,1040,0.00465,0.0,0.0,0.0,0.0,0.0,0.0,-8.3481198,0.00089,0.00472,-0.00284666,4.33195e-05,0,1.01299e-05,-2.01898e-05,-0.000134369,-4.26305e-05,2.427375,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-  addBPoint(272.0,325.0);
+    //fill the camera list with one cam and on bpoint and than the next pair
+    //create camera left with a bpoint
+    addCam(1040,1392,0.00465,0.0,0.0,0.0,0.0,0.0,0.0,-8.3481198,0.00089,0.00472,-0.00284666,4.33195e-05,0,1.01299e-05,-2.01898e-05,-0.000134369,-4.26305e-05,2.427375,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+    addBPoint(272.0,325.0);
 
-  //create camera right with a bpoint
-  addCam(1392,1040,0.00465,-1114.242911,-2.313123752,-108.0708656,-0.006391017146,-0.1810263138,0.007287021954,-8.3789952,0.08349,0.00098,-0.00285721,4.69797e-05,0,8.79895e-05,6.01291e-05,3.13052e-05,-8.65479e-05,2.427375,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
-  addBPoint(223.0,300.0);
+    //create camera right with a bpoint
+    addCam(1040,1392,0.00465,-1114.242911,-2.313123752,-108.0708656,-0.006391017146,-0.1810263138,0.007287021954,-8.3789952,0.08349,0.00098,-0.00285721,4.69797e-05,0,8.79895e-05,6.01291e-05,3.13052e-05,-8.65479e-05,2.427375,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+    addBPoint(223.0,300.0);
 
-  //calculate of the forward intersection
-  calculate();
-  show_variabes_and_infos();
+    //calculate of the forward intersection
+    calculate();
 
-  printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
-  printf("\nforwart intersection control: (-1062.3945612937441,1587.5888858836174,-7728.733215755935)\n");
+    //show_variabes_and_infos();
 
-  //delete all values (depends of the internal List of bpoints)
-  del_all();
+    printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
+    printf("\nforwart intersection control: (-1741.225369 , 799.567923 , -7397.498111)  std(2.136106,1.646223,12.459384)\n");
+
+    //delete all values (depends of the internal List of bpoints)
+    del_all();
 
 
-  //################################
+//################################
 
   printf("\n##################################\n");
   printf("forwart intersection example 2:\n");
 
-  //info -- calculation from the calibration --
-  /* calibration
-     ###### forward intersection ########
-     picture left:  RechtsVorn_13.BMP  picture right: RechtsHinten_13.BMP
-     BP_left :126 (  756.000,  345.000)   BP_right :126 (  401.000,  370.000)
-     ###### end forward intersection ########
-     ######  boreside transformation ########
-     car pos left  : (  641754.64076, 5638452.77658,     296.79691)  rot (0.67666,      -0.16642,     147.47308)   have pic's the same car pos :1
-     UTM global    : (  641748.32241, 5638451.20961,     299.20626)  0.00000 0.00000 0.00000
-     UTM soll P_ref: (  641748.32088, 5638451.20780,     299.20560)
-     soll - ist    : (      -0.0-1062.3945612937441,1587.5888858836174,-7728.733215755935)0153,      -0.00180,      -0.00066)
-     ###### end boreside transformation ########
-  */
+                 //info -- calculation from the calibration --
+				 /* calibration
+				 ###### forward intersection ########
+				  picture left:  RechtsVorn_13.BMP  picture right: RechtsHinten_13.BMP
+				  BP_left :126 (  756.000,  345.000)   BP_right :126 (  401.000,  370.000)
+				  ###### end forward intersection ########
+				  ######  boreside transformation ########
+				  car pos left  : (  641754.64076, 5638452.77658,     296.79691)  rot (0.67666,      -0.16642,     147.47308)   have pic's the same car pos :1
+				  UTM global    : (  641748.32241, 5638451.20961,     299.20626)  0.00000 0.00000 0.00000
+				  UTM soll P_ref: (  641748.32088, 5638451.20780,     299.20560)
+				  soll - ist    : (      -0.0-1062.3945612937441,1587.5888858836174,-7728.733215755935)0153,      -0.00180,      -0.00066)
+				 ###### end boreside transformation ########
+				 */
 
 
   addCam2(cam_left);
@@ -100,7 +101,8 @@ int main(void)
 
   //calculate of the forward intersection
   calculate();
-  show_variabes_and_infos();
+
+  //show_variabes_and_infos();
 
   printf("\n");
   printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
@@ -120,12 +122,7 @@ int main(void)
   //delete all values (depends of the internal List of bpoints)
   del_all();
 
-  //##################################
-
-
-
-
-  //################################
+//##################################
 
   printf("\n##################################\n");
   printf("forwart intersection example 2A:\n");
@@ -199,11 +196,10 @@ int main(void)
   //delete all values (depends of the internal List of bpoints)
   del_all();
 
-  //##################################
 
 
 
-
+//##################################
 
   printf("\n#########################################\n");
   printf("calc back from a global point to left cam :\n");
@@ -227,7 +223,7 @@ int main(void)
   del_all();
 
 
-  //##################################
+//##################################
 
   printf("\n############################################\n");
   printf("calc back from a global point to right cam :\n");
@@ -250,34 +246,36 @@ int main(void)
   //delete all values (depends of the internal List of bpoints) is extreme important!!
   del_all();
 
-  //##################################
+//##################################
 
-  printf("\n############################################\n");
-  printf("Epipolargeomerie:\n");
+		printf("\n############################################\n");
+		printf("Epipolargeomerie:\n");
 
-  double d_begin = 3.0;
-  double d_end   =50.0;
-  double d_step   = 0.5;
-  double d_i = d_begin;
+		double d_begin = 3.0;
+		double d_end   =50.0;
+		double d_step   = 0.5;
+		double d_i = d_begin;
 
-  addCam2(cam_left);
-  addBPoint(756.000,345.000);
+		addCam2(cam_left);
+		addBPoint(756.000,345.000);
+		addGlobalCarReferencePoint_CamSetGlobal(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
 
-  addCam2(cam_right);
+		addCam2(cam_right);
+		addGlobalCarReferencePoint_CamSetGlobal(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
 
-  printf("\n");
+		printf("\n");
 
-  while( d_i <= d_end )
-    {
-      setDistanceForEpipolarLine(d_i);
-      calculate();
-      printf("\none point in %lf m distance on the epipolar line:   m: %lf , n: %lf ",d_i,get_m(),get_n());
+		while( d_i <= d_end )
+		{
+		 setDistanceForEpipolarLine(d_i);
+		 calculate();
+		 printf("\none point in %lf m distance on the epipolar line:   m: %lf , n: %lf ",d_i,get_m(),get_n());
 
-      d_i+=d_step;
-    }
+		 d_i+=d_step;
+		}
 
-  //delete all values (depends of the internal List of bpoints)
-  del_all();
+		//delete all values (depends of the internal List of bpoints)
+		del_all();
 
 
   //##################################
@@ -358,7 +356,7 @@ int main(void)
 		//calculate of the forward intersection
 		calculate();
 
-		show_variabes_and_infos();
+		//show_variabes_and_infos();
 
 		printf("\n");
 		printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());

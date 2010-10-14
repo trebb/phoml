@@ -13,6 +13,7 @@ public:
 	
 	Point(){m_x=m_y=m_z=0.0;m_dx=m_dy=m_dz=0.0;}
 	Point(double x,double y,double z):m_x(x),m_y(y),m_z(z){m_dx=m_dy=m_dz=0.0;}
+	Point(double x,double y,double z,double dx,double dy,double dz):m_x(x),m_y(y),m_z(z),m_dx(dx),m_dy(dy),m_dz(dz){}
 
     ~Point(){}
 

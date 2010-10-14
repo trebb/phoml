@@ -16,6 +16,15 @@ CBoreside_transformation::CBoreside_transformation(CCam_bore &cam,double Easting
  set_car_position_utm(Easting,Northing,ell_Height,roll,pitch,heading);
 }
 
+CBoreside_transformation::CBoreside_transformation(CCam_bore &cam,Gps_pos &Pos)
+{
+ m_cam=cam;
+ fill_params_outer_bore();
+
+ //save gps position of the car
+ set_car_position_utm(Pos);
+}
+
 CBoreside_transformation::~CBoreside_transformation()
 {
 	
@@ -32,17 +41,47 @@ void CBoreside_transformation::set_car_position_utm(double Easting,double Northi
  m_heading=heading;
  fill_params_utm();	
 }
+
+void CBoreside_transformation::set_car_position_utm(Gps_pos &Pos)
+{
+	//save gps position of the car
+	 m_Easting=Pos.get_Easting();
+	 m_Northing=Pos.get_Northing();
+	 m_ell_Height=Pos.get_EllH();
+	 m_roll=Pos.get_Roll();
+	 m_pitch=Pos.get_Pitch();
+	 m_heading=Pos.get_Heading();
+	 m_dEasting=Pos.get_mEasting();
+	 m_dNorthing=Pos.get_mNorthing();
+	 m_dell_Height=Pos.get_mEllH();
+	 m_droll=Pos.get_mRoll();
+	 m_dpitch=Pos.get_mPitch();
+	 m_dheading=Pos.get_mHeading();
+
+	 fill_params_utm();
+}
 	
 void CBoreside_transformation::set_utm_koordinate(double Easting,double Northing,double ell_Height)
 {
 	m_pos_utm = Point(Easting,Northing,ell_Height);	
 }
 
+void CBoreside_transformation::set_utm_koordinate(Point &utm)
+{
+	m_pos_utm = utm;
+}
+
 void CBoreside_transformation::set_local_koordinate(double local_X,double local_Y,double local_Z)
 {
 	m_pos_local = Point(local_X,local_Y,local_Z);
 }
-	
+
+void CBoreside_transformation::set_local_koordinate(Point &local)
+{
+	m_pos_local = local;
+}
+
+
 Point CBoreside_transformation::get_utm_koordinate()
 {
  //calc back into the sensor coordinate system
@@ -83,8 +122,6 @@ Point CBoreside_transformation::get_local_koordinate()
  return m_pos_local;	
 }
 
-
-
 void CBoreside_transformation::fill_params_outer_bore()
 {
 	//cam koordinate system
@@ -99,11 +136,12 @@ void CBoreside_transformation::fill_params_outer_bore()
 	//Rotation
 	m_rotation_car = Rot(m_cam.get_B_rotx(),m_cam.get_B_roty(),m_cam.get_B_rotz());
 }
+
 void CBoreside_transformation::fill_params_utm()
 {
 	//gps coordinate system
 	//Translation
-	m_translation_utm = Point(m_Easting,m_Northing,m_ell_Height);
+	m_translation_utm = Point(m_Easting,m_Northing,m_ell_Height,m_dEasting,m_dNorthing,m_dell_Height);
 	//Rotation
 	
 	//TODO change the rotation

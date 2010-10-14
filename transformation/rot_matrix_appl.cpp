@@ -131,9 +131,9 @@ bool Rot_appl::get_RotWinkel(double& Omega,double& Phi,double& Kappa)
 	    Kappa = atan2(r21,r11);
 	   }
 
-	   //Omega = clamp(Omega, -PI, PI);
-	   //Phi   = clamp(Phi  , -PI, PI);
-	   //Kappa = clamp(Kappa, -PI, PI);
+	   Omega = clamp(Omega, -PI, PI);
+	   Phi   = clamp(Phi  , -PI, PI);
+	   Kappa = clamp(Kappa, 0, 2*PI);
 
 	   Rot_appl Rt(Omega,Phi,Kappa);
 	   if(Rt.get_Matrix().NearEqual(m_R,threshold))

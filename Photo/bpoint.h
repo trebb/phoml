@@ -13,7 +13,7 @@ using namespace std;
 class BPoint:public Point //->hier wird die Klasse Punkt direkt in Klasse Bpunkt mit 
                           //eingebunden, so als wrde man alles aus Punkt nochmal 
 						  //komplett in Bpunkt schreiben, somit sind alle Funktionen
-						  //und Variablen aus Punkt auch direkt in Bpunkt verfgbar
+						  //und Variablen aus Punkt auch direkt in Bpunkt verfügbar
 {
 //*************************************************************************************
 // Pixelkoordinaten m,n
@@ -32,22 +32,32 @@ public:
 	{m_m=m_n        =-1.0;
      m_xkorr=m_ykorr=-111111.1;
 	 m_x=m_y=m_z    =-111111.1;
+	 m_change_cam=false;
+	 m_iteration_limit=false;
 	};
+
 	//Konstruktor I (Eingabe der Pixel(m,n))
 	BPoint(Cam &C,double m,double n):m_Cam(&C),m_m(m),m_n(n)
 	{m_x=m_y=m_z    =-111111.1;
+	 //todo exception handling an check picture coordinates
 	 BildpunktkorrekturVonPixInBildKoo();
+	 m_change_cam=false;
+	 m_iteration_limit=false;
 	};
-    //Konstruktor II (Rckprojektion in die Kamera, Eingabe Objektkoordinaten(X,Y,Z) in [mm] )
+
+    //Konstruktor II (Rückprojektion in die Kamera, Eingabe Objektkoordinaten(X,Y,Z) in [mm] )
     BPoint(Cam &C,double x,double y,double z):Point(x,y,z),m_Cam(&C)
 	{m_m=m_n=-1.0;
+	 //todo exception handling an check picture coordinates	//steffen
 	 PixelkorrekturVonBildInPixKoo();
+	 m_change_cam=false;
+	 m_iteration_limit=false;
 	}; 
 
-    void  set_mnPixKoo (double m,double n); //Eingabe (m,n) des Bildpunktes in [pix]
-    void  set_xyBKoo   (double x,double y); //Eingabe (x,y) der unkorrigierten Bildpunkte in [mm]
-    void  set_XYZObjKoo(double X,double Y,double Z); //Eingabe (x,y,z) des Objektpunktes in [mm]
-
+	BPoint(const BPoint &A)
+	{
+	 (*this)=A;
+	}
 
 	BPoint& operator= (const BPoint &A) 
 	{     
@@ -59,29 +69,47 @@ public:
 		  (*this).m_z     = A.m_z;
 		  (*this).m_xkorr = A.m_xkorr;
 		  (*this).m_ykorr = A.m_ykorr;
+		  (*this).m_change_cam=false;
+		  (*this).m_iteration_limit=false;
 		  return (*this);
 	}
-	BPoint(const BPoint &A)
-	{
-	 (*this)=A;
-	}
+
+	// convertion of "BPoint  >>-->  Point"
+	operator Point () const { return Point(m_x,m_y,m_z); };
+
+		//todo set to deprecated steffen 20101013
+    Cam&   get_Cam () { m_change_cam=true; return *m_Cam; /*Cam C; C=*m_Cam; return C;*/}
+	//Cam&  get_Cam_Ref()  { return *m_Cam;}
+
+
+    //function for set new values or update camera changes
+    bool  set_mnPixKoo (double m,double n); //Eingabe (m,n) des Bildpunktes in [pix]
+    bool  set_xyBKoo   (double x,double y); //Eingabe (x,y) der unkorrigierten Bildpunkte in [m]
+    bool  set_XYZObjKoo(double X,double Y,double Z); //Eingabe (x,y,z) des Objektpunktes in [m]
+    bool  set_XYZObjKoo( const Point &P); //Eingabe (x,y,z) des Objektpunktes in [m]
 	
-	Cam&   get_Cam    () { return *m_Cam; /*Cam C; C=*m_Cam; return C;*/}
-	Cam&  get_Cam_Ref() { return *m_Cam;}
-	
-	double get_m() const{ return m_m; }
+    double get_m() const{ return m_m; }
 	double get_n() const{ return m_n; }
+
+	//set to deprecated steffen 20101013
+	//double get_X() const {return m_x; }
+    //double get_Y() const {return m_y; }
+    //double get_Z() const {return m_z; }
+		
+	//old steffen 20101013
+	//Point get_Point()     { Point P(m_x,m_y,m_z);         return P;} // Ausgabe im Objektkoordinatensystem (fr interne Berechnungen oder Rckrechnung ObjKoo In BKoo)
+	//Point get_xyBKooKorr(){ Point P(m_xkorr,m_ykorr,0.0); return P;} // Ausgabe Bildpunkt   korrigiert x,y (z=0)
 
 	//Achtung!! Dieser Objektpunkt kann irgendwo auf dem Strahl Kamerahauptpunkt und gesuchtem Objektpunkt liegen!!
 	//Bei der Rckrechnung vom Objektraum in Bildkoordinaten ist diese Koordinate zu setzen!
-	double get_X() const {return m_x; }
-    double get_Y() const {return m_y; }
-    double get_Z() const {return m_z; }
-		
-	Point get_Point()     { Point P(m_x,m_y,m_z);         return P;} // Ausgabe im Objektkoordinatensystem (fr interne Berechnungen oder Rckrechnung ObjKoo In BKoo)
-	Point get_xyBKooKorr(){ Point P(m_xkorr,m_ykorr,0.0); return P;} // Ausgabe Bildpunkt   korrigiert x,y (z=0)
-    Point get_xyBKoo();                                              // Ausgabe Bildpunkt unkorrigiert x,y (z=0)
+	//new steffen 20101013
+	Point get_Point()      const { return Point(m_x,m_y,m_z);        } // Ausgabe im Objektkoordinatensystem (fr interne Berechnungen oder Rckrechnung ObjKoo In BKoo)
+    Point get_xyBKooKorr() const { return Point(m_xkorr,m_ykorr,0.0);} // Ausgabe Bildpunkt   korrigiert x,y (z=0)
 
+	Point get_xyBKoo() const;                                              // Ausgabe Bildpunkt unkorrigiert x,y (z=0)
+
+	bool get_error_iteration_limit() const { return m_iteration_limit; }
+	bool get_info_change_camera_settings() const { return m_change_cam; }
 
 	BPoint get_KernlinenPunkt( Cam &C, double s ); //Cam &C ist die Kamera in der der Kernlinien Punkt gesucht wird
 	                                               // s ist die Entfernung von Kamerahauptpunkt in den Objektraum
@@ -108,7 +136,8 @@ private:
 	//:Point (Ableitung der Klasse) ->
 	// X,Y,Z //fr Bildkoordinaten->(nur fr interne Berechnungen m_z=-c) und Objektkoordinaten (Rckrechnung ObjKooInBKoo)      
   
-	bool m_isOK;
+	bool m_iteration_limit;
+	bool m_change_cam;
 };
 
 
