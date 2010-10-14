@@ -127,19 +127,19 @@ int main(void)
   printf("\n##################################\n");
   printf("forwart intersection example 2A:\n");
 
-  //info -- calculation from the calibration --
-  /* calibration
-     ###### forward intersection ########
-     picture left:  RechtsVorn_13.BMP  picture right: RechtsHinten_13.BMP
-     BP_left :126 (  756.000,  345.000)   BP_right :126 (  401.000,  370.000)
-     ###### end forward intersection ########
-     ######  boreside transformation ########
-     car pos left  : (  641754.64076, 5638452.77658,     296.79691)  rot (0.67666,      -0.16642,     147.47308)   have pic's the same car pos :1
-     UTM global    : (  641748.32241, 5638451.20961,     299.20626)  0.00000 0.00000 0.00000
-     UTM soll P_ref: (  641748.32088, 5638451.20780,     299.20560)
-     soll - ist    : (      -0.0-1062.3945612937441,1587.5888858836174,-7728.733215755935)0153,      -0.00180,      -0.00066)
-     ###### end boreside transformation ########
-  */
+      //info -- calculation from the calibration --
+      /* calibration
+         ###### forward intersection ########
+         picture left:  RechtsVorn_13.BMP  picture right: RechtsHinten_13.BMP
+         BP_left :126 (  756.000,  345.000)   BP_right :126 (  401.000,  370.000)
+         ###### end forward intersection ########
+         ######  boreside transformation ########
+         car pos left  : (  641754.64076, 5638452.77658,     296.79691)  rot (0.67666,      -0.16642,     147.47308)   have pic's the same car pos :1
+         UTM global    : (  641748.32241, 5638451.20961,     299.20626)  0.00000 0.00000 0.00000
+         UTM soll P_ref: (  641748.32088, 5638451.20780,     299.20560)
+         soll - ist    : (      -0.0-1062.3945612937441,1587.5888858836174,-7728.733215755935)0153,      -0.00180,      -0.00066)
+         ###### end boreside transformation ########
+      */
 
   addCam( 960, 1280,
           0.00645,                            
@@ -176,7 +176,8 @@ int main(void)
 
   //calculate of the forward intersection
   calculate();
-  show_variabes_and_infos();
+
+  //show_variabes_and_infos();
 
   printf("\n");
   printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
@@ -292,7 +293,7 @@ int main(void)
   addGlobalCarReferencePoint(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
   setGlobalReferenceFrame();//todo in process -> for EPS data
 
-  show_variabes_and_infos();
+  //show_variabes_and_infos();
 
   //calculate of the forward intersection
   calculate();

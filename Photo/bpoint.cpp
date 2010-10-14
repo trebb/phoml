@@ -5,6 +5,7 @@
 #include "..//Basics//rot_matrix.h"
 #include "..//Basics//straight_line.h"
 
+
 //###################################################################################
 // Rechnung von Bildkoordinaten in Objektkoordinaten
 //###################################################################################
@@ -85,6 +86,8 @@ return true;
 }
 
 //###################################################################################
+// Rechnung von Bildkoordinaten in Objektkoordinaten
+//###################################################################################
 bool BPoint::BildpunktkorrekturVonPixInBildKoo()
 {
  double vx,vy;
@@ -115,9 +118,6 @@ bool BPoint::BildpunktkorrekturVonPixInBildKoo()
  
 return true;
 }
-
-
-
 
 //###################################################################################
 // Rechnung von Objektkoordinaten in Bildkoordinaten
@@ -200,8 +200,26 @@ else
 	return true;
 }
 
+//###################################################################################
+// update function for the public functions
+//###################################################################################
+bool  BPoint::update_internal_data_structur()
+{
+ bool t;
 
+ m_iteration_limit=false;
+ m_change_cam=false;
 
+ if(m_input_type == BPoint::picture)
+ {
+     t = BildpunktkorrekturVonPixInBildKoo();
+ }
+ if(m_input_type == BPoint::object)
+ {
+     t = PixelkorrekturVonBildInPixKoo();
+ }
+ return t;
+}
 
 //###################################################################################
 // Eingabe / Ausgaberoutinen
@@ -212,9 +230,9 @@ bool  BPoint::set_mnPixKoo (double m,double n) //Eingabe (m,n) des Bildpunktes i
  m_n=n;
  m_x=m_y=m_z    =-111111.1;
 
- m_iteration_limit=false;
- m_change_cam=false;
- return BildpunktkorrekturVonPixInBildKoo();
+ m_input_type = BPoint::picture;
+ //return BildpunktkorrekturVonPixInBildKoo(); //old now in update_internal_data_structur() //steffen 20101014
+ return update_internal_data_structur();
 }
 
 //###################################################################################
@@ -223,9 +241,9 @@ bool  BPoint::set_xyBKoo(double x,double y)
  m_m =         x/m_Cam->get_pix_size() + m_Cam->get_pix_row()/2 - 0.5  ;
  m_n =(-1.0)*( y/m_Cam->get_pix_size() - m_Cam->get_pix_col()/2 - 0.5 );
 
- m_iteration_limit=false;
- m_change_cam=false;
- return BildpunktkorrekturVonPixInBildKoo();
+ m_input_type = BPoint::picture;
+ //return BildpunktkorrekturVonPixInBildKoo();//old now in update_internal_data_structur()//steffen 20101014
+ return update_internal_data_structur();
 }
 
 //###################################################################################
@@ -236,9 +254,9 @@ bool  BPoint::set_XYZObjKoo(double X,double Y,double Z)//Eingabe (x,y,z) des Obj
  m_z=Z;
  m_m=m_n=-1.0;
 
- m_iteration_limit=false;
- m_change_cam=false;
- return PixelkorrekturVonBildInPixKoo();
+ m_input_type = BPoint::object;
+ //return PixelkorrekturVonBildInPixKoo();//old now in update_internal_data_structur()
+ return update_internal_data_structur();
 }
 
 //###################################################################################
@@ -249,26 +267,62 @@ bool  BPoint::set_XYZObjKoo(const Point &P)//Eingabe (x,y,z) des Objektpunktes i
  m_z=P.get_Z();
  m_m=m_n=-1.0;
 
- m_iteration_limit=false;
- m_change_cam=false;
- return PixelkorrekturVonBildInPixKoo();
+ m_input_type = BPoint::object;
+ //return PixelkorrekturVonBildInPixKoo();//old now in update_internal_data_structur()//steffen 20101014
+ return update_internal_data_structur();
 }
 
 //###################################################################################
-Point BPoint::get_xyBKoo() const
-{
+// Eingabe / Ausgaberoutinen
+//###################################################################################
+double BPoint::get_m()
+{//todo exception handling an check picture coordinates //steffen
+    if(m_change_cam == true && m_input_type == BPoint::object)
+        update_internal_data_structur();
+    return m_m;
+}
+
+//###################################################################################
+double BPoint::get_n()
+{//todo exception handling an check picture coordinates //steffen
+    if(m_change_cam == true && m_input_type == BPoint::object)
+            update_internal_data_structur();
+    return m_n;
+}
+//###################################################################################
+Point BPoint::get_Point()
+{//todo exception handling an check picture coordinates //steffen
+    if(m_change_cam == true && m_input_type == BPoint::picture)
+            update_internal_data_structur();
+    return Point(m_x,m_y,m_z);
+}
+
+//###################################################################################
+Point BPoint::get_xyBKooKorr()
+{//todo exception handling an check picture coordinates //steffen
+    if(m_change_cam == true && m_input_type == BPoint::object)
+            update_internal_data_structur();
+    return Point(m_xkorr,m_ykorr,0.0);
+}
+
+//###################################################################################
+Point BPoint::get_xyBKoo()
+{//todo exception handling an check picture coordinates //steffen
+    if(m_change_cam == true && m_input_type == BPoint::object)
+            update_internal_data_structur();
  Point P;
  P.set_X( ( m_m - m_Cam->get_pix_row()/2 + 0.5 )*m_Cam->get_pix_size() );
  P.set_Y( ( m_Cam->get_pix_col()/2 - m_n + 0.5 )*m_Cam->get_pix_size() );
  return P;
 }
 
-
 //###################################################################################
 //Kernlinie
 //###################################################################################
 BPoint BPoint::get_KernlinenPunkt( Cam &C, double s )
 {//todo exception handling an check picture coordinates	//steffen
+    if(m_change_cam == true)
+            update_internal_data_structur();
  //old steffen 20101013
  //Gerade G( (*this).get_Cam().get_O() , (*this).get_Point() );
  Gerade G( (*this).m_Cam->get_O() , (*this) );
@@ -284,6 +338,8 @@ return BPKern;
 //###################################################################################
 Point BPoint::calc_mono_cam_to_plane_intersection(Ebene &E)
 {
+    if(m_change_cam == true)
+                update_internal_data_structur();
   //old steffen 20101013
   //Gerade G( (*this).get_Cam().get_O() , (*this).get_Point() );
   Gerade G( (*this).m_Cam->get_O() , (*this) );

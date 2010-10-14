@@ -424,7 +424,6 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_CamSetGlobal(double Easting,
   //todo test if cam initialize
 
 
-
   I.m_Easting 	= Easting;
   I.m_Northing 	= Northing;
   I.m_eHeigth 	= eHeigth;
@@ -477,10 +476,6 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_CamSetGlobal(double Easting,
 	lBPoint.rbegin()->get_Cam().set_rotX(r);
 	lBPoint.rbegin()->get_Cam().set_rotY(p);
 	lBPoint.rbegin()->get_Cam().set_rotZ(h);
-
-	//refresh Bpoint class!!
-	if(lBPoint.rbegin()->get_info_change_camera_settings())
-	 lBPoint.rbegin()->set_mnPixKoo(I.m_m,I.m_n);
 	}
 
 	m_is_set_GlobalCarReferencePoint				= true;

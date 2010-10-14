@@ -39,19 +39,21 @@ public:
 	//Konstruktor I (Eingabe der Pixel(m,n))
 	BPoint(Cam &C,double m,double n):m_Cam(&C),m_m(m),m_n(n)
 	{m_x=m_y=m_z    =-111111.1;
+	 //BildpunktkorrekturVonPixInBildKoo(); //old now in update_internal_data_structur()
+
+	 m_input_type = BPoint::picture;
 	 //todo exception handling an check picture coordinates
-	 BildpunktkorrekturVonPixInBildKoo();
-	 m_change_cam=false;
-	 m_iteration_limit=false;
+	 update_internal_data_structur();
 	};
 
     //Konstruktor II (Rückprojektion in die Kamera, Eingabe Objektkoordinaten(X,Y,Z) in [mm] )
     BPoint(Cam &C,double x,double y,double z):Point(x,y,z),m_Cam(&C)
 	{m_m=m_n=-1.0;
+	 //PixelkorrekturVonBildInPixKoo(); //old now in update_internal_data_structur()
+
+	 m_input_type = BPoint::object;
 	 //todo exception handling an check picture coordinates	//steffen
-	 PixelkorrekturVonBildInPixKoo();
-	 m_change_cam=false;
-	 m_iteration_limit=false;
+	 update_internal_data_structur();
 	}; 
 
 	BPoint(const BPoint &A)
@@ -69,8 +71,9 @@ public:
 		  (*this).m_z     = A.m_z;
 		  (*this).m_xkorr = A.m_xkorr;
 		  (*this).m_ykorr = A.m_ykorr;
-		  (*this).m_change_cam=false;
-		  (*this).m_iteration_limit=false;
+		  (*this).m_change_cam      = A.m_change_cam;
+		  (*this).m_iteration_limit = A.m_iteration_limit;
+		  (*this).m_input_type      = A.m_input_type;
 		  return (*this);
 	}
 
@@ -88,8 +91,8 @@ public:
     bool  set_XYZObjKoo(double X,double Y,double Z); //Eingabe (x,y,z) des Objektpunktes in [m]
     bool  set_XYZObjKoo( const Point &P); //Eingabe (x,y,z) des Objektpunktes in [m]
 	
-    double get_m() const{ return m_m; }
-	double get_n() const{ return m_n; }
+    double get_m() ;//{ return m_m; }
+	double get_n() ;//{ return m_n; }
 
 	//set to deprecated steffen 20101013
 	//double get_X() const {return m_x; }
@@ -103,18 +106,17 @@ public:
 	//Achtung!! Dieser Objektpunkt kann irgendwo auf dem Strahl Kamerahauptpunkt und gesuchtem Objektpunkt liegen!!
 	//Bei der Rckrechnung vom Objektraum in Bildkoordinaten ist diese Koordinate zu setzen!
 	//new steffen 20101013
-	Point get_Point()      const { return Point(m_x,m_y,m_z);        } // Ausgabe im Objektkoordinatensystem (fr interne Berechnungen oder Rckrechnung ObjKoo In BKoo)
-    Point get_xyBKooKorr() const { return Point(m_xkorr,m_ykorr,0.0);} // Ausgabe Bildpunkt   korrigiert x,y (z=0)
-
-	Point get_xyBKoo() const;                                              // Ausgabe Bildpunkt unkorrigiert x,y (z=0)
-
-	bool get_error_iteration_limit() const { return m_iteration_limit; }
-	bool get_info_change_camera_settings() const { return m_change_cam; }
+	Point get_Point()       ;//{ return Point(m_x,m_y,m_z);        } // Ausgabe im Objektkoordinatensystem (fr interne Berechnungen oder Rckrechnung ObjKoo In BKoo)
+    Point get_xyBKooKorr()  ;//{ return Point(m_xkorr,m_ykorr,0.0);} // Ausgabe Bildpunkt   korrigiert x,y (z=0)
+	Point get_xyBKoo() ;                                              // Ausgabe Bildpunkt unkorrigiert x,y (z=0)
 
 	BPoint get_KernlinenPunkt( Cam &C, double s ); //Cam &C ist die Kamera in der der Kernlinien Punkt gesucht wird
 	                                               // s ist die Entfernung von Kamerahauptpunkt in den Objektraum
-
 	Point calc_mono_cam_to_plane_intersection(Ebene &E);
+
+	bool get_error_iteration_limit()       const { return m_iteration_limit; }
+	bool get_info_change_camera_settings() const { return m_change_cam; }
+
 
 private:
 
@@ -124,8 +126,9 @@ private:
     bool TransInObjKoo();
     
 	//Hauptfunktionen
-	bool BildpunktkorrekturVonPixInBildKoo();
+    bool BildpunktkorrekturVonPixInBildKoo();
 	bool PixelkorrekturVonBildInPixKoo();
+	bool update_internal_data_structur(); //includes the PixelkorrekturVonBildInPixKoo() and the BildpunktkorrekturVonPixInBildKoo() function//steffen 20101014
 
 	//Variablen
 	Cam    *m_Cam;          //Kamera des Bildpunktes
@@ -138,6 +141,10 @@ private:
   
 	bool m_iteration_limit;
 	bool m_change_cam;
+
+	//for updating changes on camera
+	enum INPUT_TYPE{picture,object};
+	INPUT_TYPE m_input_type;
 };
 
 
