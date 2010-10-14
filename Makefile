@@ -14,11 +14,12 @@ Matrix = Basics/Matrix/matrix.cpp
 Photo  = Photo/bpoint.cpp Photo/cam.cpp Photo/forward_intersection.cpp
 Boreside = boreside_alignement/cam_bore.cpp boreside_alignement/boreside_transformation.cpp
 Transformation = transformation/applanix.cpp transformation/rot_matrix_appl.cpp
+Position = position/gps_pos.cpp
 
 WRAPPER_JAVA = wrapper_for_java/CBPointList.cpp wrapper_for_java/Vorwaertsschnitt_java.cpp wrapper_for_java/mainwrapperjava.cpp internal_control/CPhotogrammetrieTest.cpp
 WRAPPER_C = wrapper_for_c/photoST.cpp
 
-PHOTOGRAMMETRIE_SOURCES = $(Basics) $(Matrix) $(Photo) $(Boreside) $(Transformation)
+PHOTOGRAMMETRIE_SOURCES = $(Basics) $(Matrix) $(Photo) $(Boreside) $(Transformation) $(Position)
 JAVA_SOURCES = $(PHOTOGRAMMETRIE_SOURCES) $(WRAPPER_JAVA)
 TEST_SOURCES = wrapper_for_c/example/zugriff_photogrammetrie_c.c
 
