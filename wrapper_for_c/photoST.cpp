@@ -6,14 +6,14 @@
 #include <string>
 
 //for gcc compiler
-#include "../Basics/point.h"
-#include "../Photo/bpoint.h"
-#include "../boreside_alignement/cam_bore.h"
-#include "../Photo/forward_intersection.h"
+#include "../basics/point.h"
+#include "../photo/bpoint.h"
+#include "../boresight_alignment/cam_bore.h"
+#include "../photo/forward_intersection.h"
 
 //include boreside_transformation
 #include "../transformation/applanix.h"
-#include "../boreside_alignement/boreside_transformation.h"
+#include "../boresight_alignment/boresight_transformation.h"
 
 //#endif
 
@@ -174,7 +174,7 @@ _DLL_EXPORT double STDCALL get_Northing()
 
 _DLL_EXPORT double STDCALL get_eHeigth()
 {
-  return I.m_eHeigth;
+  return I.m_eHeight;
 }
 
 _DLL_EXPORT double STDCALL get_roll()
@@ -402,7 +402,7 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint(double Easting, double North
 {
   I.m_Easting 	= Easting;
   I.m_Northing 	= Northing;
-  I.m_eHeigth 	= eHeigth;
+  I.m_eHeight 	= eHeigth;
   I.m_roll 		= roll;
   I.m_pitch 	= pitch;
   I.m_heading 	= heading;
@@ -426,7 +426,7 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_CamSetGlobal(double Easting,
 
   I.m_Easting 	= Easting;
   I.m_Northing 	= Northing;
-  I.m_eHeigth 	= eHeigth;
+  I.m_eHeight 	= eHeigth;
   I.m_roll 		= roll;
   I.m_pitch     = pitch;
   I.m_heading 	= heading;
@@ -448,7 +448,7 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_CamSetGlobal(double Easting,
 	Rot BR(lCam_bore.rbegin()->get_B_rotx(),lCam_bore.rbegin()->get_B_roty(),lCam_bore.rbegin()->get_B_rotz());
 
 	//global transformation
-	Point GT(I.m_Easting,I.m_Northing,I.m_eHeigth);
+	Point GT(I.m_Easting,I.m_Northing,I.m_eHeight);
 	Rot GR(I.m_roll,I.m_pitch,I.m_heading);
 
 	Point P0_cam(0.0,0.0,0.0); //new coordinate center of the camera  (camera coordinate system)
@@ -540,7 +540,7 @@ _DLL_EXPORT int STDCALL setDistanceForEpipolarLine(double d)
 {
  if(d>0 && d<100000)
  {
-  I.m_distance_epi = d;
+  I.m_distance_epi = d*(-1.0);
   m_is_set_distance_epi = true;
   return 1;
  }
@@ -576,7 +576,7 @@ _DLL_EXPORT void STDCALL del_all()
 	//car reference positon
 	I.m_Easting=0.0;
 	I.m_Northing=0.0;
-	I.m_eHeigth=0.0;
+	I.m_eHeight=0.0;
 	I.m_roll=0.0;
 	I.m_pitch=0.0;
 	I.m_heading=0.0;
@@ -636,7 +636,7 @@ _DLL_EXPORT void STDCALL del_all()
 
 }
 
-_DLL_EXPORT void STDCALL show_variabes_and_infos()
+_DLL_EXPORT void STDCALL showVariablesAndInfos()
 {
 	//test
 	cout.precision(15);
@@ -714,7 +714,7 @@ _DLL_EXPORT void STDCALL show_variabes_and_infos()
 		//global reference point of the car
 		cout<<endl<<"  m_Easting      :"<<I.m_Easting;
 		cout<<endl<<"  m_Northing     :"<<I.m_Northing;
-		cout<<endl<<"  m_eHeigth      :"<<I.m_eHeigth;
+		cout<<endl<<"  m_eHeigth      :"<<I.m_eHeight;
 		cout<<endl<<"  m_roll         :"<<I.m_roll;
 		cout<<endl<<"  m_pitch        :"<<I.m_pitch;
 		cout<<endl<<"  m_heading      :"<<I.m_heading;
@@ -761,7 +761,7 @@ _DLL_EXPORT void STDCALL show_variabes_and_infos()
 		//global reference point of the car
 		cout<<endl<<"  m_Easting      :"<<I.m_Easting;
 		cout<<endl<<"  m_Northing     :"<<I.m_Northing;
-		cout<<endl<<"  m_eHeigth      :"<<I.m_eHeigth;
+		cout<<endl<<"  m_eHeigth      :"<<I.m_eHeight;
 		cout<<endl<<"  m_roll         :"<<I.m_roll;
 		cout<<endl<<"  m_pitch        :"<<I.m_pitch;
 		cout<<endl<<"  m_heading      :"<<I.m_heading;
@@ -889,13 +889,13 @@ _DLL_EXPORT int STDCALL calculate()
 
 		if(!m_is_set_GlobalCarReferencePoint_CamSetGlobal)
 		{
-			CBoreside_transformation bore(*lCam_bore.begin());
+			CBoresight_transformation bore(*lCam_bore.begin());
 
 			if(!m_is_set_GlobalCarReferencePoint_std)
 				I.m_dEasting=I.m_dNorthing=I.m_deHeigth=I.m_droll=I.m_dpitch=I.m_dheading=0.0;
 
-			//cout<<endl<<"carpos: E: "<<m_Easting<<"  N:"<<m_Northing<<"  H:"<<m_eHeigth<<"  r:"<<m_roll<<"  p:"<<m_pitch<<"  h:"<<m_heading;
-			bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeigth,I.m_roll,I.m_pitch,I.m_heading);
+			//cout<<endl<<"carpos: E: "<<m_Easting<<"  N:"<<m_Northing<<"  H:"<<m_eHeight<<"  r:"<<m_roll<<"  p:"<<m_pitch<<"  h:"<<m_heading;
+			bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeight,I.m_roll,I.m_pitch,I.m_heading);
 
 			//cout<<endl<<"intern P local: "<<m_x_local <<" "<< m_y_local <<" "<<  m_z_local;
 			bore.set_local_koordinate( I.m_x_local , I.m_y_local , I.m_z_local );
@@ -935,9 +935,9 @@ _DLL_EXPORT int STDCALL calculate()
 			)
 	{
 		    //calc the bore side transformation with the global car position
-		    CBoreside_transformation bore(*lCam_bore.rbegin());
+		    CBoresight_transformation bore(*lCam_bore.rbegin());
 
-			bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeigth,I.m_roll,I.m_pitch,I.m_heading);
+			bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeight,I.m_roll,I.m_pitch,I.m_heading);
 
 			bore.set_utm_koordinate(I.m_x_global,I.m_y_global,I.m_z_global);
 

@@ -1,22 +1,22 @@
-#ifndef BORESIDE_TRANSFORMATION_H_
-#define BORESIDE_TRANSFORMATION_H_
+#ifndef BORESIGHT_TRANSFORMATION_H_
+#define BORESIGHT_TRANSFORMATION_H_
 
-#include "..//Basics//point.h"
-#include "..//Basics//Matrix//matrix.h"
-#include "..//Basics//rot_matrix.h"
+#include "..//basics//point.h"
+#include "..//basics//matrix//matrix.h"
+#include "..//basics//rot_matrix.h"
 #include "..//position//gps_pos.h"
 #include "cam_bore.h"
 
 
-class CBoreside_transformation
+class CBoresight_transformation
 {
 	
 public:
-	CBoreside_transformation(CCam_bore &cam);
-	CBoreside_transformation(CCam_bore &cam,double Easting,double Northing,double ell_Height,double roll,double pitch,double heading);
-	CBoreside_transformation(CCam_bore &cam,Gps_pos &Pos);
+	CBoresight_transformation(CCam_bore &cam);
+	CBoresight_transformation(CCam_bore &cam,double Easting,double Northing,double ell_Height,double roll,double pitch,double heading);
+	CBoresight_transformation(CCam_bore &cam,Gps_pos &Pos);
 
-	virtual ~CBoreside_transformation();
+	virtual ~CBoresight_transformation();
 	
 	void set_car_position_utm(double Easting,double Northing,double ell_Height,double roll,double pitch,double heading);
 	void set_car_position_utm(Gps_pos &Pos);

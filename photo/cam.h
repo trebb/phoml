@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "..//Basics//point.h"
+#include "..//basics//point.h"
 
 using namespace std;
 

@@ -9,17 +9,18 @@ JAR    = lib/photogrammetrie.jar
 JAVA_DIR = java
 LIB_DIR = lib
 
-Basics = Basics/ebene.cpp Basics/point.cpp Basics/rot_matrix.cpp Basics/straight_line.cpp
-Matrix = Basics/Matrix/matrix.cpp
-Photo  = Photo/bpoint.cpp Photo/cam.cpp Photo/forward_intersection.cpp
-Boreside = boreside_alignement/cam_bore.cpp boreside_alignement/boreside_transformation.cpp
-Transformation = transformation/applanix.cpp transformation/rot_matrix_appl.cpp
+Basics = basics/ebene.cpp basics/point.cpp basics/point_nr.cpp basics/rot_matrix.cpp basics/straight_line.cpp
+Matrix = basics/matrix/matrix.cpp
+Point_nr_system = basics/point_nr_system/point_nr_list.cpp
+Boreside = boresight_alignment/boresight_transformation.cpp boresight_alignment/bpoint_bore.cpp boresight_alignment/cam_bore.cpp boresight_alignment/mono_photogrammetrie.cpp
+Photo  = photo/bpoint.cpp photo/cam.cpp photo/forward_intersection.cpp
 Position = position/gps_pos.cpp
+Transformation = transformation/applanix.cpp transformation/rot_matrix_appl.cpp
 
 WRAPPER_JAVA = wrapper_for_java/CBPointList.cpp wrapper_for_java/Vorwaertsschnitt_java.cpp wrapper_for_java/mainwrapperjava.cpp internal_control/CPhotogrammetrieTest.cpp
 WRAPPER_C = wrapper_for_c/photoST.cpp
 
-PHOTOGRAMMETRIE_SOURCES = $(Basics) $(Matrix) $(Photo) $(Boreside) $(Transformation) $(Position)
+PHOTOGRAMMETRIE_SOURCES = $(Basics) $(Matrix) $(Point_nr_system) $(Boreside) $(Photo) $(Position) $(Transformation) 
 JAVA_SOURCES = $(PHOTOGRAMMETRIE_SOURCES) $(WRAPPER_JAVA)
 TEST_SOURCES = wrapper_for_c/example/zugriff_photogrammetrie_c.c
 

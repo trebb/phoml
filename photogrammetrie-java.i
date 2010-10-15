@@ -1,10 +1,10 @@
 %module photo
 %{
-#include "Basics/point.h"
-#include "Photo/bpoint.h"
-#include "Photo/cam.h"
-#include "Photo/forward_intersection.h"
-#include "boreside_alignement/cam_bore.h"
+#include "basics/point.h"
+#include "photo/bpoint.h"
+#include "photo/cam.h"
+#include "photo/forward_intersection.h"
+#include "boresight_alignment/cam_bore.h"
 #include <vector>
 #include "wrapper_for_java/Vorwaertsschnitt_java.h"
 #include "wrapper_for_java/CBPointList.h"

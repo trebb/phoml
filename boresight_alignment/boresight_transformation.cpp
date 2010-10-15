@@ -1,13 +1,13 @@
-#include "boreside_transformation.h"
+#include "boresight_transformation.h"
 
-CBoreside_transformation::CBoreside_transformation(CCam_bore &cam)
+CBoresight_transformation::CBoresight_transformation(CCam_bore &cam)
 {
  m_cam=cam;
  fill_params_outer_bore();
  set_car_position_utm(0.0,0.0,0.0,0.0,0.0,0.0);
 }
 
-CBoreside_transformation::CBoreside_transformation(CCam_bore &cam,double Easting,double Northing,double ell_Height,double roll,double pitch,double heading)
+CBoresight_transformation::CBoresight_transformation(CCam_bore &cam,double Easting,double Northing,double ell_Height,double roll,double pitch,double heading)
 {
  m_cam=cam;
  fill_params_outer_bore();
@@ -16,7 +16,7 @@ CBoreside_transformation::CBoreside_transformation(CCam_bore &cam,double Easting
  set_car_position_utm(Easting,Northing,ell_Height,roll,pitch,heading);
 }
 
-CBoreside_transformation::CBoreside_transformation(CCam_bore &cam,Gps_pos &Pos)
+CBoresight_transformation::CBoresight_transformation(CCam_bore &cam,Gps_pos &Pos)
 {
  m_cam=cam;
  fill_params_outer_bore();
@@ -25,12 +25,12 @@ CBoreside_transformation::CBoreside_transformation(CCam_bore &cam,Gps_pos &Pos)
  set_car_position_utm(Pos);
 }
 
-CBoreside_transformation::~CBoreside_transformation()
+CBoresight_transformation::~CBoresight_transformation()
 {
 	
 }
 
-void CBoreside_transformation::set_car_position_utm(double Easting,double Northing,double ell_Height,double roll,double pitch,double heading)
+void CBoresight_transformation::set_car_position_utm(double Easting,double Northing,double ell_Height,double roll,double pitch,double heading)
 {
  //save gps position of the car
  m_Easting=Easting;
@@ -42,7 +42,7 @@ void CBoreside_transformation::set_car_position_utm(double Easting,double Northi
  fill_params_utm();	
 }
 
-void CBoreside_transformation::set_car_position_utm(Gps_pos &Pos)
+void CBoresight_transformation::set_car_position_utm(Gps_pos &Pos)
 {
 	//save gps position of the car
 	 m_Easting=Pos.get_Easting();
@@ -61,28 +61,28 @@ void CBoreside_transformation::set_car_position_utm(Gps_pos &Pos)
 	 fill_params_utm();
 }
 	
-void CBoreside_transformation::set_utm_koordinate(double Easting,double Northing,double ell_Height)
+void CBoresight_transformation::set_utm_koordinate(double Easting,double Northing,double ell_Height)
 {
 	m_pos_utm = Point(Easting,Northing,ell_Height);	
 }
 
-void CBoreside_transformation::set_utm_koordinate(Point &utm)
+void CBoresight_transformation::set_utm_koordinate(Point &utm)
 {
 	m_pos_utm = utm;
 }
 
-void CBoreside_transformation::set_local_koordinate(double local_X,double local_Y,double local_Z)
+void CBoresight_transformation::set_local_koordinate(double local_X,double local_Y,double local_Z)
 {
 	m_pos_local = Point(local_X,local_Y,local_Z);
 }
 
-void CBoreside_transformation::set_local_koordinate(Point &local)
+void CBoresight_transformation::set_local_koordinate(Point &local)
 {
 	m_pos_local = local;
 }
 
 
-Point CBoreside_transformation::get_utm_koordinate()
+Point CBoresight_transformation::get_utm_koordinate()
 {
  //calc back into the sensor coordinate system
  Point pos_local = m_pos_local.RotationRueck(m_translation_cam,m_rotation_cam);
@@ -104,7 +104,7 @@ Point CBoreside_transformation::get_utm_koordinate()
  return m_pos_utm;
 }
 
-Point CBoreside_transformation::get_local_koordinate()
+Point CBoresight_transformation::get_local_koordinate()
 {
  //calc local cam coordinate from the utm coordinate system
  //Point transl = m_translation_car.Add(m_translation_utm);
@@ -122,7 +122,7 @@ Point CBoreside_transformation::get_local_koordinate()
  return m_pos_local;	
 }
 
-void CBoreside_transformation::fill_params_outer_bore()
+void CBoresight_transformation::fill_params_outer_bore()
 {
 	//cam koordinate system
 	//Translation
@@ -137,7 +137,7 @@ void CBoreside_transformation::fill_params_outer_bore()
 	m_rotation_car = Rot(m_cam.get_B_rotx(),m_cam.get_B_roty(),m_cam.get_B_rotz());
 }
 
-void CBoreside_transformation::fill_params_utm()
+void CBoresight_transformation::fill_params_utm()
 {
 	//gps coordinate system
 	//Translation

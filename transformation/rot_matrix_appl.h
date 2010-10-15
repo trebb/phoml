@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-#include "..//Basics//Matrix//matrix.h"
+#include "..//basics//matrix//matrix.h"
 
 using namespace std;
 

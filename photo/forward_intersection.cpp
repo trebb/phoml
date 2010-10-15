@@ -1,9 +1,9 @@
 #include "forward_intersection.h"
 
 #include <cmath>
-#include "..//Basics//Matrix//matrix.h"
-#include "..//Basics//rot_matrix.h"
-#include "..//Basics//straight_line.h"
+#include "..//basics//matrix//matrix.h"
+#include "..//basics//rot_matrix.h"
+#include "..//basics//straight_line.h"
 
 
 

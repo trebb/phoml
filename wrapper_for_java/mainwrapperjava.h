@@ -1,9 +1,9 @@
 #ifndef MAINWRAPPERJAVA_H_
 #define MAINWRAPPERJAVA_H_
 
-#include "../Basics/point.h"
-#include "../Photo/bpoint.h"
-#include "../boreside_alignement/cam_bore.h"
+#include "../basics/point.h"
+#include "../photo/bpoint.h"
+#include "../boresight_alignment/cam_bore.h"
 
 //Java wrapper
 #include "CBPointList.h"

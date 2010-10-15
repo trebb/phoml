@@ -4,8 +4,8 @@
 #include <sstream>
 #include <cmath>
 
-#include "..//Basics//fix_values.h"
-#include "..//Basics//rot_matrix.h"
+#include "..//basics//fix_values.h"
+#include "..//basics//rot_matrix.h"
 
 //#######################################################################################
 //ein Vielfaches von einem Winkel reduzieren

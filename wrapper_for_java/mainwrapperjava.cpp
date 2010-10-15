@@ -1,9 +1,8 @@
 #include "mainwrapperjava.h"
 
-#include "../Photo/forward_intersection.h"
-#include "../boreside_alignement/boreside_transformation.h"
-#include "../Basics/fix_values.h"
-
+#include "..//photo//forward_intersection.h"
+#include "..//boresight_alignment//boresight_transformation.h"
+#include "..//basics//fix_values.h"
 #include "..//transformation//applanix.h"
 
 CMainWrapperJava::CMainWrapperJava()
@@ -28,7 +27,7 @@ BPoint CMainWrapperJava::get_BPoint_from_local_3D_Point(Point P_local,CCam_bore 
 
 Point CMainWrapperJava::get_3D_Point_global(Point P_local_in_m,CCam_bore cam, double E, double N, double eH, double roll, double pitch, double heading)
 {
-	CBoreside_transformation bore(cam);
+	CBoresight_transformation bore(cam);
 
 	double mroll=0.0,mpitch=0.0,mheading=0.0;
 
@@ -46,7 +45,7 @@ Point CMainWrapperJava::get_3D_Point_global(Point P_local_in_m,CCam_bore cam, do
 
 Point CMainWrapperJava::get_3D_Point_local(Point P_global_E_N_eH_in_m,CCam_bore cam, double E, double N, double eH, double roll, double pitch, double heading)
 {
-	CBoreside_transformation bore(cam);
+	CBoresight_transformation bore(cam);
 
 	double mroll=0.0,mpitch=0.0,mheading=0.0;
 
@@ -67,7 +66,7 @@ Point CMainWrapperJava::get_3D_Point_local(Point P_global_E_N_eH_in_m,CCam_bore 
 
 Point CMainWrapperJava::get_3D_Point_global_wMC(Point P_local_in_m,CCam_bore cam, double E, double N, double eH, double roll, double pitch, double heading,double latitude,double longitude)
 {
-	CBoreside_transformation bore(cam);
+	CBoresight_transformation bore(cam);
 
 	double mroll=0.0,mpitch=0.0,mheading=0.0;
 
@@ -84,7 +83,7 @@ Point CMainWrapperJava::get_3D_Point_global_wMC(Point P_local_in_m,CCam_bore cam
 
 Point CMainWrapperJava::get_3D_Point_local_wMC(Point P_global_E_N_eH_in_m,CCam_bore cam, double E, double N, double eH, double roll, double pitch, double heading,double latitude,double longitude)
 {
-	CBoreside_transformation bore(cam);
+	CBoresight_transformation bore(cam);
 
 	double mroll=0.0,mpitch=0.0,mheading=0.0;
 

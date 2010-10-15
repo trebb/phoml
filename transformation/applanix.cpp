@@ -14,10 +14,10 @@
 //#include "rot_matrix_transportation.h"
 
 //extern matrix lib
-#include "..//Basics//Matrix//matrix.h"
-#include "..//Basics//rot_matrix.h"
-#include "..//Basics//fix_values.h"
-#include "..//Basics//point.h"
+#include "..//basics//matrix//matrix.h"
+#include "..//basics//rot_matrix.h"
+#include "..//basics//fix_values.h"
+#include "..//basics//point.h"
 
 CApplanix::CApplanix()
 {

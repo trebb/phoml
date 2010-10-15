@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include "..//Basics//fix_values.h"
+#include "..//basics//fix_values.h"
 
 //constructor I
 Rot_appl::Rot_appl(double rotX,double rotY,double rotZ)

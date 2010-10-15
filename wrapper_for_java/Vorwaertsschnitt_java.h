@@ -1,7 +1,7 @@
 #ifndef VORWAERTSSCHNITT_JAVA_H_
 #define VORWAERTSSCHNITT_JAVA_H_
 #include "CBPointList.h"
-#include "../Photo/forward_intersection.h"
+#include "../photo/forward_intersection.h"
 
 class Vorwaertsschnitt_java
 {

@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "Matrix//matrix.h"
+#include "matrix//matrix.h"
 
 using namespace std;
 

@@ -5,8 +5,8 @@
 
 
 #include "cam.h"
-#include "..//Basics//point.h"
-#include "..//Basics//ebene.h"
+#include "..//basics//point.h"
+#include "..//basics//ebene.h"
 
 using namespace std;
 

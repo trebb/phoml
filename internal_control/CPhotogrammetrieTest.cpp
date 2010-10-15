@@ -1,7 +1,7 @@
 #include "CPhotogrammetrieTest.h"
-#include "..//Photo//cam.h"
-#include "..//Photo//bpoint.h"
-#include "..//Photo//forward_intersection.h"
+#include "..//photo//cam.h"
+#include "..//photo//bpoint.h"
+#include "..//photo//forward_intersection.h"
 #include <vector>
 
 CPhotogrammetrieTest::CPhotogrammetrieTest()

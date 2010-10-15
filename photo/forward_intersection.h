@@ -2,7 +2,7 @@
 #define __FORWARD_INTERSECTION_h
 
 #include <vector> 
-#include "..//Basics//point.h"
+#include "..//basics//point.h"
 #include "cam.h"
 #include "bpoint.h"
 

@@ -5,7 +5,7 @@
 #include <iostream>
 
 //own lib
-#include "../Photo/cam.h"
+#include "../photo/cam.h"
 
 class CCam_bore:public Cam
 {

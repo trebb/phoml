@@ -1,9 +1,9 @@
 #include "bpoint.h"
 
 #include <cmath>
-#include "..//Basics//Matrix//matrix.h"
-#include "..//Basics//rot_matrix.h"
-#include "..//Basics//straight_line.h"
+#include "..//basics//matrix//matrix.h"
+#include "..//basics//rot_matrix.h"
+#include "..//basics//straight_line.h"
 
 
 //###################################################################################
@@ -321,6 +321,7 @@ Point BPoint::get_xyBKoo()
 //###################################################################################
 BPoint BPoint::get_KernlinenPunkt( Cam &C, double s )
 {//todo exception handling an check picture coordinates	//steffen
+    //Achtung Entfernung bitte negativ angeben -> sodass der Bildstrahl in den Objektraum geht -> siehe Koordinatensystem Kamera
     if(m_change_cam == true)
             update_internal_data_structur();
  //old steffen 20101013

@@ -4,7 +4,7 @@
 #include <iostream>
 
 //intern lib photogrammetrie
-#include "..//Basics//point.h"
+#include "..//basics//point.h"
 
 class Gps_pos
 {

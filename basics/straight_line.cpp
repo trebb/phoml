@@ -1,7 +1,7 @@
 #include "straight_line.h"
 
 #include <cmath>
-#include "..//Basics//Matrix//matrix.h"
+#include "..//basics//matrix//matrix.h"
 #include "fix_values.h"
 
 Gerade::Gerade()
