@@ -1,4 +1,12 @@
-// photoST.cpp : Definiert den Einstiegspunkt für die DLL-Anwendung.
+/*
+ ============================================================================
+ Name        : photoST.cpp
+ Author      : Steffen Scheller
+ Version     : 0.002
+ Copyright   : ©2010
+ Description : C Zugriff auf Photogrammetrie (*.so,*.dll) / Code: C++, Ansi-style
+ ============================================================================
+*/
 
 //system includes c++
 #include <iostream>
@@ -203,7 +211,7 @@ _DLL_EXPORT double STDCALL get_longitude()
 }
 
 
-//funktion for photogrammetrie lib
+//function for photogrammetrie lib
 
 _DLL_EXPORT int STDCALL addCam( int pix_col,
                                 int pix_row,
@@ -783,6 +791,10 @@ _DLL_EXPORT void STDCALL showVariablesAndInfos()
 	cout<<endl<<flush;
 }
 
+_DLL_EXPORT double STDCALL getVersionNumber()
+{
+ return static_cast<double>(VERSIONSNUMBER);
+}
 
 //calc
 _DLL_EXPORT int STDCALL calculate()

@@ -1,3 +1,14 @@
+/*
+ ============================================================================
+ Name        : photoST.h
+ Author      : Steffen Scheller
+ Version     : 0.002
+ Copyright   : ©2010
+ Description : C Zugriff auf Photogrammetrie (*.so,*.dll) / Code: C++, Ansi-style
+ ============================================================================
+*/
+#define VERSIONSNUMBER 0.002
+
 #ifndef __PHOTOST_h
 #define __PHOTOST_h
 
@@ -63,6 +74,7 @@ extern "C" {
   _DLL_EXPORT int STDCALL    setDistanceForEpipolarLine(double d);
   _DLL_EXPORT void STDCALL   del_all();
   _DLL_EXPORT void STDCALL   showVariablesAndInfos();
+  _DLL_EXPORT double STDCALL getVersionNumber();
   _DLL_EXPORT int STDCALL    calculate();
 
 #ifdef __cplusplus
