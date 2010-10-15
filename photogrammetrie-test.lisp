@@ -157,7 +157,7 @@
       (apply #'add-cam *cam-right*)
       (prog1
           (loop
-             for i from 3d0 upto 50d0 by 7d0
+             for i from 4d0 upto 30d0 by .5d0
              do
                (set-distance-for-epipolar-line i)
                (calculate)
@@ -171,7 +171,7 @@
    (38.0d0 669.3626651434224d0 409.71025002804396d0)
    (45.0d0 676.1558194809563d0 410.7305574257181d0)))
 
-(rt:deftest epipolar/3
+(rt:deftest epipolar/2
     (let ((global-car-reference-point   ; pic 13
            '(641754.64076d0 5638452.77658d0 296.79691d0
              -0.2235410d0 -0.6600010d0 214.0967730d0
@@ -228,6 +228,51 @@
    (14.0 756.7466949303281 844.56505998819)
    (14.5 760.5779428663861 844.685762945345)
    (15.0 764.1559084493797 844.7983237485788)))
+
+
+(rt:deftest epipolar/3
+    (let ((global-car-reference-point
+           '(731651.936 5379722.405 439.69
+             2.138 -1.406 67.077
+             48.52781512940818 12.137770422789336)))
+      (setf *read-default-float-format* 'double-float)
+      (del-all)
+      (add-cam 1500 1700 0.007397
+               0.0 0.0 0.0
+               0.0 0.0 0.0
+               -10.18083 -0.08149 0.19289
+               -9.13833e-4 1.04652e-5 0.0
+               -5.35737e-5 9.49128e-5
+               -1.33724e-4 2.11705e-4 4.715882
+               -1.477057713 1.534101279 2.022740812 0.0 0.0 0.0
+               1.451034299 -0.08489628795 -0.001997345786 0.0 0.0 0.0)
+      (add-bpoint 1313.44921875 321.73046875)
+      (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
+      (add-cam 1500 1700 0.007397
+               1.1186306799999999 0.0028390399999999997 -0.09305154
+               -0.00133668 0.17822421 0.02194869
+               -10.19408 -0.00529 0.23262
+               -9.22005e-4 1.0648e-5 0.0
+               -6.0248e-5 -1.31699e-5
+               -1.15248e-4 1.95328e-4 4.715882
+               -0.3475010749 1.532254309 2.021913699 0.0 0.0 0.0
+               1.450387893 0.09424800356 0.02078575518 0.0 0.0 0.0)
+      (apply #'add-global-car-reference-point-cam-set-global global-car-reference-point)
+      (prog1
+          (loop
+             for i from 4d0 upto 15d0 by .5d0
+             do
+             (set-distance-for-epipolar-line i)
+             (calculate)
+             collect (list i (get-m) (get-n)))
+        (del-all)))
+nil)
+ 
+ 
+ 
+(731651.936 5379722.405 439.69 2.138 -1.406 67.077 48.52781512940818
+ 12.137770422789336)
+
 
 (rt:deftest multi-car-position/1
     (progn
