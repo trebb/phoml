@@ -27,9 +27,9 @@ public:
 	Matrix& operator= ( const Matrix &A);
 
 	bool operator==( const Matrix& T) const;
-	bool NearEqual( const Matrix& B, double &threshold) const;
+	bool operator!=( const Matrix& T) const;
+	bool NearEqual( const Matrix& B, double threshold) const;
 	
-	double a;
     double& operator() (int zeile,int spalte);
     const double& operator() (int zeile,int spalte) const;
 

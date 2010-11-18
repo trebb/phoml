@@ -102,8 +102,13 @@ bool Matrix::operator==( const Matrix& B) const
 return true;
 }
 //#############################################################################
+bool Matrix::operator!=( const Matrix& T) const
+{
+ return !((*this) == T);
+}
+//#############################################################################
 //Abgleichen ob 2 Matrizen "gleich" sind
-bool Matrix::NearEqual( const Matrix& B, double &threshold) const
+bool Matrix::NearEqual( const Matrix& B, double threshold) const
 {
  assert( !(*this).isEmpty() );
  assert( !      B.isEmpty() );

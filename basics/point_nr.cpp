@@ -2,23 +2,23 @@
 
 
 
-PointNr::PointNr()
+Point_nr::Point_nr()
 {
 }
 
-PointNr::PointNr(int pkt,double x,double y,double z):Point(x,y,z),m_PktNr(pkt)
+Point_nr::Point_nr(int pkt,double x,double y,double z):Point(x,y,z),m_PktNr(pkt)
 {
 }
 
-PointNr::PointNr(int pkt,Point P):Point(P),m_PktNr(pkt)
+Point_nr::Point_nr(int pkt,Point P):Point(P),m_PktNr(pkt)
 {
 }
 
-PointNr::~PointNr()
+Point_nr::~Point_nr()
 {
 }
 
-PointNr& PointNr::operator= (const PointNr &P)
+Point_nr& Point_nr::operator= (const Point_nr &P)
 {
 	          (*this).set_PktNr(P.get_PktNr());
 	          (*this).set_X( P.get_X() );
@@ -30,7 +30,7 @@ PointNr& PointNr::operator= (const PointNr &P)
 			  return (*this);	
 }
 
-PointNr& PointNr::operator= (const Point &P)
+Point_nr& Point_nr::operator= (const Point &P)
 {
 			  (*this).set_X( P.get_X() );
 			  (*this).set_Y( P.get_Y() );
@@ -41,32 +41,32 @@ PointNr& PointNr::operator= (const Point &P)
 			  return (*this);
 }
 
-bool PointNr::operator< (PointNr &P)
+bool Point_nr::operator< (Point_nr &P)
 {
  return (*this).get_PktNr()<P.get_PktNr();
 }
 
-bool PointNr::operator== (PointNr &P)
+bool Point_nr::operator== (Point_nr &P)
 {
  return (*this).get_PktNr()==P.get_PktNr();	
 }
 
-bool PointNr::operator== (int pkt_nr)
+bool Point_nr::operator== (int pkt_nr)
 {
  return (*this).get_PktNr()==pkt_nr;		
 }
 
-PointNr::operator Point () const
+Point_nr::operator Point () const
 {
  return Point(m_x,m_y,m_z);
 }
 
-int PointNr::get_PktNr() const
+int Point_nr::get_PktNr() const
 {
  return m_PktNr;
 }
    
-void PointNr::set_PktNr(int pkt_nr)
+void Point_nr::set_PktNr(int pkt_nr)
 {
  m_PktNr=pkt_nr;
 }

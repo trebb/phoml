@@ -14,10 +14,11 @@
 #include <string>
 
 //for gcc compiler
-#include "../basics/point.h"
-#include "../photo/bpoint.h"
-#include "../boresight_alignment/cam_bore.h"
-#include "../photo/forward_intersection.h"
+#include "..//basics//point.h"
+#include "..//basics//fix_values.h"
+#include "..//photo//bpoint.h"
+#include "..//boresight_alignment//cam_bore.h"
+#include "..//photo//forward_intersection.h"
 
 //include boreside_transformation
 #include "../transformation/applanix.h"
@@ -59,7 +60,7 @@ using namespace std;
 static intern I;
 
 //cam list for the input
-static std::vector<CCam_bore> lCam_bore;
+static std::vector<Cam_bore> lCam_bore;
 
 //picure point list for the input
 static std::vector<BPoint> lBPoint;
@@ -250,7 +251,7 @@ _DLL_EXPORT int STDCALL addCam( int pix_col,
   if(lCam_bore.size() && ( m_saved_cams == (m_used_cams+2)))
     m_saved_cams = m_used_cams;
 
-  CCam_bore cam(
+  Cam_bore cam(
                 pix_row,pix_col,pix_size,
                 dx,dy,dz,
                 omega,phi,kappa,
@@ -283,7 +284,7 @@ _DLL_EXPORT int STDCALL addCam2(char* psz_ini_file)
   //todo test the input parameter!
 
   //create a boreside cam
-  CCam_bore cam;
+  Cam_bore cam;
   //load the ini file
   bool t = cam.read_from_ini(psz_ini_file);
   //add to the cam list
@@ -302,7 +303,7 @@ _DLL_EXPORT int STDCALL addBPoint(double m, double n)
   if( lCam_bore.size() && ( m_saved_cams == (m_used_cams+1) ) )
     {
       //create a new picture point
-      CCam_bore cam_bore(*lCam_bore.rbegin());
+      Cam_bore cam_bore(*lCam_bore.rbegin());
       Cam *cam=new Cam(cam_bore);
 
       BPoint bp(*cam,m,n);
@@ -368,7 +369,7 @@ _DLL_EXPORT int STDCALL addBPoint2( int pix_col,
                                     )
 {
   //create cam
-  CCam_bore cam_t(
+  Cam_bore cam_t(
                   pix_row,pix_col,pix_size,
                   dx,dy,dz,
                   omega,phi,kappa,
@@ -384,7 +385,7 @@ _DLL_EXPORT int STDCALL addBPoint2( int pix_col,
 	
   lCam_bore.push_back(cam_t);
 
-  CCam_bore cam_bore(*lCam_bore.rbegin());
+  Cam_bore cam_bore(*lCam_bore.rbegin());
   Cam *cam=new Cam(cam_bore);
 
   //create a new picture point
@@ -901,22 +902,22 @@ _DLL_EXPORT int STDCALL calculate()
 
 		if(!m_is_set_GlobalCarReferencePoint_CamSetGlobal)
 		{
-			CBoresight_transformation bore(*lCam_bore.begin());
+			Boresight_transformation bore(*lCam_bore.begin());
 
 			if(!m_is_set_GlobalCarReferencePoint_std)
 				I.m_dEasting=I.m_dNorthing=I.m_deHeigth=I.m_droll=I.m_dpitch=I.m_dheading=0.0;
 
 			//cout<<endl<<"carpos: E: "<<m_Easting<<"  N:"<<m_Northing<<"  H:"<<m_eHeight<<"  r:"<<m_roll<<"  p:"<<m_pitch<<"  h:"<<m_heading;
-			bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeight,I.m_roll,I.m_pitch,I.m_heading);
+			bore.set_car_position_global(I.m_Easting,I.m_Northing,I.m_eHeight,I.m_roll,I.m_pitch,I.m_heading);
 
 			//cout<<endl<<"intern P local: "<<m_x_local <<" "<< m_y_local <<" "<<  m_z_local;
-			bore.set_local_koordinate( I.m_x_local , I.m_y_local , I.m_z_local );
+			bore.set_local_coordinate( I.m_x_local , I.m_y_local , I.m_z_local );
 
-			p=bore.get_utm_koordinate();
+			p=bore.get_global_coordinate();
 		}
 		else
 		{
-			//for global coordinate into the forwardintersection function -- boresight transformation is not necessary
+			//for global coordinate into the forward intersection function -- boresight transformation is not necessary
 			Point tmp(I.m_x_local , I.m_y_local , I.m_z_local);
 			tmp.set_dX(I.m_stdx_local);
 			tmp.set_dY(I.m_stdy_local);
@@ -947,14 +948,14 @@ _DLL_EXPORT int STDCALL calculate()
 			)
 	{
 		    //calc the bore side transformation with the global car position
-		    CBoresight_transformation bore(*lCam_bore.rbegin());
+		    Boresight_transformation bore(*lCam_bore.rbegin());
 
-			bore.set_car_position_utm(I.m_Easting,I.m_Northing,I.m_eHeight,I.m_roll,I.m_pitch,I.m_heading);
+			bore.set_car_position_global(I.m_Easting,I.m_Northing,I.m_eHeight,I.m_roll,I.m_pitch,I.m_heading);
 
-			bore.set_utm_koordinate(I.m_x_global,I.m_y_global,I.m_z_global);
+			bore.set_global_coordinate(I.m_x_global,I.m_y_global,I.m_z_global);
 
 			Point P_local;
-			P_local = bore.get_local_koordinate();
+			P_local = bore.get_local_coordinate();
 
 			Cam *cam = new Cam(*lCam_bore.rbegin());
 		    BPoint bp(*cam,P_local.get_X(),P_local.get_Y(),P_local.get_Z());

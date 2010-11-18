@@ -25,7 +25,7 @@ public:
 
 
 private:
-  //  CCam_bore *m_cam;
+  //  Cam_bore *m_cam;
   //  Ebene     *m_E;
 
 

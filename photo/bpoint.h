@@ -23,7 +23,7 @@ class BPoint:public Point //->hier wird die Klasse Punkt direkt in Klasse Bpunkt
 //    |
 //    *-->x' Bildkoordinatensystem Ursprung Durchstopunkt optische Achse und Bildsensor(ebene)
 //
-//Bildkoordinatensystem (Rechtshandsystem) x'y'(z) -> -z zeigt in Aufnahmerichtung!!!!
+//Bildkoordinatensystem (Rechtshandsystem) x'y'(z) -> -z zeigt entgegen der Aufnahmerichtung!!!!
 //**************************************************************************************	
 public:
 
@@ -118,7 +118,7 @@ public:
 	bool get_info_change_camera_settings() const { return m_change_cam; }
 
 
-private:
+protected:
 
     //Hilfsfunktionen
 	bool PixKooInBildKoo();

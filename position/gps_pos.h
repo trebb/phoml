@@ -10,15 +10,13 @@ class Gps_pos
 {
 public:
 	Gps_pos();
-
+	Gps_pos(Gps_pos const &t);
 	virtual ~Gps_pos();
 	
+	Gps_pos& operator= (const Gps_pos &t);
+
 	bool operator==( const Gps_pos& t) const ;
 	bool operator!=( const Gps_pos& t) const ;
-
-	Gps_pos& operator= (const Gps_pos &t);
-	Gps_pos(Gps_pos const &t);
-
 	
 	double get_Time() const;
 	double get_Time_GPS() const;
@@ -28,17 +26,17 @@ public:
 	double get_Northing() const;
 	double get_EllH() const;
 
-	double get_mEasting() const;
-	double get_mNorthing() const;
-	double get_mEllH() const;
+	double get_dEasting() const;
+	double get_dNorthing() const;
+	double get_dEllH() const;
 
 	double get_Roll() const;
 	double get_Pitch() const;
 	double get_Heading() const;
 
-	double get_mRoll() const;
-	double get_mPitch() const;
-	double get_mHeading() const;
+	double get_dRoll() const;
+	double get_dPitch() const;
+	double get_dHeading() const;
 
 	double get_Distance() const;
 			
@@ -55,17 +53,17 @@ public:
 	void set_Northing(double N);
 	void set_EllH(double H);
 
-	void set_mEasting(double mE);
-	void set_mNorthing(double mN);
-	void set_mEllH(double mH);
+	void set_dEasting(double mE);
+	void set_dNorthing(double mN);
+	void set_dEllH(double mH);
 
 	void set_Roll(double R);
 	void set_Pitch(double P);
 	void set_Heading(double Hea);
 
-	void set_mRoll(double mR);
-	void set_mPitch(double mP);
-	void set_mHeading(double mHea);
+	void set_dRoll(double mR);
+	void set_dPitch(double mP);
+	void set_dHeading(double mHea);
 
 	void set_Distance(double D);
 			
@@ -75,11 +73,14 @@ public:
 
 	
 	//structure elements
-    Point get_position_geod();
-    void  set_position_geod(Point P);
+    Point get_position() const;
+    void  set_position(Point P);
 
-    Point get_rotation();
+    Point get_rotation() const;
     void  set_rotation(Point P);
+
+    void convert_rotation_angles_grad_to_rad();
+    void convert_rotation_angles_rad_to_grad();
 
 	
 private:
