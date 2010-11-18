@@ -25,6 +25,7 @@ double Cam::clamp(double& wert, double min, double max)
 Cam::Cam()
 {
 		m_pix_size=m_pix_row=m_pix_col=
+		m_OX=m_OY=m_OZ=
 		m_rotX=m_rotY=m_rotZ=
 		m_c=m_xh=m_yh=
 		m_A1=m_A2=m_A3=
@@ -41,7 +42,7 @@ Cam::Cam(double pix_row,double pix_col,double pix_size,
 		double A1,  double A2,  double A3,
 		double B1,  double B2, double C1,
 		double C2, double r0):m_pix_size(pix_size),m_pix_row(pix_row),m_pix_col(pix_col),
-		m_O(OX,OY,OZ),m_rotX(rotX),m_rotY(rotY),m_rotZ(rotZ),
+		m_OX(OX),m_OY(OY),m_OZ(OZ),m_rotX(rotX),m_rotY(rotY),m_rotZ(rotZ),
 		m_c(c),m_xh(xh),m_yh(yh),m_A1(A1),m_A2(A2),m_A3(A3),m_B1(B1),m_B2(B2),m_C1(C1),m_C2(C2),m_r0(r0)
 {
 
@@ -56,7 +57,9 @@ Cam& Cam::operator=(const Cam &C)
 	 (*this).m_pix_row = C.m_pix_row;
 	 (*this).m_pix_col = C.m_pix_col;
 	 (*this).m_pix_size= C.m_pix_size;
-	 (*this).m_O      = C.m_O;
+	 (*this).m_OX      = C.m_OX;
+	 (*this).m_OY      = C.m_OY;
+	 (*this).m_OZ      = C.m_OZ;
      (*this).m_rotX = C.m_rotX;
 	 (*this).m_rotY = C.m_rotY;
 	 (*this).m_rotZ = C.m_rotZ;
@@ -102,7 +105,8 @@ Matrix Cam::TransInRellativeOrientierung( Cam &C_l, Cam &C_r, Cam &C_l_rell ,Cam
  C_l_rell = C_l; //bertragen der Kalib.werte
  
  Point O_l(0.0,0.0,0.0);
- C_l_rell.m_O = O_l;
+ //C_l_rell.m_O = O_l;
+ C_l_rell.set_O( O_l );
  
   //Rotationswinkel
  C_l_rell.m_rotX = 0.0;
@@ -138,7 +142,8 @@ Matrix Cam::TransInRellativeOrientierung( Cam &C_l, Cam &C_r, Cam &C_l_rell ,Cam
 	 Point O_r(O_R(0,0),O_R(1,0),O_R(2,0));
 
  // setzen des Neuen Bildhauptpunktes im KooSystem Kamera 1
- C_r_rell.m_O=O_r;
+ //C_r_rell.m_O=O_r;
+ C_r_rell.set_O(O_r);
  
 
 	 //#######################################################################
@@ -305,7 +310,13 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
  while(getline(SET_TXT,hilf))
  {					
 			if(hilf.length()>0 )
-			if(hilf.at(j)!='#' )
+			if(hilf.at(j)!='\r')
+            if(hilf.at(j)!='\n')
+            if(hilf.at(j)!='#' )
+            if(hilf.at(j)!='[' )
+            if(hilf.at(j)!=' ' )
+            if(hilf.length()>1 ) //one character is nothing
+            if(hilf.at(j)!='/' && hilf.at(j+1)!='/')
 			 {                  		   
 				  size_t find_0_1=0;
               	      find_0_1=hilf.find(s_0_1)+1;  //find ist ein vordefinierter Befehl in der Klasse string!
@@ -468,8 +479,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  if(find_6_1)
 					  {hilf.erase(0,(find_6_1-2)+sizeof(s_6_1));
 					   stringstream stream; stream<<hilf.c_str();
-					   hilf.erase(); double m_OX=0.0;   stream>>m_OX;
-					   m_O.set_X(m_OX);
+					   hilf.erase(); stream>>m_OX;
 					   ++count;
 					  }              
 
@@ -480,8 +490,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  if(find_6_2)
 					  {hilf.erase(0,(find_6_2-2)+sizeof(s_6_2));
 					   stringstream stream; stream<<hilf.c_str();
-					   hilf.erase(); double m_OY=0.0;   stream>>m_OY;
-					   m_O.set_Y(m_OY);
+					   hilf.erase(); stream>>m_OY;
 					   ++count;
 					  } 
 
@@ -492,8 +501,7 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 					  if(find_6_3)
 					  {hilf.erase(0,(find_6_3-2)+sizeof(s_6_3));
 					   stringstream stream; stream<<hilf.c_str();
-					   hilf.erase(); double m_OZ=0.0;  stream>>m_OZ;
-					   m_O.set_Z(m_OZ);
+					   hilf.erase(); stream>>m_OZ;
 					   ++count;
 					  } 
 
@@ -540,10 +548,10 @@ ifstream SET_TXT;  //ifstream und ofstream dienen dazu Dateien fr eine Eingabe b
 
  if(count != 20)
  {
-  cout<<endl<<"Fail to read calibration file!! "<<datname<<flush;
+  cout<<endl<<"CAM -> Fail to read the old style calibration file!! "<<datname<<flush;
   return false;
  }
- cout<<endl<<"OK -> reading calibration file "<<datname<<flush;
+ cout<<endl<<"CAM -> OK -> reading the old style calibration file "<<datname<<flush;
  //cout<<endl<<(*this);
  return true;
 }
@@ -596,9 +604,9 @@ bool Cam::write_in_ini(const char *datname)
   SET_TXT<<"r0="<<m_r0<<endl<<endl;
 
   SET_TXT<<"// äußere Orientierung [?]"<<endl;
-  SET_TXT<<"dx= "<<m_O.get_X()<<endl;
-  SET_TXT<<"dy= "<<m_O.get_Y()<<endl;
-  SET_TXT<<"dz= "<<m_O.get_Z()<<endl<<endl;
+  SET_TXT<<"dx= "<<m_OX<<endl;
+  SET_TXT<<"dy= "<<m_OY<<endl;
+  SET_TXT<<"dz= "<<m_OZ<<endl<<endl;
 
   SET_TXT<<"// in [rad]"<<endl;
   SET_TXT<<"rotx="<<m_rotX<<endl;

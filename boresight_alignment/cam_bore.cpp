@@ -5,7 +5,7 @@
 #include <sstream>
 #include <cmath>
 
-CCam_bore::CCam_bore():Cam()
+Cam_bore::Cam_bore():Cam()
 {
 	m_camera_name="unknown";
 	m_channels=0;
@@ -36,7 +36,7 @@ CCam_bore::CCam_bore():Cam()
 	m_B_drotz=0;
 }
 
-CCam_bore::CCam_bore(
+Cam_bore::Cam_bore(
 		double pix_row, double pix_col, double pix_size,
 		double OX, double OY, double OZ,
 	    double rotX, double rotY, double rotZ,
@@ -89,7 +89,9 @@ CCam_bore::CCam_bore(
 			          m_pix_size=pix_size;
 			          m_pix_row=pix_row;
 			          m_pix_col=pix_col;
-					  m_O=Point(OX,OY,OZ);
+			          m_OX=OX;
+			          m_OY=OY;
+			          m_OZ=OZ;
 					  m_rotX=rotX;
 					  m_rotY=rotY;
 					  m_rotZ=rotZ;
@@ -119,7 +121,7 @@ CCam_bore::CCam_bore(
 }
 
 
-CCam_bore::CCam_bore(
+Cam_bore::Cam_bore(
 				double pix_row, double pix_col, double pix_size,
 				double OX, double OY, double OZ,
 			    double rotX, double rotY, double rotZ,
@@ -150,7 +152,9 @@ CCam_bore::CCam_bore(
 					          m_pix_size=pix_size;
 					          m_pix_row=pix_row;
 					          m_pix_col=pix_col;
-							  m_O=Point(OX,OY,OZ);
+							  m_OX=OX;
+							  m_OY=OY;
+							  m_OZ=OZ;
 							  m_rotX=rotX;
 							  m_rotY=rotY;
 							  m_rotZ=rotZ;
@@ -179,16 +183,18 @@ CCam_bore::CCam_bore(
 							  m_B_drotz=B_drotz;
 		}
 
-CCam_bore::~CCam_bore()
+Cam_bore::~Cam_bore()
 {
 }
 
-CCam_bore& CCam_bore::operator=(const CCam_bore &C)
+Cam_bore& Cam_bore::operator=(const Cam_bore &C)
 {	
 	 (*this).m_pix_row = C.m_pix_row;
 	 (*this).m_pix_col = C.m_pix_col;
 	 (*this).m_pix_size= C.m_pix_size;
-	 (*this).m_O      = C.m_O;
+	 (*this).m_OX      = C.m_OX;
+	 (*this).m_OY      = C.m_OY;
+	 (*this).m_OZ      = C.m_OZ;
      (*this).m_rotX = C.m_rotX;
 	 (*this).m_rotY = C.m_rotY;
 	 (*this).m_rotZ = C.m_rotZ;
@@ -236,17 +242,19 @@ CCam_bore& CCam_bore::operator=(const CCam_bore &C)
  return (*this);
 }
 
-CCam_bore::CCam_bore(const CCam_bore &C)
+Cam_bore::Cam_bore(const Cam_bore &C)
 {
 		(*this)=C;
 }
 
-CCam_bore& CCam_bore::operator=(Cam &C)
+Cam_bore& Cam_bore::operator=(const Cam &C)
 {	
 	 (*this).m_pix_row = C.get_pix_row();//m_pix_row;
 	 (*this).m_pix_col = C.get_pix_col();//m_pix_col;
 	 (*this).m_pix_size= C.get_pix_size();//m_pix_size;
-	 (*this).m_O      = C.get_O();//.m_O;
+	 (*this).m_OX      = C.get_OX();//.m_O;
+	 (*this).m_OY      = C.get_OY();//.m_O;
+	 (*this).m_OZ      = C.get_OZ();//.m_O;
      (*this).m_rotX = C.get_rotX();//.m_rotX;
 	 (*this).m_rotY = C.get_rotY();//.m_rotY;
 	 (*this).m_rotZ = C.get_rotZ();//.m_rotZ;
@@ -265,10 +273,10 @@ CCam_bore& CCam_bore::operator=(Cam &C)
 	 return (*this);
 }
 
-CCam_bore::operator Cam() const
+Cam_bore::operator Cam() const
 {
  return Cam(m_pix_row,m_pix_col,m_pix_size,
-		    m_O.get_X(),m_O.get_Y(),m_O.get_Z(),
+		    m_OX,m_OY,m_OZ,
 		    m_rotX,m_rotY,m_rotZ,
 		    m_c,m_xh,m_yh,
 		    m_A1,m_A2,m_A3,
@@ -279,69 +287,69 @@ CCam_bore::operator Cam() const
 }
 
 //secondary get funktions
-std::string CCam_bore::get_camera_name() const
+std::string Cam_bore::get_camera_name() const
 { return (*this).m_camera_name;
 }
 
-int         CCam_bore::get_channels() const
+int         Cam_bore::get_channels() const
 { return (*this).m_channels;
 }
 
-std::string CCam_bore::get_camera_serial_number() const
+std::string Cam_bore::get_camera_serial_number() const
 { return (*this).m_camera_serial_number;
 }
 
-std::string CCam_bore::get_objectiv_name() const
+std::string Cam_bore::get_objectiv_name() const
 { return (*this).m_objectiv_name;
 }
 
-std::string CCam_bore::get_focal_length() const
+std::string Cam_bore::get_focal_length() const
 { return (*this).m_focal_length;
 }
 
-std::string CCam_bore::get_objectiv_serial_number() const
+std::string Cam_bore::get_objectiv_serial_number() const
 { return (*this).m_objectiv_serial_number;
 }
 
-std::string CCam_bore::get_calib_inner_date() const
+std::string Cam_bore::get_calib_inner_date() const
 { return (*this).m_calib_inner_date;
 }
 
-std::string CCam_bore::get_calib_inner_person() const
+std::string Cam_bore::get_calib_inner_person() const
 { return (*this).m_calib_inner_person;
 }
 
-std::string CCam_bore::get_calib_inner_comments() const
+std::string Cam_bore::get_calib_inner_comments() const
 { return (*this).m_calib_inner_comments;
 }
 
-std::string CCam_bore::get_calib_outer_date() const
+std::string Cam_bore::get_calib_outer_date() const
 { return (*this).m_calib_outer_date;
 }
 
-std::string CCam_bore::get_calib_outer_person() const
+std::string Cam_bore::get_calib_outer_person() const
 { return (*this).m_calib_outer_person;
 }
 
-std::string CCam_bore::get_calib_outer_comments() const
+std::string Cam_bore::get_calib_outer_comments() const
 { return (*this).m_calib_outer_comments;
 }
 
-std::string CCam_bore::get_calib_boreside_date() const
+std::string Cam_bore::get_calib_boreside_date() const
 { return (*this).m_calib_boreside_date;
 }
 
-std::string CCam_bore::get_calib_boreside_person() const
+std::string Cam_bore::get_calib_boreside_person() const
 { return (*this).m_calib_boreside_person;
 }
 
-std::string CCam_bore::get_calib_boreside_comments() const
+std::string Cam_bore::get_calib_boreside_comments() const
 { return (*this).m_calib_boreside_comments;
 }
 
 
 
-bool CCam_bore::read_from_ini(const char *datname)
+bool Cam_bore::read_from_ini(const char *datname)
 {
 	ifstream SET_TXT;  
 	 SET_TXT.open(datname); 
@@ -758,8 +766,7 @@ bool CCam_bore::read_from_ini(const char *datname)
 						  if(find_6_1==1)
 						  {hilf.erase(0,(find_6_1-2)+sizeof(s_6_1));
 						   stringstream stream; stream<<hilf.c_str();
-						   hilf.erase(); double m_OX=0.0;   stream>>m_OX;
-						   m_O.set_X(m_OX);
+						   hilf.erase(); stream>>m_OX;
   						   ++count;
 						  }              
 
@@ -770,8 +777,7 @@ bool CCam_bore::read_from_ini(const char *datname)
 						  if(find_6_2==1)
 						  {hilf.erase(0,(find_6_2-2)+sizeof(s_6_2));
 						   stringstream stream; stream<<hilf.c_str();
-						   hilf.erase(); double m_OY=0.0;   stream>>m_OY;
-						   m_O.set_Y(m_OY);
+						   hilf.erase(); stream>>m_OY;
   						   ++count;
 						  } 
 
@@ -782,8 +788,7 @@ bool CCam_bore::read_from_ini(const char *datname)
 						  if(find_6_3==1)
 						  {hilf.erase(0,(find_6_3-2)+sizeof(s_6_3));
 						   stringstream stream; stream<<hilf.c_str();
-						   hilf.erase(); double m_OZ=0.0;  stream>>m_OZ;
-						   m_O.set_Z(m_OZ);
+						   hilf.erase(); stream>>m_OZ;
   						   ++count;
 						  } 
 
@@ -927,10 +932,14 @@ bool CCam_bore::read_from_ini(const char *datname)
 	 SET_TXT.close();
 	 SET_TXT.clear();
 	 
-	 if(count!=41)
+	 if(count!=41 && Cam::read_from_ini(datname) )
 	 {
-		 cout<<endl<<"CAM_BORE -> ERROR - Fail to read calibration file!! "<<datname<<flush;
-		 return false;
+	     cout<<endl<<"CAM_BORE -> Attention - only relative orientation were loaded!! "<<datname<<flush;
+	 }
+	 else if(count!=41)
+	 {
+	     cout<<endl<<"CAM_BORE -> ERROR - Fail to read calibration file!! "<<datname<<flush;
+	     return false;
 	 }
 
 	 cout<<endl<<"CAM_BORE -> OK - reading calibration file "<<datname<<flush;
@@ -939,7 +948,7 @@ bool CCam_bore::read_from_ini(const char *datname)
  return true;
 }
 
-bool  CCam_bore::write_in_ini(const char *datname)
+bool  Cam_bore::write_in_ini(const char *datname)
 {
  ofstream SET_TXT(datname,ios_base::out);  
 	 
@@ -994,9 +1003,9 @@ bool  CCam_bore::write_in_ini(const char *datname)
 	SET_TXT<<std::endl<<"CALIB_OUTER_PERSON="		<<(*this).m_calib_outer_person;
 	SET_TXT<<std::endl<<"CALIB_OUTER_COMMENTS="		<<(*this).m_calib_outer_comments;
 	SET_TXT<<std::endl<<"// principal point [m]";
-	SET_TXT<<std::endl<<"dx="						<<(*this).m_O.get_X();
-	SET_TXT<<std::endl<<"dy="						<<(*this).m_O.get_Y();
-	SET_TXT<<std::endl<<"dz="						<<(*this).m_O.get_Z();
+	SET_TXT<<std::endl<<"dx="						<<(*this).m_OX;
+	SET_TXT<<std::endl<<"dy="						<<(*this).m_OY;
+	SET_TXT<<std::endl<<"dz="						<<(*this).m_OZ;
 	SET_TXT<<std::endl<<"// orientation angle [rad]";
 	SET_TXT<<std::endl<<"rotx="						<<(*this).get_rotX();
 	SET_TXT<<std::endl<<"roty="						<<(*this).get_rotY();
@@ -1022,7 +1031,7 @@ bool  CCam_bore::write_in_ini(const char *datname)
  return true;
 }
 
-bool CCam_bore::copy_bore_side(const CCam_bore &C)
+bool Cam_bore::copy_bore_side(const Cam_bore &C)
 {
 	//[BORESIDE_ALIGNEMENT]
 	m_calib_boreside_date 		= C.m_calib_boreside_date;
@@ -1052,7 +1061,7 @@ bool CCam_bore::copy_bore_side(const CCam_bore &C)
 return true;
 }
 
-bool CCam_bore::copy_relative_orientation(const CCam_bore &C)
+bool Cam_bore::copy_relative_orientation(const Cam_bore &C)
 {
 	//[BORESIDE_ALIGNEMENT]
 	m_calib_boreside_date 		= C.m_calib_outer_date;
@@ -1060,7 +1069,9 @@ bool CCam_bore::copy_relative_orientation(const CCam_bore &C)
 	m_calib_boreside_comments   = C.m_calib_outer_comments;
 
 	// tranlation [mm]
-	(*this).m_O      	= C.m_O;
+	(*this).m_OX      	= C.m_OX;
+	(*this).m_OY        = C.m_OY;
+	(*this).m_OZ        = C.m_OZ;
 	(*this).m_rotX 		= C.m_rotX;
 	(*this).m_rotY 		= C.m_rotY;
 	(*this).m_rotZ 		= C.m_rotZ;
@@ -1070,12 +1081,84 @@ bool CCam_bore::copy_relative_orientation(const CCam_bore &C)
 return true;
 }
 
-ostream& operator<<(ostream& s,const CCam_bore& C)
+ostream& operator<<(ostream& s,const Cam_bore& C)
 {
-		s.precision(10);
-		s.setf(ios::left,ios::showpoint);
-		s.setf(ios::showbase);
+       int precision=8;       //Nachkommastellen
+       //int vorkommastellen=8; //Minus zählt als Vorkommastelle
 
+       s.setf(ios::fixed|ios::showpoint, ios::floatfield);//<<showpoint<<fixed
+       s.setf(ios::right, ios::adjustfield);
+       s.precision(precision);
+
+		s<<"  ### camera calibration set ###"
+		        <<std::endl
+		        <<"    camera_name: \t"<<C.m_camera_name
+		        <<"    channels: \t\t      "<<C.m_channels
+		        <<"    camera_serial_number: \t"<<C.m_camera_serial_number
+		        <<std::endl
+		        <<"    objectiv_name: \t"<<C.m_objectiv_name
+		        <<"    focal_length: \t"<<C.m_focal_length
+		        <<"    objectiv_serial_number: \t"<<C.m_objectiv_serial_number
+		        <<std::endl
+		        <<"    calib_inner_date: \t"<<C.m_calib_inner_date
+		        <<"    calib_inner_person: \t"<<C.m_calib_inner_person
+		        <<"    calib_inner_comments: \t"<<C.m_calib_inner_comments
+		        <<std::endl
+		        <<"    calib_outer_date: \t"<<C.m_calib_outer_date
+		        <<"    calib_outer_person: \t"<<C.m_calib_outer_person
+		        <<"    calib_outer_comments: \t"<<C.m_calib_outer_comments
+                <<std::endl
+		        <<"    calib_bore_date: \t"<<C.m_calib_boreside_date
+		        <<"    calib_bore_person: \t"<<C.m_calib_boreside_person
+		        <<"    calib_bore_comments: \t"<<C.m_calib_boreside_comments
+		        <<std::endl
+		        <<std::endl
+		        <<"    pix_row: "<<C.m_pix_row
+		        <<"    pix_col: "<<C.m_pix_col
+		        <<"    pix_size: "<<C.m_pix_size
+		        <<std::endl
+		        <<"    c: "<<C.m_c
+		        <<"    xh: "<<C.m_xh
+		        <<"    yh: "<<C.m_yh
+                <<std::endl<<"\t"
+		        <<"    A1: "<<C.m_A1
+		        <<"    A2: "<<C.m_A2
+		        <<"    A3: "<<C.m_A3
+		        <<std::endl<<"\t"
+		        <<"    B1: "<<C.m_B1
+		        <<"    B2: "<<C.m_B2
+		        <<std::endl<<"\t"
+		        <<"    C1: "<<C.m_C1
+		        <<"    C2: "<<C.m_C2
+		        <<"    r0: "<<C.m_r0
+		        <<std::endl
+		        <<std::endl
+		        <<"    OX: \t"<<C.m_OX
+		        <<"    OY: \t"<<C.m_OY
+		        <<"    OZ: \t"<<C.m_OZ
+		        <<std::endl
+		        <<"    rotX: \t"<<C.m_rotX
+		        <<"    rotY: \t"<<C.m_rotY
+		        <<"    rotZ: \t"<<C.m_rotZ
+		        <<std::endl
+		        <<std::endl
+		        <<"    B_dx: \t"<<C.m_B_dx
+		        <<"    B_dy: \t"<<C.m_B_dy
+		        <<"    B_dz: \t"<<C.m_B_dz
+		        <<"    B_ddx: \t"<<C.m_B_ddx
+                <<"    B_ddy: \t"<<C.m_B_ddy
+                <<"    B_ddz: \t"<<C.m_B_ddz
+		        <<std::endl
+		        <<"    B_rotx: \t"<<C.m_B_rotx
+		        <<"    B_roty: \t"<<C.m_B_roty
+		        <<"    B_rotz: \t"<<C.m_B_rotz
+		        <<"    B_drotx: \t"<<C.m_B_drotx
+		        <<"    B_droty: \t"<<C.m_B_droty
+		        <<"    B_drotz: \t"<<C.m_B_drotz
+		        <<std::endl
+		        <<"  ### end camera calibration set ###"
+                ;
+/*
 		s<<"[GENERAL]";
 		s<<std::endl<<"CAMERA_NAME="				<<C.get_camera_name();
 		s<<std::endl<<"//in [pixel]";
@@ -1138,7 +1221,7 @@ ostream& operator<<(ostream& s,const CCam_bore& C)
 		s<<std::endl<<"B_rotx="					<<C.get_B_rotx();
 		s<<std::endl<<"B_roty="					<<C.get_B_roty();
 		s<<std::endl<<"B_rotz="					<<C.get_B_rotz();
-
+*/
 return s;
 }
 

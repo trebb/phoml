@@ -23,11 +23,11 @@ public:
 	const std::string& get_name();
 	void rename_list(std::string list_name);
 
-	PointNr& get_PointNR(int number);
-	std::list<PointNr>& get_PointNr_list();
+	Point_nr& get_PointNR(int number);
+	std::list<Point_nr>& get_PointNr_list();
 	std::list<Point>& get_Point_list();
 
-	bool add(PointNr& P);
+	bool add(Point_nr& P);
 	bool del(int number);
 
 	bool read_from_file_system(std::string file_name);
@@ -37,12 +37,12 @@ private:
 
   std::string m_list_name;
 
-  std::list<PointNr> m_point_nr_list;
+  std::list<Point_nr> m_point_nr_list;
 
   //empty list -> only for output the list<Point> format
   std::list<Point> m_point_list;
 
-  PointNr m_default_point_nr;
+  Point_nr m_default_point_nr;
 };
 
 #endif /* POINT_NR_LIST_H_ */

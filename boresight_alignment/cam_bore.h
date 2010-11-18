@@ -7,13 +7,13 @@
 //own lib
 #include "../photo/cam.h"
 
-class CCam_bore:public Cam
+class Cam_bore:public Cam
 {
 public:
-	CCam_bore();
-	virtual ~CCam_bore();
+	Cam_bore();
+	virtual ~Cam_bore();
 
-	CCam_bore(
+	Cam_bore(
 			        double pix_row, double pix_col, double pix_size,
 					double OX, double OY, double OZ,
 				    double rotX, double rotY, double rotZ,
@@ -45,7 +45,7 @@ public:
 	
 	//a short constructor for Christian' java ;-)
 	
-	CCam_bore(
+	Cam_bore(
 				        double pix_row, double pix_col, double pix_size,
 						double OX, double OY, double OZ,
 					    double rotX, double rotY, double rotZ,
@@ -59,15 +59,15 @@ public:
 						double B_drotx, double B_droty, double B_drotz
 		);
 	
-	CCam_bore(const CCam_bore &C);
-	CCam_bore& operator=(const CCam_bore &C);
-	CCam_bore& operator=(Cam &C);
+	Cam_bore(const Cam_bore &C);
+	Cam_bore& operator=(const Cam_bore &C);
+	Cam_bore& operator=(const Cam &C);
 	
-	// convertion of "CCam_bore  >>-->  Cam"
+	// convertion of "Cam_bore  >>-->  Cam"
 	operator Cam () const;
 	
 	//get funktions
-	Point  get_B()    const {Point P(m_B_dx,m_B_dy,m_B_dz); P.set_dX(m_B_ddx); P.set_dY(m_B_ddy);P.set_dZ(m_B_ddz);return P;}
+	Point  get_B()    const {Point P(m_B_dx,m_B_dy,m_B_dz,m_B_ddx,m_B_ddy,m_B_ddz);return P;}
 	double get_B_dx() const {return m_B_dx;}
 	double get_B_dy() const {return m_B_dy;}
 	double get_B_dz() const {return m_B_dz;}
@@ -120,11 +120,12 @@ public:
 		
 	//overwrite of Cam funktions
 	bool read_from_ini(const char *datname);
-	bool  write_in_ini(const char *datname);
+	bool write_in_ini(const char *datname);
 	
-	bool copy_bore_side(const CCam_bore &C);
-	bool copy_relative_orientation(const CCam_bore &C);
+	bool copy_bore_side(const Cam_bore &C);
+	bool copy_relative_orientation(const Cam_bore &C);
 
+	friend ostream& operator<<(ostream& s,const Cam_bore& C);
 private:
 	//[GENERAL]
 	std::string m_camera_name;
@@ -174,7 +175,7 @@ private:
 	double m_B_drotz;
 };
 
-ostream& operator<<(ostream& s,const CCam_bore& A);
+ostream& operator<<(ostream& s,const Cam_bore& A);
 
 
 #endif /*CAM_BORE_H_*/

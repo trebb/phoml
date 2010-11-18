@@ -2,12 +2,11 @@
  ============================================================================
  Name        : photoST.h
  Author      : Steffen Scheller
- Version     : 0.002
+ Version     : 0.00X
  Copyright   : ©2010
  Description : C Zugriff auf Photogrammetrie (*.so,*.dll) / Code: C++, Ansi-style
  ============================================================================
 */
-#define VERSIONSNUMBER 0.002
 
 #ifndef __PHOTOST_h
 #define __PHOTOST_h

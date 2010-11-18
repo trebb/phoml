@@ -25,9 +25,9 @@ void CPoint_nr_list::rename_list(std::string list_name)
 	m_list_name = list_name;
 }
 
-PointNr& CPoint_nr_list::get_PointNR(int number)
+Point_nr& CPoint_nr_list::get_PointNR(int number)
 {
-	std::list<PointNr>::iterator iP = m_point_nr_list.begin();
+	std::list<Point_nr>::iterator iP = m_point_nr_list.begin();
 
     while(iP!=m_point_nr_list.end())
 	  {
@@ -41,14 +41,14 @@ PointNr& CPoint_nr_list::get_PointNR(int number)
 return m_default_point_nr;
 }
 
-std::list<PointNr>& CPoint_nr_list::get_PointNr_list()
+std::list<Point_nr>& CPoint_nr_list::get_PointNr_list()
 {
  return m_point_nr_list;
 }
 
 std::list<Point>& CPoint_nr_list::get_Point_list()
 {
-	std::list<PointNr>::iterator iP = m_point_nr_list.begin();
+	std::list<Point_nr>::iterator iP = m_point_nr_list.begin();
 
 	      while(iP!=m_point_nr_list.end())
 		  {
@@ -59,7 +59,7 @@ std::list<Point>& CPoint_nr_list::get_Point_list()
  return m_point_list;
 }
 
-bool CPoint_nr_list::add(PointNr& P)
+bool CPoint_nr_list::add(Point_nr& P)
 {
    size_t so = m_point_nr_list.size();
 	m_point_nr_list.push_back(P);
@@ -70,7 +70,7 @@ bool CPoint_nr_list::add(PointNr& P)
 
 bool CPoint_nr_list::del(int number)
 {
-	std::list<PointNr>::iterator iP = m_point_nr_list.begin();
+	std::list<Point_nr>::iterator iP = m_point_nr_list.begin();
     bool is_del=false;
 
     while(iP!=m_point_nr_list.end())
@@ -106,7 +106,7 @@ bool CPoint_nr_list::read_from_file_system(std::string file_name)
 	 int pkt=0;
 	 double x=0.0,y=0.0,z=0.0;
 
-	 PointNr T(0,0.0,0.0,0.0);
+	 Point_nr T(0,0.0,0.0,0.0);
 
 	 while(getline(DAT_TXT,hilf))
 	 {
