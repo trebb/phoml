@@ -42,9 +42,40 @@ public:
 					std::string calib_boreside_comments
 	);
 
+	Cam_bore(
+	                    double pix_row, double pix_col, double pix_size,
+	                    double OX, double OY, double OZ,
+	                    double dOX, double dOY, double dOZ,
+	                    double rotX, double rotY, double rotZ,
+	                    double drotX, double drotY, double drotZ,
+	                    double c, double xh, double yh,
+	                    double A1, double A2, double A3,
+	                    double B1, double B2, double C1,
+	                    double C2, double r0,
+	                    double B_dx, double B_dy, double B_dz,
+	                    double B_ddx, double B_ddy, double B_ddz,
+	                    double B_rotx, double B_roty, double B_rotz,
+	                    double B_drotx, double B_droty, double B_drotz,
+	                    std::string camera_name,
+	                    int         channels,
+	                    std::string camera_serial_number,
+	                    std::string objectiv_name,
+	                    std::string focal_length,
+	                    std::string objectiv_serial_number,
+	                    std::string calib_inner_date,
+	                    std::string calib_inner_person,
+	                    std::string calib_inner_comments,
+	                    std::string calib_outer_date,
+	                    std::string calib_outer_person,
+	                    std::string calib_outer_comments,
+	                    std::string calib_boreside_date,
+	                    std::string calib_boreside_person,
+	                    std::string calib_boreside_comments
+	 );
+
 	
 	//a short constructor for Christian' java ;-)
-	
+	//todo set to deprecate
 	Cam_bore(
 				        double pix_row, double pix_col, double pix_size,
 						double OX, double OY, double OZ,
@@ -60,6 +91,7 @@ public:
 		);
 	
 	Cam_bore(const Cam_bore &C);
+	Cam_bore(const Cam &C);
 	Cam_bore& operator=(const Cam_bore &C);
 	Cam_bore& operator=(const Cam &C);
 	
@@ -76,6 +108,7 @@ public:
 	double get_B_ddy() const {return m_B_ddy;}
 	double get_B_ddz() const {return m_B_ddz;}
 	
+	Point  get_B_rot()    const {Point P(m_B_rotx,m_B_roty,m_B_rotz,m_B_drotx,m_B_droty,m_B_drotz);return P;}
 	double get_B_rotx() const {return m_B_rotx;}
 	double get_B_roty() const {return m_B_roty;}
 	double get_B_rotz() const {return m_B_rotz;}

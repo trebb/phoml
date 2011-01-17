@@ -81,7 +81,8 @@ public:
 	operator Point () const { return Point(m_x,m_y,m_z); };
 
 		//todo set to deprecated steffen 20101013
-    Cam&   get_Cam () { m_change_cam=true; return *m_Cam; /*Cam C; C=*m_Cam; return C;*/}
+    Cam&   get_Cam ()          { m_change_cam=true; return *m_Cam; /*Cam C; C=*m_Cam; return C;*/}
+    void   set_Cam (Cam  &Cam) { m_change_cam=true;  m_Cam = &Cam; }
 	//Cam&  get_Cam_Ref()  { return *m_Cam;}
 
 

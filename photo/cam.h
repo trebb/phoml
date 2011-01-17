@@ -11,7 +11,7 @@ class Cam
 {
 public:
 	Cam();
-	
+/*
 	Cam(double pix_row,double pix_col,double pix_size,
 		double OX,  double OY,  double OZ,
 	    double rotX,double rotY,double rotZ,
@@ -19,7 +19,17 @@ public:
 		double A1,  double A2,  double A3,
 		double B1,  double B2, double C1,
 		double C2, double r0);
-		
+*/
+	Cam(double pix_row,double pix_col,double pix_size,
+	        double OX,  double OY,  double OZ,
+	        double dOX,  double dOY,  double dOZ,
+	        double rotX,double rotY,double rotZ,
+	        double drotX,double drotY,double drotZ,
+	        double c,   double xh,  double yh,
+	        double A1,  double A2,  double A3,
+	        double B1,  double B2, double C1,
+	        double C2, double r0);
+
 	~Cam();
  
 	Cam& operator=(const Cam &C);
@@ -35,7 +45,11 @@ public:
 	double get_OX() const {return m_OX;}
     double get_OY() const {return m_OY;}
 	double get_OZ() const {return m_OZ;}
-    
+	double get_dOX() const {return m_dOX;}
+	double get_dOY() const {return m_dOY;}
+	double get_dOZ() const {return m_dOZ;}
+
+	Point  get_rot()  const {return Point(m_rotX,m_rotY,m_rotZ,m_drotX,m_drotY,m_drotZ);}
 	double get_rotX() const {return m_rotX;}
     double get_rotY() const {return m_rotY;}
 	double get_rotZ() const {return m_rotZ;}

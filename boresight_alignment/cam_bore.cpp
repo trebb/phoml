@@ -92,10 +92,16 @@ Cam_bore::Cam_bore(
 			          m_OX=OX;
 			          m_OY=OY;
 			          m_OZ=OZ;
+					  m_dOX=0;
+                      m_dOY=0;
+                      m_dOZ=0;
 					  m_rotX=rotX;
 					  m_rotY=rotY;
 					  m_rotZ=rotZ;
-					  m_c=c;
+                      m_drotX=0;
+                      m_drotY=0;
+                      m_drotZ=0;
+                      m_c=c;
 					  m_xh=xh;
 					  m_yh=yh;
 					  m_A1=A1;
@@ -120,7 +126,100 @@ Cam_bore::Cam_bore(
 					  m_B_drotz=B_drotz;
 }
 
+Cam_bore::Cam_bore(
+                        double pix_row, double pix_col, double pix_size,
+                        double OX, double OY, double OZ,
+                        double dOX, double dOY, double dOZ,
+                        double rotX, double rotY, double rotZ,
+                        double drotX, double drotY, double drotZ,
+                        double c, double xh, double yh,
+                        double A1, double A2, double A3,
+                        double B1, double B2, double C1,
+                        double C2, double r0,
+                        double B_dx, double B_dy, double B_dz,
+                        double B_ddx, double B_ddy, double B_ddz,
+                        double B_rotx, double B_roty, double B_rotz,
+                        double B_drotx, double B_droty, double B_drotz,
+                        std::string camera_name,
+                        int         channels,
+                        std::string camera_serial_number,
+                        std::string objectiv_name,
+                        std::string focal_length,
+                        std::string objectiv_serial_number,
+                        std::string calib_inner_date,
+                        std::string calib_inner_person,
+                        std::string calib_inner_comments,
+                        std::string calib_outer_date,
+                        std::string calib_outer_person,
+                        std::string calib_outer_comments,
+                        std::string calib_boreside_date,
+                        std::string calib_boreside_person,
+                        std::string calib_boreside_comments
+     )://m_pix_size(pix_size),m_pix_row(pix_row),m_pix_col(pix_col),
+     //m_O(OX,OY,OZ),
+     //m_rotX(rotX),m_rotY(rotY),m_rotZ(rotZ),
+     //m_c(c),m_xh(xh),m_yh(yh),
+     //m_A1(A1),m_A2(A2),
+     //m_A3(A3),m_B1(B1),m_B2(B2),
+     //m_C1(C1),m_C2(C2),m_r0(r0),
+                   m_camera_name(camera_name),
+                   m_channels(channels),
+                   m_camera_serial_number(camera_serial_number),
+                   m_objectiv_name(objectiv_name),
+                   m_focal_length(focal_length),
+                   m_objectiv_serial_number(objectiv_serial_number),
+                   m_calib_inner_date(calib_inner_date),
+                   m_calib_inner_person(calib_inner_person),
+                   m_calib_inner_comments(calib_inner_comments),
+                   m_calib_outer_date(calib_outer_date),
+                   m_calib_outer_person(calib_outer_person),
+                   m_calib_outer_comments(calib_outer_comments),
+                   m_calib_boreside_date(calib_boreside_date),
+                   m_calib_boreside_person(calib_boreside_person),
+                   m_calib_boreside_comments(calib_boreside_comments)
+{
+      m_pix_size=pix_size;
+      m_pix_row=pix_row;
+      m_pix_col=pix_col;
+      m_OX=OX;
+      m_OY=OY;
+      m_OZ=OZ;
+      m_dOX=dOX;
+      m_dOY=dOY;
+      m_dOZ=dOZ;
+      m_rotX=rotX;
+      m_rotY=rotY;
+      m_rotZ=rotZ;
+      m_drotX=drotX;
+      m_drotY=drotY;
+      m_drotZ=drotZ;
+      m_c=c;
+      m_xh=xh;
+      m_yh=yh;
+      m_A1=A1;
+      m_A2=A2;
+      m_A3=A3;
+      m_B1=B1;
+      m_B2=B2;
+      m_C1=C1;
+      m_C2=C2;
+      m_r0=r0;
+      m_B_dx=B_dx;
+      m_B_dy=B_dy;
+      m_B_dz=B_dz;
+      m_B_ddx=B_ddx;
+      m_B_ddy=B_ddy;
+      m_B_ddz=B_ddz;
+      m_B_rotx=B_rotx;
+      m_B_roty=B_roty;
+      m_B_rotz=B_rotz;
+      m_B_drotx=B_drotx;
+      m_B_droty=B_droty;
+      m_B_drotz=B_drotz;
 
+}
+
+//todo set to deprecate
 Cam_bore::Cam_bore(
 				double pix_row, double pix_col, double pix_size,
 				double OX, double OY, double OZ,
@@ -158,6 +257,12 @@ Cam_bore::Cam_bore(
 							  m_rotX=rotX;
 							  m_rotY=rotY;
 							  m_rotZ=rotZ;
+							  m_dOX=0;
+                              m_dOY=0;
+                              m_dOZ=0;
+                              m_drotX=0;
+                              m_drotY=0;
+                              m_drotZ=0;
 							  m_c=c;
 							  m_xh=xh;
 							  m_yh=yh;
@@ -187,6 +292,16 @@ Cam_bore::~Cam_bore()
 {
 }
 
+Cam_bore::Cam_bore(const Cam_bore &C)
+{
+ (*this)=C;
+}
+
+Cam_bore::Cam_bore(const Cam &C)
+{
+ (*this) = C;
+}
+
 Cam_bore& Cam_bore::operator=(const Cam_bore &C)
 {	
 	 (*this).m_pix_row = C.m_pix_row;
@@ -195,9 +310,15 @@ Cam_bore& Cam_bore::operator=(const Cam_bore &C)
 	 (*this).m_OX      = C.m_OX;
 	 (*this).m_OY      = C.m_OY;
 	 (*this).m_OZ      = C.m_OZ;
+	 (*this).m_dOX      = C.m_dOX;
+     (*this).m_dOY      = C.m_dOY;
+     (*this).m_dOZ      = C.m_dOZ;
      (*this).m_rotX = C.m_rotX;
 	 (*this).m_rotY = C.m_rotY;
 	 (*this).m_rotZ = C.m_rotZ;
+     (*this).m_drotX = C.m_drotX;
+     (*this).m_drotY = C.m_drotY;
+     (*this).m_drotZ = C.m_drotZ;
 	 (*this).m_c    = C.m_c;
 	 (*this).m_xh   = C.m_xh;
 	 (*this).m_yh   = C.m_yh;
@@ -242,11 +363,6 @@ Cam_bore& Cam_bore::operator=(const Cam_bore &C)
  return (*this);
 }
 
-Cam_bore::Cam_bore(const Cam_bore &C)
-{
-		(*this)=C;
-}
-
 Cam_bore& Cam_bore::operator=(const Cam &C)
 {	
 	 (*this).m_pix_row = C.get_pix_row();//m_pix_row;
@@ -255,9 +371,15 @@ Cam_bore& Cam_bore::operator=(const Cam &C)
 	 (*this).m_OX      = C.get_OX();//.m_O;
 	 (*this).m_OY      = C.get_OY();//.m_O;
 	 (*this).m_OZ      = C.get_OZ();//.m_O;
+	 (*this).m_dOX      = C.get_dOX();//.m_O;
+	 (*this).m_dOY      = C.get_dOY();//.m_O;
+     (*this).m_dOZ      = C.get_dOZ();//.m_O;
      (*this).m_rotX = C.get_rotX();//.m_rotX;
 	 (*this).m_rotY = C.get_rotY();//.m_rotY;
 	 (*this).m_rotZ = C.get_rotZ();//.m_rotZ;
+     (*this).m_drotX = C.get_drotX();//.m_rotX;
+     (*this).m_drotY = C.get_drotY();//.m_rotY;
+     (*this).m_drotZ = C.get_drotZ();//.m_rotZ;
 	 (*this).m_c    = C.get_c();//m_c;
 	 (*this).m_xh   = C.get_xh();//m_xh;
 	 (*this).m_yh   = C.get_yh();//m_yh;
@@ -277,7 +399,9 @@ Cam_bore::operator Cam() const
 {
  return Cam(m_pix_row,m_pix_col,m_pix_size,
 		    m_OX,m_OY,m_OZ,
+		    m_dOX,m_dOY,m_dOZ,
 		    m_rotX,m_rotY,m_rotZ,
+		    m_drotX,m_drotY,m_drotZ,
 		    m_c,m_xh,m_yh,
 		    m_A1,m_A2,m_A3,
 		    m_B1,m_B2,

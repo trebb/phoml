@@ -549,7 +549,7 @@ _DLL_EXPORT int STDCALL setDistanceForEpipolarLine(double d)
 {
  if(d>0 && d<100000)
  {
-  I.m_distance_epi = d*(-1.0);
+  I.m_distance_epi = d;//*(-1.0);
   m_is_set_distance_epi = true;
   return 1;
  }

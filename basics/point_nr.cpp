@@ -70,3 +70,19 @@ void Point_nr::set_PktNr(int pkt_nr)
 {
  m_PktNr=pkt_nr;
 }
+
+ostream& operator<<(ostream& s,const Point_nr &A)
+{
+   int precision=5;       //Nachkommastellen
+   //int vorkommastellen=8; //Minus zählt als Vorkommastelle
+
+   s.setf(ios::fixed|ios::showpoint, ios::floatfield);//<<showpoint<<fixed
+   s.setf(ios::right, ios::adjustfield);
+   s.precision(precision);
+
+   s<<setfill(' ')<<setw(precision+1)
+    <<A.get_PktNr()
+    <<static_cast<Point>(A);
+
+return s;
+};

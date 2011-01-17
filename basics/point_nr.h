@@ -32,29 +32,6 @@ public:
 
 };
 
-inline ostream& operator<<(ostream& s,Point_nr &A)
-{
-   int precision=5;       //Nachkommastellen   
-   int vorkommastellen=8; //Minus zhlt als Vorkommastelle
-
-   s.setf(ios::fixed|ios::showpoint, ios::floatfield);//<<showpoint<<fixed
-   s.setf(ios::right, ios::adjustfield);
-   s.precision(precision);
-
-   s<<setfill(' ')<<setw(precision+1)
-	<<A.get_PktNr()
-    <<" ("
-	<<setfill(' ')<<setw(precision+vorkommastellen+1)
-	<<A.get_X()
-	<<","
-	<<setfill(' ')<<setw(precision+vorkommastellen+1)
-	<<A.get_Y()
-	<<","
-	<<setfill(' ')<<setw(precision+vorkommastellen+1)
-	<<A.get_Z()
-	<<") ";
-
-return s;
-};
+ostream& operator<<(ostream& s,const Point_nr &A);
 
 #endif /*CPOINT_NR_H_*/

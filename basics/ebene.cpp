@@ -93,8 +93,8 @@ Ebene::~Ebene()
 
 Ebene& Ebene::operator= (const Ebene &E)
 {
-	 (*this).m_n=E.get_N();
-	 (*this).m_p=E.get_D();
+	 (*this).m_n=E.m_n;
+	 (*this).m_p=E.m_p;
   return (*this);
 }
 
@@ -303,7 +303,7 @@ Ebene Ebene::RotationRueck(Point& X0, Matrix& R)
 
 	 //calc the average plane
 	 Ebene E(pl);
-
+     //cout<<endl<<E;
 	 return E;
 }
 

@@ -26,7 +26,9 @@ Cam::Cam()
 {
 		m_pix_size=m_pix_row=m_pix_col=
 		m_OX=m_OY=m_OZ=
+		m_dOX=m_dOY=m_dOZ=
 		m_rotX=m_rotY=m_rotZ=
+		m_drotX=m_drotY=m_drotZ=
 		m_c=m_xh=m_yh=
 		m_A1=m_A2=m_A3=
 		m_B1=m_B2=
@@ -34,7 +36,7 @@ Cam::Cam()
 		m_r0=0.0;
 		  //m_OX=m_OY=m_OZ=
 }
-
+/*
 Cam::Cam(double pix_row,double pix_col,double pix_size,
 		double OX,  double OY,  double OZ,
 	    double rotX,double rotY,double rotZ,
@@ -44,6 +46,24 @@ Cam::Cam(double pix_row,double pix_col,double pix_size,
 		double C2, double r0):m_pix_size(pix_size),m_pix_row(pix_row),m_pix_col(pix_col),
 		m_OX(OX),m_OY(OY),m_OZ(OZ),m_rotX(rotX),m_rotY(rotY),m_rotZ(rotZ),
 		m_c(c),m_xh(xh),m_yh(yh),m_A1(A1),m_A2(A2),m_A3(A3),m_B1(B1),m_B2(B2),m_C1(C1),m_C2(C2),m_r0(r0)
+{
+
+}
+*/
+Cam::Cam(double pix_row,double pix_col,double pix_size,
+        double OX,  double OY,  double OZ,
+        double dOX,  double dOY,  double dOZ,
+        double rotX,double rotY,double rotZ,
+        double drotX,double drotY,double drotZ,
+        double c,   double xh,  double yh,
+        double A1,  double A2,  double A3,
+        double B1,  double B2, double C1,
+        double C2, double r0):m_pix_size(pix_size),m_pix_row(pix_row),m_pix_col(pix_col),
+        m_OX(OX),m_OY(OY),m_OZ(OZ),
+        m_dOX(dOX),m_dOY(dOY),m_dOZ(dOZ),
+        m_rotX(rotX),m_rotY(rotY),m_rotZ(rotZ),
+        m_drotX(drotX),m_drotY(drotY),m_drotZ(drotZ),
+        m_c(c),m_xh(xh),m_yh(yh),m_A1(A1),m_A2(A2),m_A3(A3),m_B1(B1),m_B2(B2),m_C1(C1),m_C2(C2),m_r0(r0)
 {
 
 }
@@ -60,9 +80,15 @@ Cam& Cam::operator=(const Cam &C)
 	 (*this).m_OX      = C.m_OX;
 	 (*this).m_OY      = C.m_OY;
 	 (*this).m_OZ      = C.m_OZ;
+	 (*this).m_dOX      = C.m_dOX;
+	 (*this).m_dOY      = C.m_dOY;
+	 (*this).m_dOZ      = C.m_dOZ;
      (*this).m_rotX = C.m_rotX;
 	 (*this).m_rotY = C.m_rotY;
 	 (*this).m_rotZ = C.m_rotZ;
+	 (*this).m_drotX = C.m_drotX;
+	 (*this).m_drotY = C.m_drotY;
+	 (*this).m_drotZ = C.m_drotZ;
 	 (*this).m_c    = C.m_c;
 	 (*this).m_xh   = C.m_xh;
 	 (*this).m_yh   = C.m_yh;

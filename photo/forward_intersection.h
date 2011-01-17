@@ -12,6 +12,8 @@ public:
 	Vorwaertsschnitt(vector<BPoint> &BP);
 	~Vorwaertsschnitt(){}
 
+	bool set_new_bpoint_list(vector<BPoint> &BP);
+
 	Point get_Schnittpunkt(){ return m_schnittpunkt;}
     bool  get_is_error()    { return m_is_error;    }
 
@@ -31,6 +33,10 @@ private:
 	double x(Cam K, Point OP_0, Matrix& R);
 	double y(Cam K, Point OP_0, Matrix& R);
 
+	void calc();
+
+	//link for the bpoint list
+	std::vector<BPoint> *m_BP;
 	//berechneter Schnittpunkt
     Point m_schnittpunkt;
 	bool  m_is_error;
