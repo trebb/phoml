@@ -9,7 +9,7 @@ JAR    = lib/photogrammetrie.jar
 JAVA_DIR = java
 LIB_DIR = lib
 
-Basics = basics/ebene.cpp basics/point.cpp basics/point_nr.cpp basics/rot_matrix.cpp basics/straight_line.cpp basics/basics_exception.cpp
+Basics = basics/ebene.cpp basics/point.cpp basics/point_nr.cpp basics/rot_matrix.cpp basics/straight_line.cpp basics/basics_exception.cpp basics/rotation_matrix.cpp
 Matrix = basics/matrix/matrix.cpp
 Point_nr_system = basics/point_nr_system/point_nr_list.cpp
 Boreside = boresight_alignment/boresight_transformation.cpp boresight_alignment/bpoint_bore.cpp boresight_alignment/cam_bore.cpp boresight_alignment/mono_photogrammetrie.cpp boresight_alignment/forward_intersection_bore.cpp
