@@ -1,4 +1,8 @@
-(in-package :photogrammetrie)
+(pushnew (make-pathname :directory '(:relative :up "phoml" "lib"))
+         cffi:*foreign-library-directories*)
+(cffi:load-foreign-library '(:default "libphoml"))
+
+(in-package :phoml)
 
 (setf *read-default-float-format* 'double-float)
 

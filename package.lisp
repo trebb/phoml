@@ -1,4 +1,4 @@
 (in-package :cl-user)
 
-(defpackage :photogrammetrie
+(defpackage :phoml
   (:use :common-lisp :cffi))

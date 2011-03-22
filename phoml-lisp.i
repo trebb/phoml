@@ -1,6 +1,6 @@
 // -*- Lisp -*-
 
-%module photo
+%module phoml
 
 %feature("intern_function","1");
 %feature("export");
@@ -9,9 +9,9 @@
 
 %insert("lisphead") %{
 
-(in-package :photogrammetrie)
-;;(pushnew (make-pathname :directory '(:relative :up "photogrammetrie" "lib"))
+(in-package :phoml)
+;;(pushnew (make-pathname :directory '(:relative :up "phoml" "lib"))
 ;;         cffi:*foreign-library-directories*)
-;;(cffi:load-foreign-library '(:default "libphotogrammetrie"))
+;;(cffi:load-foreign-library '(:default "libphoml"))
 
 %}
