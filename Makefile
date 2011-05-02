@@ -46,7 +46,7 @@ SWIG_JAVA_SOURCE = photogrammetrie-java.i
 SWIG_LISP_SOURCE = phoml-lisp.i
 
 SWIG_JAVA = photogrammetrie_wrap.cxx
-SWIG_LISP = photo.lisp
+SWIG_LISP = phoml.lisp
 
 HEADERS = $(wildcard */*.h)
 
