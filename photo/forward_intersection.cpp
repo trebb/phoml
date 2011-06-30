@@ -2,7 +2,8 @@
 
 #include <cmath>
 #include "..//basics//matrix//matrix.h"
-#include "..//basics//rot_matrix.h"
+#include "..//basics//rotation_matrix.h"
+//#include "..//basics//rot_matrix.h"//old!
 #include "..//basics//straight_line.h"
 
 
@@ -209,7 +210,7 @@ void Vorwaertsschnitt::calc()
        {
            BPoint BB  = m_BP->operator [](j);//[j];
            Cam KK     = BB.get_Cam();
-           Rot R_hilf(KK.get_rotX(),KK.get_rotY(),KK.get_rotZ());
+           Rotation_matrix R_hilf(Rotation_matrix::math,KK.get_rotX(),KK.get_rotY(),KK.get_rotZ());
            Matrix RR;
            RR = R_hilf;//.get_Matrix();
            A(k  ,0) = dxdX(KK, Zaehler_x(KK,OP_0,RR), Nenner(KK,OP_0,RR), RR);

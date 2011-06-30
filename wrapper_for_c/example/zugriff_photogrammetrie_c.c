@@ -16,9 +16,7 @@
 //#endif
 
 //c_wrapper to the photogrammetrie
-#include "..//..//wrapper_for_c//photoST.h"
-
-//#pragma comment(lib, "photogrammetrie.lib")
+#include "..//..//photogrammetrie//wrapper_for_c//photoST.h"
 
 
 int main(void)
@@ -26,12 +24,19 @@ int main(void)
   //values
   double m_x_global,m_y_global,m_z_global;//,m_stdx_global,m_stdy_global,m_stdz_global;
 
+  double d_begin = 3.0;
+  double d_end   =30.0;
+  double d_step  = 0.5;
+  double d_i = d_begin;
+
+  double m_begin,n_begin,m_end,n_end;
+
 #if defined(_MSC_VER)
   char cam_left[]  = {"AVT_Stingray_right_left_cam1.inikalib.ini"};
   char cam_right[] = {"AVT_Stingray_right_right_cam2.inikalib.ini"};
 #else
-  char cam_left[]  = {"wrapper_for_c/example/AVT_Stingray_right_left_cam1.inikalib.ini"};
-  char cam_right[] = {"wrapper_for_c/example/AVT_Stingray_right_right_cam2.inikalib.ini"};
+	char cam_left[]  = {"/home/steffen/projekte/Lehmann_und_Partner/photogrammetrie_dll/example_photogrammetrie/cam_calib/AVT_Stingray_right_left_cam1.inikalib.ini"};
+	char cam_right[] = {"/home/steffen/projekte/Lehmann_und_Partner/photogrammetrie_dll/example_photogrammetrie/cam_calib/AVT_Stingray_right_right_cam2.inikalib.ini"};
 #endif
 
 //################################
@@ -45,6 +50,7 @@ int main(void)
 
 
 //################################
+  del_all();
 
   printf("\n##################################\n");
   printf("forwart intersection example 1:\n");
@@ -61,7 +67,7 @@ int main(void)
     //calculate of the forward intersection
     calculate();
 
-    //show_variabes_and_infos();
+    //showVariablesAndInfos();
 
     printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
     printf("\nforwart intersection control: (-1741.225369 , 799.567923 , -7397.498111)  std(2.136106,1.646223,12.459384)\n");
@@ -97,12 +103,13 @@ int main(void)
   addBPoint(401.000,370.000);
 
   addGlobalCarReferencePoint(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
+  addGlobalCarReferencePoint_std( 1.0 , 1.0 , 2.0 , 0.1 , 0.1 , 0.2 );
   setGlobalReferenceFrame();//todo in process -> for EPS data
 
   //calculate of the forward intersection
   calculate();
 
-  //show_variabes_and_infos();
+  //showVariablesAndInfos();
 
   printf("\n");
   printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
@@ -177,7 +184,7 @@ int main(void)
   //calculate of the forward intersection
   calculate();
 
-  //show_variabes_and_infos();
+  //showVariablesAndInfos();
 
   printf("\n");
   printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
@@ -214,7 +221,7 @@ int main(void)
 
   calculate();
 
-  //show_variabes_and_infos();
+  //showVariablesAndInfos();
 
   printf("\n");
   printf("\npicture point cam left calc   :  m: %lf , n: %lf ",get_m(),get_n());
@@ -238,7 +245,7 @@ int main(void)
 
   calculate();
 
-  //show_variabes_and_infos();
+  //showVariablesAndInfos();
 
   printf("\n");
   printf("\npicture point cam left calc   :  m: %lf , n: %lf ",get_m(),get_n());
@@ -252,28 +259,45 @@ int main(void)
 		printf("\n############################################\n");
 		printf("Epipolargeomerie:\n");
 
-		double d_begin = 3.0;
-		double d_end   =50.0;
-		double d_step   = 0.5;
-		double d_i = d_begin;
+		//double d_begin = 3.0;
+		//double d_end   =30.0;
+		//double d_step  = 0.5;
+		//double d_i = d_begin;
 
 		addCam2(cam_left);
-		addBPoint(756.000,345.000);
+		addBPoint(756.0,345.0);
 		addGlobalCarReferencePoint_CamSetGlobal(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
 
 		addCam2(cam_right);
 		addGlobalCarReferencePoint_CamSetGlobal(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
 
 		printf("\n");
+		//double m_begin,n_begin,m_end,n_end;
 
 		while( d_i <= d_end )
 		{
 		 setDistanceForEpipolarLine(d_i);
 		 calculate();
+
+		 if(d_i==d_begin)
+		 {
+		     m_begin=get_m();
+		     n_begin=get_n();
+		 }
+		 if(d_i==d_end)
+		 {
+             m_end=get_m();
+             n_end=get_n();
+		 }
+
 		 printf("\none point in %lf m distance on the epipolar line:   m: %lf , n: %lf ",d_i,get_m(),get_n());
 
 		 d_i+=d_step;
 		}
+
+
+
+		printf("\ndistance of %lf m in pixel of the epipolar line:  dm: %lf , dn: %lf ",d_i,(m_begin-m_end),(n_begin-n_end));
 
 		//delete all values (depends of the internal List of bpoints)
 		del_all();
@@ -293,7 +317,7 @@ int main(void)
   addGlobalCarReferencePoint(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
   setGlobalReferenceFrame();//todo in process -> for EPS data
 
-  //show_variabes_and_infos();
+  //showVariablesAndInfos();
 
   //calculate of the forward intersection
   calculate();
@@ -357,7 +381,7 @@ int main(void)
 		//calculate of the forward intersection
 		calculate();
 
-		//show_variabes_and_infos();
+		//showVariablesAndInfos();
 
 		printf("\n");
 		printf("\nforwart intersection calc   :  x: %lf ,y: %lf z: %lf  std(%lf,%lf,%lf)",get_x_local(),get_y_local(),get_z_local(),get_stdx_local(),get_stdy_local(),get_stdz_local());
@@ -374,6 +398,32 @@ int main(void)
 
 
 
+//##################################
+
+        printf("\n############################################\n");
+        printf("foot print:\n");
+
+        setGlobalReferenceFrame();//todo in process -> for EPS data
+
+        //picture 13
+        addCam2(cam_left);
+        addGlobalCarReferencePoint_CamSetGlobal(641754.64076,5638452.77658,296.79691,-0.2235410,-0.6600010,214.0967730,50.8803408,11.0150776);
+        addRefGroundSurface(0.0,0.0,1.0,0.30); //test plane
+        setDistanceForEpipolarLine(20.0); //max 20m in front of the picture
+
+        //calculate of the forward intersection
+        calculate();
+
+        printf("\n Point left  up [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(0),get_FP_Northing(0),get_FP_eHeigth(0));
+        printf("\n Point right up [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(1),get_FP_Northing(1),get_FP_eHeigth(1));
+        printf("\n Point left  dw [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(2),get_FP_Northing(2),get_FP_eHeigth(2));
+        printf("\n Point right dw [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(3),get_FP_Northing(3),get_FP_eHeigth(3));
+
+
+        //delete all values (depends of the internal List of bpoints)
+        del_all();
+
+printf("\n\nend\n");
 
 #if defined(_MSC_VER)
   getchar();

@@ -4,9 +4,14 @@
 
 Point_nr::Point_nr()
 {
+ m_PktNr=0;
 }
 
 Point_nr::Point_nr(int pkt,double x,double y,double z):Point(x,y,z),m_PktNr(pkt)
+{
+}
+
+Point_nr::Point_nr(int pkt,double x,double y,double z,double dx,double dy,double dz):Point(x,y,z,dx,dy,dz),m_PktNr(pkt)
 {
 }
 
@@ -81,8 +86,23 @@ ostream& operator<<(ostream& s,const Point_nr &A)
    s.precision(precision);
 
    s<<setfill(' ')<<setw(precision+1)
+    <<" Pkt_Nr "
     <<A.get_PktNr()
     <<static_cast<Point>(A);
 
 return s;
+};
+
+istream& operator>>(istream& s,Point_nr &A)
+{
+ std::string c;
+ int point_nr;
+ Point P;
+
+ s>>c>>point_nr>>P;
+
+ A.set_PktNr(point_nr);
+ A = P;
+
+ return s;
 };

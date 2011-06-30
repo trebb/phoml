@@ -324,7 +324,7 @@ bool Internal_test_photogrammetrie_for_cpp::test_global_photogrammetrie()
         //change the applanix rotation angels into the math rotation angels
 
         //old function in the c wrapper
-        CApplanix appl_old;
+        Applanix appl_old;
         appl_old.calc_approximately_meridian_convergence_degree(m_Easting,m_latitude,m_heading);
         appl_old.compare_gps_coosystem_degree_to_math_coosystem_pi(m_roll,m_pitch,m_heading,m_droll,m_dpitch,m_dheading);
 
@@ -384,8 +384,8 @@ bool Internal_test_photogrammetrie_for_cpp::test_global_photogrammetrie()
         pos1.convert_rotation_angles_grad_to_rad();
 
         //change the applanix rotation angels into the math rotation angels
-        CApplanix appl;
-        appl.set_version(CApplanix::s0002);
+        Applanix appl;
+        appl.set_version(Applanix::s0002);
         Gps_pos pos1_konvert   = appl.convert_from_geodetic_applanix_to_photogrammetric_rotation_angles(pos1);
         Gps_pos pos1_konf_back = appl.convert_from_photogrammetric_to_geodetic_applanix_rotation_angles(pos1_konvert);
 
@@ -451,8 +451,8 @@ bool Internal_test_photogrammetrie_for_cpp::test_global_photogrammetrie()
         pos1_s3.convert_rotation_angles_grad_to_rad();
 
         //change the applanix rotation angels into the math rotation angels
-        CApplanix appl_s3;
-        appl_s3.set_version(CApplanix::s0003);
+        Applanix appl_s3;
+        appl_s3.set_version(Applanix::s0003);
         Gps_pos pos1_s3_konvert   = appl_s3.convert_from_geodetic_applanix_to_photogrammetric_rotation_angles(pos1_s3);
         Gps_pos pos1_s3_konf_back = appl_s3.convert_from_photogrammetric_to_geodetic_applanix_rotation_angles(pos1_s3_konvert);
 

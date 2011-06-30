@@ -19,22 +19,25 @@ public:
 
  Gerade& operator=(const Gerade& G);
 
- enum Eplane{xy,yz,xz};
+ //enum Eplane{xy,yz,xz};
 
- //calc_average_plane();
+ void calc_average_straight_line(list<Point>& points);
  
  Point get_O() const { return m_p1; }
     
  Point get_R() const { Point P;
-                      P.set_X(m_p2.get_X()-m_p1.get_X());
-					  P.set_Y(m_p2.get_Y()-m_p1.get_Y());
-					  P.set_Z(m_p2.get_Z()-m_p1.get_Z());
-					  P=P.DivS(P.Betrag());
-					  return P;
+                       P.set_X(m_p2.get_X()-m_p1.get_X());
+					   P.set_Y(m_p2.get_Y()-m_p1.get_Y());
+					   P.set_Z(m_p2.get_Z()-m_p1.get_Z());
+					   P=P.DivS(P.Betrag());
+					   return P;
  }
  
- void set_O_R(Point &O,Point &n) { m_p1=O;
+ void set_O_R(Point O,Point n) { m_p1=O;
  								   m_p2 = O.Add(n.MultS(10.0));
+ }
+ void set_P1_P2(Point P1,Point P2) { m_p1 = P1;
+                                     m_p2 = P2;
  }
 	
 	double AbstandGP      (Point& P);

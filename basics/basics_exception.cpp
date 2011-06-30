@@ -7,21 +7,18 @@
 
 #include "basics_exception.h"
 
-
 Basics_exception::Basics_exception() : m_default("!!! basics_exception error !!! : ")
 {
-
 }
 
 Basics_exception::~Basics_exception() throw()
 {
-
 }
 
-Basics_exception& Basics_exception::operator () (std::string err, std::string info)
+Basics_exception& Basics_exception::operator () (std::string err, const char* DEBUG_POS, std::string info)
 {
     m_error = err;
-    m_info = m_default +info + "  -> error type: "+m_error;
+    m_info = m_default + "at" + DEBUG_POS + "\n  -> what: " + m_error + "\n  -> info: "+ info ;
   return (*this);
 }
 

@@ -5,7 +5,8 @@
 #include <cmath>
 
 #include "..//basics//fix_values.h"
-#include "..//basics//rot_matrix.h"
+#include "..//basics//rotation_matrix.h"
+//#include "..//basics//rot_matrix.h"//old!
 
 //#######################################################################################
 //ein Vielfaches von einem Winkel reduzieren
@@ -117,7 +118,7 @@ Matrix Cam::TransInRellativeOrientierung( Cam &C_l, Cam &C_r, Cam &C_l_rell ,Cam
 
 	
 	 // Rotationsmatrix von Kamera links (in Objektkoordinaten)
-	 Rot R1_(C_l.get_rotX(),C_l.get_rotY(),C_l.get_rotZ());
+	 Rotation_matrix R1_(Rotation_matrix::math,C_l.get_rotX(),C_l.get_rotY(),C_l.get_rotZ());
 	 Matrix R1=R1_.get_Matrix();
 	 //R1.MatShow(R1);
  
@@ -146,7 +147,7 @@ Matrix Cam::TransInRellativeOrientierung( Cam &C_l, Cam &C_r, Cam &C_l_rell ,Cam
  
 	
      // Rotationsmatrix von Kamera rechts (in Objektkoordinaten)
-	 Rot R2_(C_r.get_rotX(),C_r.get_rotY(),C_r.get_rotZ());
+     Rotation_matrix R2_(Rotation_matrix::math,C_r.get_rotX(),C_r.get_rotY(),C_r.get_rotZ());
 	 Matrix R2=R2_.get_Matrix();
 	 //R2.MatShow(R2);
 

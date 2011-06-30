@@ -26,6 +26,9 @@ public:
 													  m_y == t.m_y &&
 													  m_z == t.m_z );
 	}
+	bool operator<( const Point& t) const { return m_x < t.m_x;
+
+	}
 
 
 	Point& operator= (const Point &A)
@@ -129,6 +132,7 @@ public:
 };
 
 ostream& operator<<(ostream& s,const Point& A);
+istream& operator>>(istream& s,Point &A);
 
 #endif
 

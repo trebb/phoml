@@ -1,10 +1,10 @@
 #ifndef __FIX_VALUES_h
 #define __FIX_VALUES_h
 
-#define VERSIONSNUMBER 0.003
+#define VERSIONSNUMBER 0.004
 
-//#define PI  static_cast<double>(3.1415926535897932384626433832795)
-static const double PI=3.1415926535897932384626433832795;
+#define PI static_cast<double>(3.1415926535897932384626433832795)
+//static const double PI=3.1415926535897932384626433832795;
 
 class Fix_values
 {

@@ -254,7 +254,7 @@ Ebene Ebene::Rotation(Point& X0, Matrix& R)
  std::list<Point>::iterator ipl = pl.begin();
  while(ipl!=pl.end())
  {
-  *ipl=(*this).LotFussP(*ipl).RotationRueck(X0,R);
+  *ipl=(*this).LotFussP(*ipl).Rotation(X0,R);
   ++ipl;
  }
 

@@ -2,7 +2,8 @@
 
 #include <cmath>
 
-#include "rot_matrix.h"
+//#include "rotation_matrix.h"
+//#include "rot_matrix.h"//old!
 
 
 double Point::Quad()
@@ -578,26 +579,44 @@ ostream& operator<<(ostream& s,const Point& A)
    s.setf(ios::right, ios::adjustfield);
    s.precision(precision);
 
-   s<<" ("
+   s<<" ( "
 	<<setfill(' ')<<setw(precision+vorkommastellen+1)
 	<<A.get_X()
-	<<","
+	<<" , "
 	<<setfill(' ')<<setw(precision+vorkommastellen+1)
 	<<A.get_Y()
-	<<","
+	<<" , "
 	<<setfill(' ')<<setw(precision+vorkommastellen+1)
 	<<A.get_Z()
-	<<") "
-	<<"std("
+	<<" ) "
+	<<" std("
 	<<setfill(' ')<<setw(precision+vorkommastellen+1)
     <<A.get_dX()
-    <<","
+    <<" , "
     <<setfill(' ')<<setw(precision+vorkommastellen+1)
     <<A.get_dY()
-    <<","
+    <<" , "
     <<setfill(' ')<<setw(precision+vorkommastellen+1)
     <<A.get_dZ()
-    <<") ";
+    <<" ) ";
 
 return s;
+};
+
+istream& operator>>(istream& s,Point &A)
+{
+ std::string c;
+ double X=0.0,Y=0.0,Z=0.0;
+ double dX=0.0,dY=0.0,dZ=0.0;
+
+ s>>c>>X>>c>>Y>>c>>Z>>c>>c>>dX>>c>>dY>>c>>dZ>>c;
+
+ A.set_X(X);
+ A.set_Y(Y);
+ A.set_Z(Z);
+ A.set_dX(dX);
+ A.set_dY(dY);
+ A.set_dZ(dZ);
+
+ return s;
 };

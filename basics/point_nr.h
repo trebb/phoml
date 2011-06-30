@@ -13,6 +13,7 @@ private:
 public:
 	Point_nr();
 	Point_nr(int pkt,double x,double y,double z);
+	Point_nr(int pkt,double x,double y,double z,double dx,double dy,double dz);
 	Point_nr(int pkt,Point P);
 	virtual ~Point_nr();
 	
@@ -33,5 +34,6 @@ public:
 };
 
 ostream& operator<<(ostream& s,const Point_nr &A);
+istream& operator>>(istream& s,Point_nr &A);
 
 #endif /*CPOINT_NR_H_*/

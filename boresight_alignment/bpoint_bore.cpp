@@ -52,6 +52,7 @@ BPoint_bore::BPoint_bore(Cam_bore &cam_bore,Gps_pos &car_pos,Point_nr &global_me
     (*this).set_calculation_option( cco );
     m_BP.set_XYZObjKoo(global_measurement_point);
     set_values_from_BPoint_class();
+    set_measurement_point( global_measurement_point , cco);
     m_input_type = BPoint_bore::object;
 }
 
@@ -253,14 +254,14 @@ Point_nr BPoint_bore::get_measurement_point(const enum coordinate_calculation_op
     else if(cco == BPoint_bore::global)
      return m_global_measurement_point;
     else
-     throw b_ex("input error <coordinate_calculation_option>","BPoint_bore::get_measurement_point -> input error");
+     throw b_ex("input error <coordinate_calculation_option>",DEBUG_LOCATION,"BPoint_bore::get_measurement_point -> input error");
 }
 
 BPoint_bore& BPoint_bore::get_picture_coordinate_on_the_epipolar_geometrie( BPoint_bore& BPb, double s)
 {
-    //test if habe both data sets the same coordinate_calculation_option
+    //test if have both data sets the same coordinate_calculation_option
     if( (*this).get_calculation_option() != BPb.get_calculation_option() )
-        throw b_ex("Different coordinate_calculation_option","BPoint_bore::get_picture_coordinate_on_the_epipolar_geometrie -> error Different coordinate_calculation_option");
+        throw b_ex("Different coordinate_calculation_option",DEBUG_LOCATION,"BPoint_bore::get_picture_coordinate_on_the_epipolar_geometrie -> error Different coordinate_calculation_option");
 
     //temp copy values
     double ss = s;
@@ -277,7 +278,7 @@ Point_nr BPoint_bore::calc_mono_cam_to_plane_intersection(Ebene &E,const enum co
 {
    //ask for into the different coordinate systems
    //transform plain into the right coordinate system
-   Ebene Et;
+   Ebene Et = E;
    coordinate_calculation_option E_cco = E_cco_t;
 
 
@@ -316,17 +317,17 @@ Point_nr BPoint_bore::calc_mono_cam_to_plane_intersection(Ebene &E,const enum co
            E_cco = BPoint_bore::car;
    }
    else if( (*this).m_coordinate_calculation_option == BPoint_bore::global && E_cco == BPoint_bore::car    )
-   {       Et = E.Rotation(GT,GR);
+   {       Et = E.RotationRueck(GT,GR);
            E_cco = BPoint_bore::global;
-           Ebene E_( Et.get_N(), Et.get_D() );
-           Et = E_;
+           //Ebene E_( Et.get_N(), Et.get_D() );
+           //Et = E_;
            //test
-           Point O((*this).m_cam_bore_calc.get_O());
-           Point pt = Et.LotFussP(O);
-           double pa = Et.Abstand(O);
-           cout<<endl<<"O         :"<<O;
-           cout<<endl<<"p lot     :"<<pt;
-           cout<<endl<<"p abstand :"<<pa;
+           //Point O((*this).m_cam_bore_calc.get_O());
+           //Point pt = Et.LotFussP(O);
+           //double pa = Et.Abstand(O);
+           //cout<<endl<<"O         :"<<O;
+           //cout<<endl<<"p lot     :"<<pt;
+           //cout<<endl<<"p abstand :"<<pa;
    }
    else if( (*this).m_coordinate_calculation_option == BPoint_bore::local  && E_cco == BPoint_bore::global )
    {       Et = E.RotationRueck(BT,BR).RotationRueck(GT,GR);
@@ -336,7 +337,7 @@ Point_nr BPoint_bore::calc_mono_cam_to_plane_intersection(Ebene &E,const enum co
    {       Et = E.Rotation(BT,BR).Rotation(GT,GR);
            E_cco = BPoint_bore::global;
    }
-   cout<<endl<<Et;
+
 
     //both camera position and plain have to be the same coordinate system
    if( (*this).m_coordinate_calculation_option == E_cco )
@@ -344,12 +345,14 @@ Point_nr BPoint_bore::calc_mono_cam_to_plane_intersection(Ebene &E,const enum co
     Point_nr Pt((*this).m_nr,0.0,0.0,0.0);
 
     (*this).set_values_from_cam_bore_calc_member();
+    (*this).reset_rellativ_orientation_cam_bore_calc_member();
 
     Pt = (*this).m_BP.calc_mono_cam_to_plane_intersection(Et) ;
     (*this).set_measurement_point(  Pt  ,  (*this).m_coordinate_calculation_option  );
+    //cout << " ++calc mono++ ";
    }
    else
-    throw b_ex("Different coordinate_calculation_option","BPoint_bore::calc_mono_cam_to_plane_intersection -> error Different coordinate_calculation_option");
+    throw b_ex("Different coordinate_calculation_option",DEBUG_LOCATION,"BPoint_bore::calc_mono_cam_to_plane_intersection -> error Different coordinate_calculation_option");
 
  return (*this).get_measurement_point((*this).m_coordinate_calculation_option );
 }
@@ -400,6 +403,30 @@ void BPoint_bore::set_values_from_BPoint_class()
 
 }
 
+Point_nr  BPoint_bore::calc_footprint_point(Ebene &E,const enum coordinate_calculation_option& E_cco,double distance_cut)
+{
+ (*this).calc_mono_cam_to_plane_intersection(E,E_cco);
+
+ //test point in front of the cam
+ if(m_local_measurement_point.get_Z() > 0)
+ {
+   //cout<<endl<<"point is not in front of the cam!!";
+   Gerade G( (*this).m_cam_bore_calc.get_O() , (*this).m_BP );
+   Point_nr PK;
+   PK = G.get_O().Add( G.get_R().MultS( distance_cut ) );
+   //cout<<endl<<"P in front: "<<PK;
+   (*this).set_measurement_point(PK, (*this).m_coordinate_calculation_option );
+   Point_nr Pcoo = (*this).get_measurement_point(E_cco);
+   //cout<<endl<<"P coo car: "<<Pcoo;
+   Point_nr PE;
+   PE = E.LotFussP(Pcoo);
+   //cout<<endl<<"P perp E: "<<PE;
+   (*this).set_measurement_point(PE, E_cco );
+ }
+
+ return (*this).get_measurement_point((*this).m_coordinate_calculation_option );
+}
+
 void BPoint_bore::set_values_from_cam_bore_calc_member()
 {
  (*this).m_BP.get_Cam() = m_cam_bore_calc;
@@ -413,6 +440,7 @@ void BPoint_bore::reset_rellativ_orientation_cam_bore_calc_member()
   m_cam_bore_calc.set_rotX(0.0);
   m_cam_bore_calc.set_rotY(0.0);
   m_cam_bore_calc.set_rotZ(0.0);
+  m_BP.set_Cam(m_cam_bore_calc);
 }
 
 void BPoint_bore::set_measurement_point(Point_nr& p_nr, const enum coordinate_calculation_option& cco)
@@ -424,7 +452,58 @@ void BPoint_bore::set_measurement_point(Point_nr& p_nr, const enum coordinate_ca
     else if(cco == BPoint_bore::global)
      m_global_measurement_point = p_nr;
     else
-     throw b_ex("input error <coordinate_calculation_option>","BPoint_bore::set_measurement_point -> input error");
+     throw b_ex("input error <coordinate_calculation_option>",DEBUG_LOCATION,"BPoint_bore::set_measurement_point -> input error");
+
+    transform_measurement_point(cco);
+}
+
+void BPoint_bore::transform_measurement_point(const enum coordinate_calculation_option& cco)
+{
+    //bore-sight transformation
+    Point BT = ((*this).m_cam_bore_calc.get_B());
+    Rotation_matrix BR(     Rotation_matrix::math,
+                            (*this).m_cam_bore_calc.get_B_rotx(),
+                            (*this).m_cam_bore_calc.get_B_roty(),
+                            (*this).m_cam_bore_calc.get_B_rotz(),
+                            (*this).m_cam_bore_calc.get_B_drotx(),
+                            (*this).m_cam_bore_calc.get_B_droty(),
+                            (*this).m_cam_bore_calc.get_B_drotz());
+
+    //global transformation
+    Point GT  = m_car_pos->get_position();
+    Point GR_ = m_car_pos->get_rotation();
+    Rotation_matrix GR(     Rotation_matrix::math,
+                            GR_.get_X(),
+                            GR_.get_Y(),
+                            GR_.get_Z(),
+                            GR_.get_dX(),
+                            GR_.get_dY(),
+                            GR_.get_dZ());
+
+    if(cco == BPoint_bore::local)
+    {
+      //calculation from local to car to global coordinate system
+      m_car_measurement_point    = m_local_measurement_point.Rotation_with_std(BT,BR);
+      m_global_measurement_point = m_car_measurement_point.Rotation_with_std(GT,GR);
+    }
+
+    if(cco == BPoint_bore::car)
+    {
+      //calculation from local to car to global coordinate system
+      m_local_measurement_point = m_car_measurement_point.RotationRueck_with_std(BT,BR);
+      m_global_measurement_point = m_car_measurement_point.Rotation_with_std(GT,GR);
+    }
+
+    if(cco == BPoint_bore::global)
+    {
+     //calculation from local to car to global coordinate system
+     m_car_measurement_point = m_global_measurement_point.RotationRueck_with_std(GT,GR);
+     m_local_measurement_point = m_car_measurement_point.RotationRueck_with_std(BT,BR);
+    }
+
+    m_local_measurement_point.set_PktNr(m_nr);
+    m_car_measurement_point.set_PktNr(m_nr);
+    m_global_measurement_point.set_PktNr(m_nr);
 }
 
 ostream& operator<<(ostream& s,const BPoint_bore& A)
@@ -433,13 +512,20 @@ ostream& operator<<(ostream& s,const BPoint_bore& A)
        s.setf(ios::left,ios::showpoint);
        s.setf(ios::showbase);
 
+       //enum coordinate_calculation_option{relative,local,car,global};
+       string scoo;
+       if(A.m_coordinate_calculation_option == BPoint_bore::relative) scoo = "(relative)";
+       if(A.m_coordinate_calculation_option == BPoint_bore::local)   scoo = "(local)";
+       if(A.m_coordinate_calculation_option == BPoint_bore::car)     scoo = "(car)";
+       if(A.m_coordinate_calculation_option == BPoint_bore::global)  scoo = "(global)";
+
        s<<" ### BPoint_bore ###"
         <<std::endl<< *A.m_cam_bore
 
         <<std::endl<<"  picture coordinates nr(m,n) std(dm,dn) : " << A.get_point_number()<<"("<<A.get_m()<<","<<A.get_n()<<") std("<<A.get_dm()<<","<<A.get_dn()<<")"
         <<std::endl<<"  transformed outer orientation point    : " << BPoint(A).get_Cam().get_O()
         <<std::endl<<"  car position                           : " << *A.m_car_pos
-        <<std::endl<<"  relevant measurement                   : " << A.get_measurement_point( A.get_calculation_option() )
+        <<std::endl<<"  relevant measurement                   : " << A.get_measurement_point( A.get_calculation_option() )<<" "<<scoo
         <<std::endl<<" ### end BPoint_bore ###";
 return s;
 }

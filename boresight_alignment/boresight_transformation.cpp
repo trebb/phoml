@@ -9,6 +9,9 @@ Boresight_transformation::Boresight_transformation(Cam_bore &cam)
 
 Boresight_transformation::Boresight_transformation(Cam_bore &cam,double Easting,double Northing,double ell_Height,double roll,double pitch,double heading)
 {//todo set to deprecate
+
+ m_dEasting=m_dNorthing=m_dell_Height=m_droll=m_dpitch=m_dheading=0.0;
+
  m_cam=cam;
  fill_params_outer_bore();
  
@@ -199,13 +202,13 @@ void Boresight_transformation::fill_params_outer_bore()
 	//Translation
 	m_translation_cam = m_cam.get_O();
 	//Rotation
-	m_rotation_cam = Rot(m_cam.get_rotX(),m_cam.get_rotY(),m_cam.get_rotZ());
+	m_rotation_cam = Rotation_matrix(Rotation_matrix::math,m_cam.get_rotX(),m_cam.get_rotY(),m_cam.get_rotZ());
 	
 	//car koordinate system
 	//Translation
 	m_translation_car = m_cam.get_B();
 	//Rotation
-	m_rotation_car = Rot(m_cam.get_B_rotx(),m_cam.get_B_roty(),m_cam.get_B_rotz());
+	m_rotation_car = Rotation_matrix(Rotation_matrix::math,m_cam.get_B_rotx(),m_cam.get_B_roty(),m_cam.get_B_rotz());
 }
 
 void Boresight_transformation::fill_params_global()
@@ -217,6 +220,6 @@ void Boresight_transformation::fill_params_global()
 	
 
 	//m_rotation_global = Rot(m_pitch,m_roll,m_heading);
-	m_rotation_global = Rot(m_roll,m_pitch,m_heading);
+	m_rotation_global = Rotation_matrix(Rotation_matrix::math,m_roll,m_pitch,m_heading);
 	//std::cout<<std::endl<<"Rnach: "<<m_rotation_global<<std::flush;
 }

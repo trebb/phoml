@@ -2,7 +2,8 @@
 
 #include <cmath>
 #include "..//basics//matrix//matrix.h"
-#include "..//basics//rot_matrix.h"
+#include "..//basics//rotation_matrix.h"
+//#include "..//basics//rot_matrix.h"//old
 #include "..//basics//straight_line.h"
 
 
@@ -59,7 +60,7 @@ return true;
 bool BPoint::TransInObjKoo()
 {
  //Transformation in den Objektraum
- Rot M(m_Cam->get_rotX(),m_Cam->get_rotY(),m_Cam->get_rotZ());
+ Rotation_matrix M(Rotation_matrix::math,m_Cam->get_rotX(),m_Cam->get_rotY(),m_Cam->get_rotZ());
  Matrix R;
  R=M;//.get_Matrix();
  
@@ -135,7 +136,7 @@ bool BPoint::PixelkorrekturVonBildInPixKoo()
  X0(1,0)=m_Cam->get_OY();
  X0(2,0)=m_Cam->get_OZ();
  
- Rot M(m_Cam->get_rotX(),m_Cam->get_rotY(),m_Cam->get_rotZ());
+ Rotation_matrix M(Rotation_matrix::math,m_Cam->get_rotX(),m_Cam->get_rotY(),m_Cam->get_rotZ());
  Matrix R;
  R=M.get_Matrix().MatTrans();
 

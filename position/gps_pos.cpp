@@ -27,6 +27,31 @@ Gps_pos::~Gps_pos()
 {
 }
 
+Gps_pos& Gps_pos::operator= (const Gps_pos &t)
+{
+	     m_dtime = t.m_dtime;//.get_Time() ;
+	     m_dtime_gps = t.m_dtime_gps;//get_Time_GPS() ;
+		 m_dtime_utc = t.m_dtime_utc;//get_Time_UTC() ;
+		 m_dEasting = t.m_dEasting;//get_Easting() ;
+		 m_dNorthing = t.m_dNorthing;//get_Northing() ;
+		 m_dEll_Height = t.m_dEll_Height;//get_EllH() ;
+		 m_dmEasting = t.m_dmEasting;//get_mEasting() ;
+		 m_dmNorthing = t.m_dmNorthing;//get_mNorthing() ;
+		 m_dmEll_Height = t.m_dmEll_Height;//get_mEllH() ;
+		 m_dRoll = t.m_dRoll;//get_Roll() ;
+		 m_dPitch = t.m_dPitch;//get_Pitch() ;
+		 m_dHeading = t.m_dHeading;//get_Heading() ;
+		 m_dmRoll = t.m_dmRoll;//get_mRoll() ;
+		 m_dmPitch = t.m_dmPitch;//get_mPitch() ;
+		 m_dmHeading = t.m_dmHeading;//get_mHeading();
+		 m_ddistance = t.m_ddistance;//get_Distance();
+	 	 m_dLatitude = t.m_dLatitude;//get_Latitude();
+	 	 m_dLongitude = t.m_dLongitude;//get_Longitude();
+	 	 m_dOrth_Height = t.m_dOrth_Height;//get_Orth_Height();
+
+ return (*this);
+}
+
 
 bool Gps_pos::operator==( const Gps_pos& t) const
 { 
@@ -56,30 +81,9 @@ bool Gps_pos::operator!=( const Gps_pos& t) const
 	return !operator==(t);
 }
 
-
-Gps_pos& Gps_pos::operator= (const Gps_pos &t)
-{
-	     m_dtime = t.m_dtime;//.get_Time() ;
-	     m_dtime_gps = t.m_dtime_gps;//get_Time_GPS() ;
-		 m_dtime_utc = t.m_dtime_utc;//get_Time_UTC() ;
-		 m_dEasting = t.m_dEasting;//get_Easting() ;
-		 m_dNorthing = t.m_dNorthing;//get_Northing() ;
-		 m_dEll_Height = t.m_dEll_Height;//get_EllH() ;
-		 m_dmEasting = t.m_dmEasting;//get_mEasting() ;
-		 m_dmNorthing = t.m_dmNorthing;//get_mNorthing() ;
-		 m_dmEll_Height = t.m_dmEll_Height;//get_mEllH() ;
-		 m_dRoll = t.m_dRoll;//get_Roll() ;
-		 m_dPitch = t.m_dPitch;//get_Pitch() ;
-		 m_dHeading = t.m_dHeading;//get_Heading() ;
-		 m_dmRoll = t.m_dmRoll;//get_mRoll() ;
-		 m_dmPitch = t.m_dmPitch;//get_mPitch() ;
-		 m_dmHeading = t.m_dmHeading;//get_mHeading();
-		 m_ddistance = t.m_ddistance;//get_Distance();
-	 	 m_dLatitude = t.m_dLatitude;//get_Latitude();
-	 	 m_dLongitude = t.m_dLongitude;//get_Longitude();
-	 	 m_dOrth_Height = t.m_dOrth_Height;//get_Orth_Height();
-	 
- return (*this);
+bool Gps_pos::operator<( const Gps_pos& t) const
+{//time sync
+ return (*this).m_dtime < t.m_dtime;
 }
 
 
@@ -240,12 +244,12 @@ std::ostream& operator<<(std::ostream& s,const Gps_pos& A)
 
 	<<" t_GPS("
 	<<std::setfill(' ')<<std::setw(precision+vorkommastellen+1)
-	<<A.get_Time()
+	<<A.get_Time_GPS()
 	<<") "
 
 	<<" t_UTC("
 	<<std::setfill(' ')<<std::setw(precision+vorkommastellen+1)
-	<<A.get_Time()
+	<<A.get_Time_UTC()
 	<<") "
    	;
 

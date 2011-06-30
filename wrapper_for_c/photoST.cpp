@@ -18,6 +18,7 @@
 #include "..//basics//fix_values.h"
 #include "..//photo//bpoint.h"
 #include "..//boresight_alignment//cam_bore.h"
+#include "..//boresight_alignment//bpoint_bore.h"
 #include "..//photo//forward_intersection.h"
 
 //include boreside_transformation
@@ -211,6 +212,32 @@ _DLL_EXPORT double STDCALL get_longitude()
   return I.m_longitude;
 }
 
+_DLL_EXPORT double STDCALL get_FP_Easting(int pos) //pos[0-3]
+{
+      if(pos==0) return I.m_x_P1_global;
+ else if(pos==1) return I.m_x_P2_global;
+ else if(pos==2) return I.m_x_P3_global;
+ else if(pos==3) return I.m_x_P4_global;
+ else            return 0.0;
+}
+
+_DLL_EXPORT double STDCALL get_FP_Northing(int pos)//pos[0-3]
+{
+     if(pos==0) return I.m_y_P1_global;
+else if(pos==1) return I.m_y_P2_global;
+else if(pos==2) return I.m_y_P3_global;
+else if(pos==3) return I.m_y_P4_global;
+else            return 0.0;
+}
+
+_DLL_EXPORT double STDCALL get_FP_eHeigth(int pos) //pos[0-3]
+{
+     if(pos==0) return I.m_z_P1_global;
+else if(pos==1) return I.m_z_P2_global;
+else if(pos==2) return I.m_z_P3_global;
+else if(pos==3) return I.m_z_P4_global;
+else            return 0.0;
+}
 
 //function for photogrammetrie lib
 
@@ -421,7 +448,7 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint(double Easting, double North
   //todo test the data values
 
   //change the applanix rotation angels into the math rotation angels
-  CApplanix appl;
+  Applanix appl;
   appl.calc_approximately_meridian_convergence_degree(I.m_Easting,I.m_latitude,I.m_heading);
   appl.compare_gps_coosystem_degree_to_math_coosystem_pi(I.m_roll,I.m_pitch,I.m_heading,I.m_droll,I.m_dpitch,I.m_dheading);
 
@@ -445,7 +472,7 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_CamSetGlobal(double Easting,
   //todo test the data values
 
   //change the applanix rotation angels into the math rotation angels
-  CApplanix appl;
+  Applanix appl;
   appl.calc_approximately_meridian_convergence_degree(I.m_Easting,I.m_latitude,I.m_heading);
   appl.compare_gps_coosystem_degree_to_math_coosystem_pi(I.m_roll,I.m_pitch,I.m_heading,I.m_droll,I.m_dpitch,I.m_dheading);
 
@@ -454,11 +481,11 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_CamSetGlobal(double Easting,
 	//bore-sight transformation
 	Point BT;
 	BT = (lCam_bore.rbegin())->get_B();
-	Rot BR(lCam_bore.rbegin()->get_B_rotx(),lCam_bore.rbegin()->get_B_roty(),lCam_bore.rbegin()->get_B_rotz());
+	Rotation_matrix BR(Rotation_matrix::math,lCam_bore.rbegin()->get_B_rotx(),lCam_bore.rbegin()->get_B_roty(),lCam_bore.rbegin()->get_B_rotz());
 
 	//global transformation
 	Point GT(I.m_Easting,I.m_Northing,I.m_eHeight);
-	Rot GR(I.m_roll,I.m_pitch,I.m_heading);
+	Rotation_matrix GR(Rotation_matrix::math,I.m_roll,I.m_pitch,I.m_heading);
 
 	Point P0_cam(0.0,0.0,0.0); //new coordinate center of the camera  (camera coordinate system)
 	Point P_car,P_global;
@@ -466,9 +493,9 @@ _DLL_EXPORT void STDCALL addGlobalCarReferencePoint_CamSetGlobal(double Easting,
 	P_car = P0_cam.Rotation(BT,BR);
 	P_global = P_car.Rotation(GT,GR);
 
-	Rot R_global( GR.get_Matrix().MatMult(BR) );
+	Rotation_matrix R_global( GR.get_Matrix().MatMult(BR) );
     double r=0.0,p=0.0,h=0.0;
-    R_global.get_RotWinkel(r,p,h);
+    R_global.get_rotation_angle(Rotation_matrix::math,r,p,h);
 
     //cout<<endl<<"Pos/rot CAM:"<<P_global<<" / "<<r<<","<<p<<","<<h;
 
@@ -803,6 +830,79 @@ _DLL_EXPORT int STDCALL calculate()
   bool info = false;
 
 
+  //calc footprint
+  if(     lBPoint.size() == 0 &&
+          lCam_bore.size() == 1 &&
+          m_is_set_RefGroundSurface &&
+          m_is_set_GlobalCarReferencePoint &&
+          m_is_set_GlobalReferenceFrame &&
+          m_is_set_distance_epi)
+  {
+     cout << endl << "### in function foot print ##"<<flush;
+
+     //todo foot print
+                     double offset = I.m_distance_epi;
+                     double dist_to_cut = 20;
+
+                     Gps_pos gps_pos;
+                     gps_pos.set_Easting(I.m_Easting);
+                     gps_pos.set_Northing(I.m_Northing);
+                     gps_pos.set_EllH(I.m_eHeight);
+                     gps_pos.set_Roll(I.m_roll);
+                     gps_pos.set_Pitch(I.m_pitch);
+                     gps_pos.set_Heading(I.m_heading);
+                     gps_pos.set_Latitude(I.m_latitude);
+                     gps_pos.set_Longitude(I.m_longitude);
+
+                     Ebene m_E(I.m_nx,I.m_ny,I.m_nz,I.m_d);
+
+                     double sensor_m = (*lCam_bore.rbegin()).get_pix_row();
+                     double sensor_n = (*lCam_bore.rbegin()).get_pix_col();
+
+                     double lo_m = offset;               double lo_n = offset;
+                     double lu_m = offset;               double lu_n = sensor_n - offset;
+                     double ro_m = sensor_m - offset;    double ro_n = offset;
+                     double ru_m = sensor_m - offset;    double ru_n = sensor_n - offset;
+
+                     BPoint_bore BP_lo( *lCam_bore.rbegin() , gps_pos , 1 , lo_m , lo_n );
+                     BP_lo.calc_footprint_point(m_E,BPoint_bore::car,dist_to_cut);
+                     Point_nr Plo = BP_lo.get_measurement_point(BPoint_bore::global);
+
+                     BPoint_bore BP_lu( *lCam_bore.rbegin()  , gps_pos , 2 , lu_m , lu_n );
+                     BP_lu.calc_footprint_point(m_E,BPoint_bore::car,dist_to_cut);
+                     Point_nr Plu = BP_lu.get_measurement_point(BPoint_bore::global);
+
+                     BPoint_bore BP_ro( *lCam_bore.rbegin()  , gps_pos , 3 , ro_m , ro_n );
+                     BP_ro.calc_footprint_point(m_E,BPoint_bore::car,dist_to_cut);
+                     Point_nr Pro = BP_ro.get_measurement_point(BPoint_bore::global);
+
+                     BPoint_bore BP_ru( *lCam_bore.rbegin()  , gps_pos , 4 , ru_m , ru_n );
+                     BP_ru.calc_footprint_point(m_E,BPoint_bore::car,dist_to_cut);
+                     Point_nr Pru = BP_ru.get_measurement_point(BPoint_bore::global);
+
+                     //cout << endl << "  P lo: " <<Plo;
+                     //cout         << "  P ro: " <<Pro;
+                     //cout << endl << "  P lu: " <<Plu;
+                     //cout         << "  P ru: " <<Pru;
+
+                     //save back into the structure
+                     I.m_x_P1_global = Plo.get_X();
+                     I.m_x_P2_global = Pro.get_X();
+                     I.m_x_P3_global = Plu.get_X();
+                     I.m_x_P4_global = Pru.get_X();
+
+                     I.m_y_P1_global = Plo.get_Y();
+                     I.m_y_P2_global = Pro.get_Y();
+                     I.m_y_P3_global = Plu.get_Y();
+                     I.m_y_P4_global = Pru.get_Y();
+
+                     I.m_z_P1_global = Plo.get_Z();
+                     I.m_z_P2_global = Pro.get_Z();
+                     I.m_z_P3_global = Plu.get_Z();
+                     I.m_z_P4_global = Pru.get_Z();
+
+  }
+
 
   //calc local measurement point -> forward intersection
   if(lBPoint.size() > 1)
@@ -868,7 +968,7 @@ _DLL_EXPORT int STDCALL calculate()
 			//rotation parameter boreside
 			Point BT;
 			BT = (lCam_bore.rbegin())->get_B();
-			Rot BR(lCam_bore.rbegin()->get_B_rotx(),lCam_bore.rbegin()->get_B_roty(),lCam_bore.rbegin()->get_B_rotz());
+			Rotation_matrix BR(Rotation_matrix::math,lCam_bore.rbegin()->get_B_rotx(),lCam_bore.rbegin()->get_B_roty(),lCam_bore.rbegin()->get_B_rotz());
 
 			E=E.RotationRueck(BT,BR);
 

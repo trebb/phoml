@@ -475,7 +475,7 @@ std::string Cam_bore::get_calib_boreside_comments() const
 
 bool Cam_bore::read_from_ini(const char *datname)
 {
-	ifstream SET_TXT;  
+	 ifstream SET_TXT;
 	 SET_TXT.open(datname); 
 	 if(!SET_TXT) { return false; }
 	  

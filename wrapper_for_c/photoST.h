@@ -59,6 +59,10 @@ extern "C" {
   _DLL_EXPORT double STDCALL get_latitude();
   _DLL_EXPORT double STDCALL get_longitude();
 
+  _DLL_EXPORT double STDCALL get_FP_Easting(int pos); //pos[0-3]
+  _DLL_EXPORT double STDCALL get_FP_Northing(int pos);//pos[0-3]
+  _DLL_EXPORT double STDCALL get_FP_eHeigth(int pos); //pos[0-3]
+
   _DLL_EXPORT int STDCALL    addCam(int sensor_width_pix,int sensor_height_pix,double pix_size,double dx,double dy,double dz,double omega,double phi,double kappa,double c,double xh,double yh,double A1,double A2,double A3,double B1,double B2,double C1,double C2,double R0,double B_dx,double B_dy,double B_dz,double B_ddx,double B_ddy,double B_ddz,double B_rotx,double B_roty,double B_rotz,double B_drotx,double B_droty,double B_drotz);
   _DLL_EXPORT int STDCALL    addCam2(char* ini_file);
   _DLL_EXPORT int STDCALL    addBPoint(double m,double n);
@@ -122,6 +126,10 @@ struct intern
 	//distance in front of the camera to calculate the point on the epipolarline
 	double m_distance_epi;
 
+	//foot print -> global coordinate system for the output (global coordinate system -> depends of the input system)
+	double m_x_P1_global,m_x_P2_global,m_x_P3_global,m_x_P4_global;
+	double m_y_P1_global,m_y_P2_global,m_y_P3_global,m_y_P4_global;
+	double m_z_P1_global,m_z_P2_global,m_z_P3_global,m_z_P4_global;
 };
 
 

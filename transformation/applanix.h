@@ -15,11 +15,11 @@
 #include "..//position//gps_pos.h"
 
 
-class CApplanix : public Fix_values
+class Applanix : public Fix_values
 {
 public:
-	CApplanix();
-	virtual ~CApplanix();
+	Applanix();
+	virtual ~Applanix();
 
 	//convertion only in one direction (old style)
 	void compare_gps_coosystem_degree_to_math_coosystem_pi(double &Roll,double &Pitch,double &Heading,double &sdRoll,double &sdPitch,double &sdHeading);

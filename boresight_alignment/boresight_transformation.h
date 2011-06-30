@@ -3,7 +3,8 @@
 
 #include "..//basics//point.h"
 #include "..//basics//matrix//matrix.h"
-#include "..//basics//rot_matrix.h"
+#include "..//basics//rotation_matrix.h"
+//#include "..//basics//rot_matrix.h"//old
 #include "..//basics//rotation_matrix.h"
 #include "..//position//gps_pos.h"
 #include "cam_bore.h"

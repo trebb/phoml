@@ -10,19 +10,19 @@
 #include <cmath>
 
 //project reference
-#include "rot_matrix_appl.h"
+//#include "rot_matrix_appl.h"
 //#include "rot_matrix_transportation.h"
 
 //extern matrix lib
 #include "..//basics//matrix//matrix.h"
-#include "..//basics//rot_matrix.h"
+//#include "..//basics//rot_matrix.h" //old -> deprecated!!
 #include "..//basics//fix_values.h"
 #include "..//basics//point.h"
 
 //new lib 21.10.2010
 #include "..//basics//rotation_matrix.h"
 
-CApplanix::CApplanix()
+Applanix::Applanix()
 {
 	m_meridian_convergence_rad = 0.0;
 	m_false_easting               = 500000.0;
@@ -30,13 +30,13 @@ CApplanix::CApplanix()
 
 }
 
-CApplanix::~CApplanix()
+Applanix::~Applanix()
 {
 
 }
 
 //old function deprecated!! please use convert_from_geodetic_applanix_to_photogrammetric_rotation_angles !!
-void CApplanix::compare_gps_coosystem_degree_to_math_coosystem_pi(double &roll,double &pitch,double &heading,double &sdroll,double &sdpitch,double &sdheading)
+void Applanix::compare_gps_coosystem_degree_to_math_coosystem_pi(double &roll,double &pitch,double &heading,double &sdroll,double &sdpitch,double &sdheading)
 {
 
 		roll=roll/180.0*PI;
@@ -50,7 +50,7 @@ void CApplanix::compare_gps_coosystem_degree_to_math_coosystem_pi(double &roll,d
 		//cout<<endl<<"roll pitch heading old: "<<roll<<" "<<pitch<<" "<<heading;
 
 		//body to geographic frame
-		Rot_appl R_appl(roll,pitch,heading);
+		Rotation_matrix R_appl(Rotation_matrix::geodetic,roll,pitch,heading);
 
 		Matrix M_appl;
 		M_appl = R_appl.get_Matrix();
@@ -117,14 +117,14 @@ void CApplanix::compare_gps_coosystem_degree_to_math_coosystem_pi(double &roll,d
 		M_opk = M_axes.MatMult(M_appl).MatMult(M_axes);
 
         //get the mathematics angels from the matrix
-		Rot R_opk(M_opk);
-		R_opk.get_RotWinkel(roll,pitch,heading);
+		Rotation_matrix R_opk(M_opk);
+		R_opk.get_rotation_angle(Rotation_matrix::math,roll,pitch,heading);
 
 		//cout<<endl<<"old rot end: "<<roll<<" "<<pitch<<" "<<heading;
 
 }
 
-double CApplanix::calc_approximately_meridian_convergence_degree(double Easting, double latitude, double &Heading)
+double Applanix::calc_approximately_meridian_convergence_degree(double Easting, double latitude, double &Heading)
 {   /*
       //for left hand coordinate system -> input the geographic heading and get the utm projection heading back
       m_meridian_convergence_dergee = (Easting - 500000) / 6371000.8 * tan(latitude/180.0*PI);
@@ -147,7 +147,7 @@ double CApplanix::calc_approximately_meridian_convergence_degree(double Easting,
  return m_meridian_convergence_dergee;
 }
 
-Gps_pos CApplanix::convert_from_geodetic_applanix_to_photogrammetric_rotation_angles(const Gps_pos &gps)
+Gps_pos Applanix::convert_from_geodetic_applanix_to_photogrammetric_rotation_angles(const Gps_pos &gps)
 {
  //work copy
  Gps_pos gps_new;
@@ -223,7 +223,7 @@ Gps_pos CApplanix::convert_from_geodetic_applanix_to_photogrammetric_rotation_an
     //cout << endl << "rotation -> new transform: "<<rot;
 
     //########### !!attention versions control for old calibrations!! ##############
-    if( (*this).get_version() == CApplanix::s0002)
+    if( (*this).get_version() == Applanix::s0002)
     {
       gps_new.set_Heading( gps_new.get_Heading() - m_meridian_convergence_rad );
       //cout << endl << "rotation -> old transform: "<<gps_new.get_rotation();
@@ -231,7 +231,7 @@ Gps_pos CApplanix::convert_from_geodetic_applanix_to_photogrammetric_rotation_an
     }
     //########### !!attention versions control for old calibrations!! ##############
     //########### !!attention versions control for old calibrations!! ##############
-    if( (*this).get_version() != CApplanix::s0002)
+    if( (*this).get_version() != Applanix::s0002)
     {
      gps_new.set_rotation(rot);
      //cout << endl << "rotation -> old transform: "<<gps_new.get_rotation();
@@ -296,7 +296,7 @@ Gps_pos CApplanix::convert_from_geodetic_applanix_to_photogrammetric_rotation_an
 return gps_new;
 }
 
-Gps_pos CApplanix::convert_from_photogrammetric_to_geodetic_applanix_rotation_angles(Gps_pos const &gps)
+Gps_pos Applanix::convert_from_photogrammetric_to_geodetic_applanix_rotation_angles(Gps_pos const &gps)
 {
  Gps_pos gps_new(gps);
 
@@ -415,7 +415,7 @@ Gps_pos CApplanix::convert_from_photogrammetric_to_geodetic_applanix_rotation_an
    //cout << endl << "rotation -> new transform: "<<rot;
 
    //########### !!attention versions control for old calibrations!! ##############
-   if( (*this).get_version() == CApplanix::s0002)
+   if( (*this).get_version() == Applanix::s0002)
    {
      gps_new.set_Heading( gps_new.get_Heading() + m_meridian_convergence_rad );
      //cout << endl << "rotation -> old transform: "<<gps_new.get_rotation();
@@ -423,7 +423,7 @@ Gps_pos CApplanix::convert_from_photogrammetric_to_geodetic_applanix_rotation_an
    }
    //########### !!attention versions control for old calibrations!! ##############
    //########### !!attention versions control for old calibrations!! ##############
-   if( (*this).get_version() != CApplanix::s0002)
+   if( (*this).get_version() != Applanix::s0002)
    {
     gps_new.set_rotation(rot);
     //cout << endl << "rotation -> old transform: "<<gps_new.get_rotation();
@@ -439,10 +439,10 @@ Gps_pos CApplanix::convert_from_photogrammetric_to_geodetic_applanix_rotation_an
 return gps_new;
 }
 
-double CApplanix::get_meridian_convergence_dergee(){return m_meridian_convergence_rad/PI*180.0;}
-double CApplanix::get_false_easting(){return m_false_easting;}
-double CApplanix::get_small_half_axis(){return m_small_half_axis;}
+double Applanix::get_meridian_convergence_dergee(){return m_meridian_convergence_rad/PI*180.0;}
+double Applanix::get_false_easting(){return m_false_easting;}
+double Applanix::get_small_half_axis(){return m_small_half_axis;}
 
-void CApplanix::set_false_easting(double v){m_false_easting=v;}
-void CApplanix::set_small_half_axis(double v){m_small_half_axis=v;}
+void Applanix::set_false_easting(double v){m_false_easting=v;}
+void Applanix::set_small_half_axis(double v){m_small_half_axis=v;}
 

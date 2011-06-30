@@ -18,6 +18,8 @@ public:
 	bool operator==( const Gps_pos& t) const ;
 	bool operator!=( const Gps_pos& t) const ;
 	
+	bool operator<( const Gps_pos& t) const ;
+
 	double get_Time() const;
 	double get_Time_GPS() const;
 	double get_Time_UTC() const;
@@ -83,7 +85,7 @@ public:
     void convert_rotation_angles_rad_to_grad();
 
 	
-private:
+protected:
 
 		//local time (user) [sek]
 		double m_dtime;

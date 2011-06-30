@@ -69,12 +69,17 @@ public:
     friend class Forward_intersection_bore;
     friend ostream& operator<<(ostream& s,const BPoint_bore& A);
 
+    //it is a kind of mono photogrammetry
+    Point_nr calc_footprint_point(Ebene &E,const enum coordinate_calculation_option& E_cco,double distance_cut);
+
 private:
     //internal functions
     void set_values_from_BPoint_class();
     void set_values_from_cam_bore_calc_member();
     void reset_rellativ_orientation_cam_bore_calc_member();
     void set_measurement_point(Point_nr& p_nr, const enum coordinate_calculation_option& co);
+
+    void transform_measurement_point(const enum coordinate_calculation_option& cco);
 
     //camera calibration original
     Cam_bore *m_cam_bore;

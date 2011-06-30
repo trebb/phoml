@@ -31,7 +31,7 @@ Point CMainWrapperJava::get_3D_Point_global(Point P_local_in_m,Cam_bore cam, dou
 
 	double mroll=0.0,mpitch=0.0,mheading=0.0;
 
-	CApplanix appl;
+	Applanix appl;
 	//appl.calc_approximately_meridian_convergence_degree(E,latitude,Hea);
 	appl.compare_gps_coosystem_degree_to_math_coosystem_pi(roll,pitch,heading,mroll,mpitch,mheading);
 
@@ -49,7 +49,7 @@ Point CMainWrapperJava::get_3D_Point_local(Point P_global_E_N_eH_in_m,Cam_bore c
 
 	double mroll=0.0,mpitch=0.0,mheading=0.0;
 
-	CApplanix appl;
+	Applanix appl;
 	//appl.calc_approximately_meridian_convergence_degree(E,latitude,Hea);
 	appl.compare_gps_coosystem_degree_to_math_coosystem_pi(roll,pitch,heading,mroll,mpitch,mheading);
 
@@ -70,7 +70,7 @@ Point CMainWrapperJava::get_3D_Point_global_wMC(Point P_local_in_m,Cam_bore cam,
 
 	double mroll=0.0,mpitch=0.0,mheading=0.0;
 
-	CApplanix appl;
+	Applanix appl;
 	appl.calc_approximately_meridian_convergence_degree(E,latitude,heading);
 	appl.compare_gps_coosystem_degree_to_math_coosystem_pi(roll,pitch,heading,mroll,mpitch,mheading);
 
@@ -87,7 +87,7 @@ Point CMainWrapperJava::get_3D_Point_local_wMC(Point P_global_E_N_eH_in_m,Cam_bo
 
 	double mroll=0.0,mpitch=0.0,mheading=0.0;
 
-	CApplanix appl;
+	Applanix appl;
 	appl.calc_approximately_meridian_convergence_degree(E,latitude,heading);
 	appl.compare_gps_coosystem_degree_to_math_coosystem_pi(roll,pitch,heading,mroll,mpitch,mheading);
 
