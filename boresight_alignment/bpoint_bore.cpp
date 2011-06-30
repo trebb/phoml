@@ -407,8 +407,13 @@ Point_nr  BPoint_bore::calc_footprint_point(Ebene &E,const enum coordinate_calcu
 {
  (*this).calc_mono_cam_to_plane_intersection(E,E_cco);
 
+ bool c = false;
+
+ if(m_local_measurement_point.get_Z() > 0) c=true;
+ if(m_local_measurement_point.Abstand((*this).m_cam_bore_calc.get_O()) > distance_cut) c=true;
+
  //test point in front of the cam
- if(m_local_measurement_point.get_Z() > 0)
+ if(c == true)
  {
    //cout<<endl<<"point is not in front of the cam!!";
    Gerade G( (*this).m_cam_bore_calc.get_O() , (*this).m_BP );
