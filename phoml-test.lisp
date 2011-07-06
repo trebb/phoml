@@ -1,6 +1,12 @@
 (pushnew (make-pathname :directory '(:relative :up "phoml" "lib"))
          cffi:*foreign-library-directories*)
-(cffi:load-foreign-library '(:default "libphoml"))
+
+(cffi:define-foreign-library phoml
+  (:unix (:or "./lib/libphoml.so"
+              "./phoml/lib/libphoml.so"))
+  (t (:default "libphoml")))
+
+(cffi:use-foreign-library phoml)
 
 (in-package :phoml)
 
@@ -398,3 +404,23 @@
   0.02327612548040077d0 0.01276520778633635d0 0.0065087018321247185d0
   641748.3095247374d0 5638451.210544314d0 299.20795568520276d0
   0.02327612548040077d0 0.01276520778633635d0 0.0065087018321247185d0)
+
+(rt:deftest footprint/1
+    (progn
+      (del-all)
+      (set-global-reference-frame)
+      (apply #'add-cam *cam-left*)
+      (apply #'add-global-car-reference-point-cam-set-global *global-car-reference-point*)
+      (add-ref-ground-surface 0d0 0d0 1.0d0 0.3d0)
+      (set-distance-for-epipolar-line 20.0d0)
+      (calculate)
+      (multiple-value-prog1
+          (values (get-fp-easting 0) (get-fp-northing 0) (get-fp-e-heigth 0)
+                  (get-fp-easting 1) (get-fp-northing 1) (get-fp-e-heigth 1)
+                  (get-fp-easting 2) (get-fp-northing 2) (get-fp-e-heigth 2)
+                  (get-fp-easting 3) (get-fp-northing 3) (get-fp-e-heigth 3))
+        (del-all)))
+  641739.7332357878 5638436.707090409 296.86383888601887
+  641732.8275702071 5638456.555718721 297.0782030501771
+  641750.0902676173 5638448.738098481 297.036017126002
+  641748.6301165523 5638453.312804572 297.08580559505197)
