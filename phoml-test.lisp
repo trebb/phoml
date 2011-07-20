@@ -415,10 +415,10 @@
       (set-distance-for-epipolar-line 20.0d0)
       (calculate)
       (multiple-value-prog1
-          (values (get-fp-easting 0) (get-fp-northing 0) (get-fp-e-heigth 0)
-                  (get-fp-easting 1) (get-fp-northing 1) (get-fp-e-heigth 1)
-                  (get-fp-easting 2) (get-fp-northing 2) (get-fp-e-heigth 2)
-                  (get-fp-easting 3) (get-fp-northing 3) (get-fp-e-heigth 3))
+          (values (get-fp-easting 0) (get-fp-northing 0) (get-fp-e-height 0)
+                  (get-fp-easting 1) (get-fp-northing 1) (get-fp-e-height 1)
+                  (get-fp-easting 2) (get-fp-northing 2) (get-fp-e-height 2)
+                  (get-fp-easting 3) (get-fp-northing 3) (get-fp-e-height 3))
         (del-all)))
   641739.7332357878 5638436.707090409 296.86383888601887
   641732.8275702071 5638456.555718721 297.0782030501771

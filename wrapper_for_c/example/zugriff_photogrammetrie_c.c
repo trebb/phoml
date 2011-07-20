@@ -414,10 +414,10 @@ int main(void)
         //calculate of the forward intersection
         calculate();
 
-        printf("\n Point left  up [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(0),get_FP_Northing(0),get_FP_eHeigth(0));
-        printf("\n Point right up [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(1),get_FP_Northing(1),get_FP_eHeigth(1));
-        printf("\n Point left  dw [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(2),get_FP_Northing(2),get_FP_eHeigth(2));
-        printf("\n Point right dw [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(3),get_FP_Northing(3),get_FP_eHeigth(3));
+        printf("\n Point left  up [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(0),get_FP_Northing(0),get_FP_eHeight(0));
+        printf("\n Point right up [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(1),get_FP_Northing(1),get_FP_eHeight(1));
+        printf("\n Point left  dw [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(2),get_FP_Northing(2),get_FP_eHeight(2));
+        printf("\n Point right dw [x,y,z] : [%lf,%lf,%lf] ",get_FP_Easting(3),get_FP_Northing(3),get_FP_eHeight(3));
 
 
         //delete all values (depends of the internal List of bpoints)

@@ -61,7 +61,7 @@ extern "C" {
 
   _DLL_EXPORT double STDCALL get_FP_Easting(int pos); //pos[0-3]
   _DLL_EXPORT double STDCALL get_FP_Northing(int pos);//pos[0-3]
-  _DLL_EXPORT double STDCALL get_FP_eHeigth(int pos); //pos[0-3]
+  _DLL_EXPORT double STDCALL get_FP_eHeight(int pos); //pos[0-3]
 
   _DLL_EXPORT int STDCALL    addCam(int sensor_width_pix,int sensor_height_pix,double pix_size,double dx,double dy,double dz,double omega,double phi,double kappa,double c,double xh,double yh,double A1,double A2,double A3,double B1,double B2,double C1,double C2,double R0,double B_dx,double B_dy,double B_dz,double B_ddx,double B_ddy,double B_ddz,double B_rotx,double B_roty,double B_rotz,double B_drotx,double B_droty,double B_drotz);
   _DLL_EXPORT int STDCALL    addCam2(char* ini_file);

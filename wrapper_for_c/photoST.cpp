@@ -230,7 +230,7 @@ else if(pos==3) return I.m_y_P4_global;
 else            return 0.0;
 }
 
-_DLL_EXPORT double STDCALL get_FP_eHeigth(int pos) //pos[0-3]
+_DLL_EXPORT double STDCALL get_FP_eHeight(int pos) //pos[0-3]
 {
      if(pos==0) return I.m_z_P1_global;
 else if(pos==1) return I.m_z_P2_global;
@@ -838,7 +838,7 @@ _DLL_EXPORT int STDCALL calculate()
           m_is_set_GlobalReferenceFrame &&
           m_is_set_distance_epi)
   {
-     cout << endl << "### in function foot print ##"<<flush;
+     // cout << endl << "### in function foot print ##"<<flush;
 
      //todo foot print
                      double offset = I.m_distance_epi;
