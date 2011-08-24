@@ -216,8 +216,8 @@ _DLL_EXPORT double STDCALL get_FP_Easting(int pos) //pos[0-3]
 {
       if(pos==0) return I.m_x_P1_global;
  else if(pos==1) return I.m_x_P2_global;
- else if(pos==2) return I.m_x_P3_global;
- else if(pos==3) return I.m_x_P4_global;
+ else if(pos==2) return I.m_x_P4_global;
+ else if(pos==3) return I.m_x_P3_global;
  else            return 0.0;
 }
 
@@ -225,8 +225,8 @@ _DLL_EXPORT double STDCALL get_FP_Northing(int pos)//pos[0-3]
 {
      if(pos==0) return I.m_y_P1_global;
 else if(pos==1) return I.m_y_P2_global;
-else if(pos==2) return I.m_y_P3_global;
-else if(pos==3) return I.m_y_P4_global;
+else if(pos==2) return I.m_y_P4_global;
+else if(pos==3) return I.m_y_P3_global;
 else            return 0.0;
 }
 
@@ -234,8 +234,8 @@ _DLL_EXPORT double STDCALL get_FP_eHeight(int pos) //pos[0-3]
 {
      if(pos==0) return I.m_z_P1_global;
 else if(pos==1) return I.m_z_P2_global;
-else if(pos==2) return I.m_z_P3_global;
-else if(pos==3) return I.m_z_P4_global;
+else if(pos==2) return I.m_z_P4_global;
+else if(pos==3) return I.m_z_P3_global;
 else            return 0.0;
 }
 
