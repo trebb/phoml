@@ -417,10 +417,14 @@
       (multiple-value-prog1
           (values (get-fp-easting 0) (get-fp-northing 0) (get-fp-e-height 0)
                   (get-fp-easting 1) (get-fp-northing 1) (get-fp-e-height 1)
-                  (get-fp-easting 2) (get-fp-northing 2) (get-fp-e-height 2)
-                  (get-fp-easting 3) (get-fp-northing 3) (get-fp-e-height 3))
+                  (get-fp-easting 3) (get-fp-northing 3) (get-fp-e-height 3)
+                  (get-fp-easting 2) (get-fp-northing 2) (get-fp-e-height 2))
         (del-all)))
   641739.7332357878 5638436.707090409 296.86383888601887
   641732.8275702071 5638456.555718721 297.0782030501771
   641750.0902676173 5638448.738098481 297.036017126002
   641748.6301165523 5638453.312804572 297.08580559505197)
+
+(rt:deftest get-version-number/1
+    (get-version-number)
+  0.005)
